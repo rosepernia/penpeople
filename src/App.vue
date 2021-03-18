@@ -1,7 +1,17 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/autores">Autores</router-link> |
+    <router-link to="/nuevo-fragmento">Nuevo Fragmento</router-link> |
+    <router-link to="/nueva-historia">Nueva Historia</router-link> |
+    <router-link to="/lectura">Leer</router-link> |
+    <router-link to="/registro">Registro</router-link> |
+    <router-link to="/libros">Libros</router-link> |
+    <router-link to="/admin">Superuser</router-link> |
+    <router-link to="/perfil">Ver perfil</router-link> |
+    <router-link to="/moderar">Elegir cierre</router-link> 
+
+  
   </div>
   <router-view/>
 </template>

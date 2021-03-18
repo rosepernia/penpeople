@@ -1,12 +1,12 @@
 <template> 
   <div>
-    <h1>Author</h1>
+    <h1>ReadStory</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Author",
+  name: "ReadStory",
   components: {},
 
   setup() {

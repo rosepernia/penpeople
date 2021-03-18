@@ -1,12 +1,12 @@
 <template> 
   <div>
-    <h1>Author</h1>
+    <h1>SuperUser</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Author",
+  name: "SuperUser",
   components: {},
 
   setup() {
