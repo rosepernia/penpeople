@@ -31,13 +31,13 @@ const schemaUser = new Schema({
       message: "El email no es válido"
     }
   },
-  nick: {
+  nickname: {
     type: String,
-    required: [true, "Introduce un nick"],
+    required: [true, "Introduce un nickname"],
     unique: true,
     validate: {
-      validator: function (nick) { return /^[a-zÀ-ÿ0-9\u00f1\u00d1\s]{4,12}$/i.test(nick) },
-      message: "El nick no es válido"
+      validator: function (nickname) { return /^[a-zÀ-ÿ0-9\u00f1\u00d1\s]{4,12}$/i.test(nickname) },
+      message: "El nickname no es válido"
     }
   },
   password: {

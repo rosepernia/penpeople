@@ -1,11 +1,10 @@
 const mongoose = require("mongoose")
 const {Schema} = mongoose
 
-
 const schemaBlock = new Schema({
-  blockid: { type: Number },
+  blockid: { type: String },
   title: { type: String },
-  date: { Date },
+  date: { type:Date, default: new Date() },
   published: {type:Boolean, default: false },
   body:  {
     type: String,
