@@ -7,7 +7,7 @@ let data={
   name: process.env.DB_NAME,
 }
 
-mongoose.connect(`mongodb://${data.user}:${data.pass}@${data.host}/${data.name}`, {
+mongoose.connect(`mongodb+srv://${data.user}:${data.pass}@${data.host}/${data.name}?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,

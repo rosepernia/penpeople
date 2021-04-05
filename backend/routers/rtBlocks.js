@@ -1,17 +1,7 @@
 const express = require('express')
 const rtBlocks = express.Router()
-const daoBlocks = require('../dao/daoBlocks')
+const blocksController = require('../controllers/blocksController')
 
-rtBlocks.post('/create',(req,res)=>{
-  daoBlocks.create(req.body)
-      .then(block=>res.json(block))
-      .catch(error => {
-        let errors = {}
-        if (error.errors.body) errors.body = error.errors.body.message
-        res.json({
-          errors: errors
-        })
-      })
-})
+rtBlocks.post('/create', blocksController.create)
 
 module.exports= rtBlocks
