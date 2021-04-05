@@ -1,11 +1,15 @@
 const User = require('../models/User')
+const mailer = require("../modules/mailer")
 
 const usersController={}
 
 usersController.signup = (req,res) => {
   let newUser = new User(req.body)
   newUser.save()
-    .then(user => res.json(user))
+    .then(user => {
+      mailer.send(user, "Registro usuario nuevo")
+      res.json(user)
+    })
     .catch(error => {
       let errors = {}
       if (error.code == 11000) {
