@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const {Schema} = mongoose
 
+mongoose.set('returnOriginal', false)
 
 const schemaStory = new Schema({
   active: { type: Boolean, default: false },

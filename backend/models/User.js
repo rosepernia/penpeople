@@ -2,6 +2,8 @@ const mongoose = require("mongoose")
 const {Schema} = mongoose
 const bcrypt = require('bcrypt')
 
+mongoose.set('returnOriginal', false)
+
 const schemaUser = new Schema({
   firstname: {
     type: String,

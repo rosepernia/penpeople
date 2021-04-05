@@ -1,6 +1,8 @@
 const mongoose = require("mongoose")
 const {Schema} = mongoose
 
+mongoose.set('returnOriginal', false)
+
 const schemaBlock = new Schema({
   blockid: { type: String },
   title: { type: String },

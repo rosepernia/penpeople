@@ -30,7 +30,7 @@ usersController.signup = (req,res) => {
 usersController.validate = (req,res) => {
   User.findByIdAndUpdate(req.body, { active: true })
     .then(user => res.json(user))
-    .catch(() => res.json({respuesta:null}))
+    .catch(() => res.json(null))
 }
 
 module.exports=usersController
