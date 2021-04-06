@@ -1,11 +1,15 @@
 const User = require('../models/User')
+const mailer = require("../modules/mailer")
 
 const usersController={}
 
 usersController.signup = (req,res) => {
   let newUser = new User(req.body)
   newUser.save()
-    .then(user => res.json(user))
+    .then(user => {
+      mailer.send(user, "Registro usuario nuevo")
+      res.json(user)
+    })
     .catch(error => {
       let errors = {}
       if (error.code == 11000) {
@@ -26,7 +30,6 @@ usersController.signup = (req,res) => {
     })
 }
 
-//Devuelve el usuario antiguo, no lo actualiza
 usersController.validate = (req,res) => {
   User.findByIdAndUpdate(req.body, { active: true })
     .then(user => res.json(user))
