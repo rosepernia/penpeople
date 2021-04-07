@@ -5,7 +5,7 @@ mongoose.set('returnOriginal', false)
 mongoose.set('runValidators', true)
 
 const schemaStory = new Schema({
-  active: { type: Boolean, default: false },
+  active: { type: Boolean, default: true },
   title: { 
     type: String,
     required: [true, "Introduce un título"],
