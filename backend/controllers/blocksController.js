@@ -9,9 +9,7 @@ blocksController.create = (req,res) => {
       .catch(error => {
         let errors = {}
         if (error.errors.body) errors.body = error.errors.body.message
-        res.json({
-          errors: errors
-        })
+        res.json(errors)
       })
 }
 

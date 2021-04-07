@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const {Schema} = mongoose
 
 mongoose.set('returnOriginal', false)
+mongoose.set('runValidators', true)
 
 const schemaBlock = new Schema({
   blockid: { type: String },

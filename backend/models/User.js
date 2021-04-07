@@ -3,6 +3,7 @@ const {Schema} = mongoose
 const bcrypt = require('bcrypt')
 
 mongoose.set('returnOriginal', false)
+mongoose.set('runValidators', true)
 
 const schemaUser = new Schema({
   firstname: {
@@ -57,9 +58,10 @@ const schemaUser = new Schema({
   bio: {
     type: String,
     validate: {
-      validator: function (bio) { return /^.{10,200}$/i.test(bio) },
+      validator: function (bio) { return /^.{0,200}$/i.test(bio) },
       message: "La bio no puede superar los 200 caracteres"
-    }
+    },
+    default: ""
   },
   instagram: {type: String, default: ""},
   twitter: {type: String, default: ""},

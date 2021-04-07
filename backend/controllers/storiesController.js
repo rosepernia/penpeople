@@ -13,9 +13,7 @@ storiesController.create = (req,res) => {
         if (error.errors.review) errors.review = error.errors.review.message
         if (error.errors.body) errors.body = error.errors.body.message
         if (error.errors.image) errors.image = error.errors.image.message
-        res.json({
-          errors: errors
-        })
+        res.json(errors)
       })
 }
 
