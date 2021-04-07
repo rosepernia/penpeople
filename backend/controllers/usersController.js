@@ -67,7 +67,7 @@ usersController.edit = (req, res) => {
 
 usersController.delete = (req, res) => {
   User.findOneAndRemove({ email: req.body.email })
-    .then(() => res.json("Usuario eliminado con exito"))
+    .then(() => res.json("Usuario eliminado con éxito"))
 }
 
 module.exports = usersController
