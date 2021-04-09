@@ -16,5 +16,20 @@ storiesController.create = (req,res) => {
         res.json(errors)
       })
 }
+//función listar//
+storiesController.list = (req, res) => {
+  Story.find().lean()
+    .then(stories => res.json(stories))
+}
+
+//función activar-desactivar//
+storiesController.state = (req, res) =>{
+    req.body.active=!req.body.active
+    Story.findByIdAndUpdate(req.body._id, {active:req.body.active})
+    .then(story => res.json(story))
+    .catch(() => res.json(null))
+}
+  
+
 
 module.exports=storiesController
