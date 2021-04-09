@@ -18,14 +18,14 @@ storiesController.create = (req,res) => {
 }
 //función listar//
 storiesController.list = (req, res) => {
-  Story.find({ title: { $regex: `.*${req.body.title}.*`, $options: 'i' }, active: true }).lean()
+  Story.find().lean()
     .then(stories => res.json(stories))
 }
 
 //función activar-desactivar//
 storiesController.state = (req, res) =>{
-
-    Story.findByIdAndUpdate(req.body, {active:false})
+    req.body.active=!req.body.active
+    Story.findByIdAndUpdate(req.body._id, {active:req.body.active})
     .then(story => res.json(story))
     .catch(() => res.json(null))
 }
