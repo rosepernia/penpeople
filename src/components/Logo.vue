@@ -1,12 +1,17 @@
 <template>
   <div class="logo">
-    <transition name="rotate">
-      <div class="square red one"></div>
-    </transition>  
-      <div class="square blue two"></div>
-      <div class="square blue three"></div>
-      <div class="square red four"></div>
-    
+    <transition name="rotate-one" appear>
+      <div class="square red"></div>
+    </transition>
+    <transition name="rotate-two" appear>
+      <div class="square blue"></div>
+    </transition>
+    <transition name="rotate-three" appear>
+      <div class="square blue"></div>
+    </transition>
+    <transition name="rotate-four" appear>
+      <div class="square red"></div>
+    </transition>
     <div class="text">
       <h1>PENPEOPLE</h1>
       <h2>una historia que no acaba...</h2>
@@ -60,40 +65,43 @@ export default {
   height: 70%;
   mix-blend-mode: multiply;
 }
-/*.one{
-  animation-delay: 0.45s;
-}
-.two{
-  animation-delay: 0.3s;
-}
-.three{
-  animation-delay: 0.15s;
-}
-.rotate-enter-from{
+.rotate-one-enter-from{
   transform: rotate(0deg);
 }
-.rotate-enter-to{
+.rotate-one-enter-to{
   transform: rotate(-90deg);
 }
-.rotate-enter-active{
-  transition: all 2s ease;
-}*/
-.rotate-enter-from{
-  opacity: 0;
-}
-.rotate-enter-to{
-  opacity: 1;
-}
-.rotate-enter-active{
+.rotate-one-enter-active{
   transition: all 2s ease;
 }
-.rotate-leave-from{
-  opacity: 1;
+.rotate-two-enter-from{
+  transform: rotate(0deg);
 }
-.rotate-leave-to{
-  opacity: 0;
+.rotate-two-enter-to{
+  transform: rotate(-90deg);
 }
-.rotate-leave-active{
+.rotate-two-enter-active{
   transition: all 2s ease;
+  transition-delay: .15s;
+}
+.rotate-three-enter-from{
+  transform: rotate(0deg);
+}
+.rotate-three-enter-to{
+  transform: rotate(-90deg);
+}
+.rotate-three-enter-active{
+  transition: all 2s ease;
+  transition-delay: .3s;
+}
+.rotate-four-enter-from{
+  transform: rotate(0deg);
+}
+.rotate-four-enter-to{
+  transform: rotate(-90deg);
+}
+.rotate-four-enter-active{
+  transition: all 2s ease;
+  transition-delay: .45s;
 }
 </style>
