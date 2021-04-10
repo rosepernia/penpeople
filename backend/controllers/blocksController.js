@@ -64,7 +64,7 @@ blocksController.findModerate = (req, res) => {
 }
 
 blocksController.findModerateAdmin = (req, res) => {
-  Block.find({published: false}).populate('block', 'title image', Story)
+  Block.find({published: false}).populate('story', 'title image', Story)
     .then(blocks=>{
       blocks.forEach(block=>{
         let moderateDate = Date.parse(new Date(block.date)) + 604800000
@@ -81,8 +81,8 @@ blocksController.findModerateAdmin = (req, res) => {
 }
 
 blocksController.listPublish = (req, res) => {
-  Block.find({story: req.body.story, published: true}).populate('author', 'nickname', User)
-    .then(blocks => res.json(blocks))
+  Block.find({story: req.body.story, published: true}, 'blockid title')
+    .then(blocks=>res.json(blocks))
 }
 
 
