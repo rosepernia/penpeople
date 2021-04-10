@@ -25,4 +25,4 @@ const schemaBlock = new Schema({
   story: {type:Schema.Types.ObjectId, ref:'story'}
 })
 
-module.exports=mongoose.model('Block',schemaBlock)
+module.exports=mongoose.model('block',schemaBlock)
