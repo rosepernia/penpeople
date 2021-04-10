@@ -36,4 +36,4 @@ const schemaStory = new Schema({
   closure: [{type: String}],
 })
 
-module.exports=mongoose.model('Story',schemaStory)
+module.exports=mongoose.model('story',schemaStory)

@@ -68,4 +68,4 @@ const schemaUser = new Schema({
   other: {type: String, default: ""}
 })
 
-module.exports=mongoose.model('User',schemaUser)
+module.exports=mongoose.model('user',schemaUser)
