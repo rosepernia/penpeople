@@ -41,7 +41,7 @@ export default {
 }
 .text{
   position: absolute;
-  top: 36%;
+  top: 180px;
   left: 20%;
   width: 60%;
   background-color: black;
@@ -103,5 +103,37 @@ export default {
 .rotate-four-enter-active{
   transition: all 2s ease;
   transition-delay: .45s;
+}
+
+@media (max-width: 990px){
+  .logo{
+    width: 400px;
+    height: 400px;
+  }
+  .text{
+    top: 140px;
+    h1{
+      font-size: 2rem;
+    }
+    h2{
+      font-size: 1.05rem;
+    } 
+  }
+}
+
+@media (max-width: 480px){
+  .logo{
+    width: 300px;
+    height: 300px;
+  }
+  .text{
+    top: 100px;
+    h1{
+      font-size: 1.5rem;
+    }
+    h2{
+      font-size: .9rem;
+    } 
+  }
 }
 </style>
