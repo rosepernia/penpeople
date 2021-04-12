@@ -34,17 +34,16 @@ export default {
   height: 500px;
 }
 .red{
-  background-color: #e0144a;
+  background-color: #d44d3e;
 }
 .blue{
-  background-color: #01b2e3;
+  background-color: #64e8f1;
 }
 .text{
   position: absolute;
   top: 180px;
   left: 20%;
   width: 60%;
-  background-color: black;
   color: white;
   text-align: center;
   h1{
