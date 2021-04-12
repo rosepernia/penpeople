@@ -1,9 +1,9 @@
-/* module.exports = {
+module.exports = {
     css: {
         loaderOptions: {
             sass: {
-                additionalData: `@import "~@/assets/_global.scss"`
+                data: `@import "@/assets/scss/_global.scss";`
             },
         }
     }
-} */
+}

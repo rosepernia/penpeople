@@ -1,12 +1,26 @@
 <template>
-  <div>
-  
-  </div>
- 
-  <router-view/>
+
+    <Menu/>
+
+ <router-view />
 </template>
 
-<style lang="scss">
+<script>
+import Menu from "@/components/Menu";
+export default {
+  name: "App",
+  components: {
+    Menu,
+  },
+  setup() {
+   
+    return {
+      
+    }
+  },
+}
+</script>
 
+<style lang="scss">
 
 </style>

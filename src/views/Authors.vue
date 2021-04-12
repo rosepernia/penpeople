@@ -1,15 +1,13 @@
 <template> 
-    <BasicLayout>
-      <h2>Estamos en los autores</h2>
-    </BasicLayout>
+  <h1>Estamos en Autores</h1>
 </template>
 
 <script>
-import BasicLayout from "@/components/BasicLayout";
+
 export default {
   name: "Author",
   components: {
-    BasicLayout
+   
   },
 
   setup() {
@@ -21,5 +19,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 
 </style>
