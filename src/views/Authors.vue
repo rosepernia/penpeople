@@ -1,13 +1,16 @@
 <template> 
-  <div>
-    <h1>Author</h1>
-  </div>
+    <BasicLayout>
+      <h2>Estamos en los autores</h2>
+    </BasicLayout>
 </template>
 
 <script>
+import BasicLayout from "@/components/BasicLayout";
 export default {
   name: "Author",
-  components: {},
+  components: {
+    BasicLayout
+  },
 
   setup() {
     return {
