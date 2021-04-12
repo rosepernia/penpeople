@@ -1,13 +1,14 @@
 <template> 
-  <div>
-    <h1>Author</h1>
-  </div>
+  <h1>Estamos en Autores</h1>
 </template>
 
 <script>
+
 export default {
   name: "Author",
-  components: {},
+  components: {
+   
+  },
 
   setup() {
     return {
@@ -18,5 +19,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 
 </style>

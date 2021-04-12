@@ -8,7 +8,7 @@ usersController.signup = (req, res) => {
   newUser.save()
     .then(user => {
       mailer.send(user, "Registro usuario nuevo")
-      res.json(user)
+      res.json('ok')
     })
     .catch(error => {
       let errors = {}
@@ -29,7 +29,7 @@ usersController.signup = (req, res) => {
 
 usersController.validate = (req, res) => {
   User.findByIdAndUpdate(req.body, { active: true })
-    .then(user => res.json(user))
+    .then(() => res.json('ok'))
     .catch(() => res.json(null))
 }
 
@@ -38,8 +38,16 @@ usersController.login = (req, res) => {
 }
 
 usersController.list = (req, res) => {
-  User.find({ nickname: { $regex: `.*${req.body.nickname}.*`, $options: 'i' }, active: true, admin:req.body.admin }).lean()
+  User.find({ nickname: { $regex: `.*${req.body.nickname}.*`, $options: 'i' }, active: true, admin:req.body.admin }, 'likes avatar nickname email').lean()
     .then(users => res.json(users))
+}
+
+usersController.like = (req,res) => {
+  User.findOne({ nickname: req.body.nickname })
+    .then(user => {
+      User.findOneAndUpdate(req.body.nickname, { likes: user.likes+1 })
+      .then(() => res.json('ok'))
+    })
 }
 
 usersController.findByNickname = (req, res) => {
@@ -67,7 +75,7 @@ usersController.edit = (req, res) => {
 
 usersController.delete = (req, res) => {
   User.findOneAndRemove({ email: req.body.email })
-    .then(() => res.json("Usuario eliminado con exito"))
+    .then(() => res.json('ok'))
 }
 
 module.exports = usersController
