@@ -1,5 +1,4 @@
 <template>
-  <h1>Home</h1>
   <Logo/>
   <h2 class="size1">Tamaño 1</h2>
   <h2 class="size2">Tamaño 2</h2>

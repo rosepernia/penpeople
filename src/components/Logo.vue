@@ -7,14 +7,14 @@
       <div class="square blue"></div>
     </transition>
     <transition name="rotate-three" appear>
-      <div class="square blue"></div>
+      <div class="square red"></div>
     </transition>
     <transition name="rotate-four" appear>
-      <div class="square red"></div>
+      <div class="square blue"></div>
     </transition>
     <div class="text">
       <h1>PENPEOPLE</h1>
-      <h2>una historia que no acaba...</h2>
+      <h2>Historias que no acaban...</h2>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
 .logo{
   margin: 0 auto;
   position: relative;
-  border: 1px solid rgb(199, 194, 194);
+  //border: 1px solid rgb(199, 194, 194);
   width: 500px;
   height: 500px;
 }
@@ -42,8 +42,8 @@ export default {
 .text{
   position: absolute;
   top: 180px;
-  left: 20%;
-  width: 60%;
+  left: 10%;
+  width: 80%;
   color: white;
   text-align: center;
   h1{
@@ -51,7 +51,7 @@ export default {
     margin: 16px auto;
   }
   h2{
-    font-size: 1.3em;
+    font-size: 1.4em;
     width: 70%;
     margin: 16px auto;
   }
@@ -110,12 +110,14 @@ export default {
     height: 400px;
   }
   .text{
-    top: 140px;
+    top: 150px;
     h1{
       font-size: 2rem;
+      margin: 8px auto;
     }
     h2{
-      font-size: 1.05rem;
+      font-size: 1.1rem;
+      margin: 8px auto;
     } 
   }
 }
@@ -126,12 +128,14 @@ export default {
     height: 300px;
   }
   .text{
-    top: 100px;
+    top: 110px;
     h1{
       font-size: 1.5rem;
+      margin: 8px auto;
     }
     h2{
-      font-size: .9rem;
+      font-size: .8rem;
+      margin: 8px auto;
     } 
   }
 }
