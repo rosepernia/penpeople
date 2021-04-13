@@ -29,9 +29,8 @@ export default {
 .logo{
   margin: 0 auto;
   position: relative;
-  //border: 1px solid rgb(199, 194, 194);
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  height: 450px;
 }
 .red{
   background-color: #d44d3e;
@@ -41,17 +40,17 @@ export default {
 }
 .text{
   position: absolute;
-  top: 180px;
+  top: 165px;
   left: 10%;
   width: 80%;
   color: white;
   text-align: center;
   h1{
-    font-size: 2.5em;
+    font-size: 3.5rem;
     margin: 16px auto;
   }
   h2{
-    font-size: 1.4em;
+    font-size: 1.75rem;
     width: 70%;
     margin: 16px auto;
   }
@@ -112,11 +111,11 @@ export default {
   .text{
     top: 150px;
     h1{
-      font-size: 2rem;
+      font-size: 3rem;
       margin: 8px auto;
     }
     h2{
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       margin: 8px auto;
     } 
   }
@@ -130,11 +129,11 @@ export default {
   .text{
     top: 110px;
     h1{
-      font-size: 1.5rem;
+      font-size: 2.5rem;
       margin: 8px auto;
     }
     h2{
-      font-size: .8rem;
+      font-size: 1.2rem;
       margin: 8px auto;
     } 
   }

@@ -1,5 +1,5 @@
 <template> 
-  <div>
+  <div class="view-top">
     <h1>NewStory</h1>
   </div>
 </template>

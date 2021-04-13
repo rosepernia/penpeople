@@ -1,23 +1,27 @@
 <template>
- <nav class="menu">
+ <header class="menu">
     <div>
       <router-link to="/">
         <LogoMini/>
       </router-link>
-      <router-link to="/autores">Autores</router-link> 
+      <router-link to="/autores"><span class="menu-item">Autores</span><i class="bi bi-search"></i></router-link>
+      <router-link to="/nueva-historia"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link> 
     </div>
     <div>
-      <router-link to="/registro">Nuevo registro</router-link> 
+      <router-link to="/registro"><span class="menu-item">Nuevo registro</span><i class="bi bi-person-plus"></i></router-link>
+      <LoginBox/>
     </div>
- </nav>
+ </header>
 </template>
 
 <script>
 import LogoMini from "@/components/LogoMini";
+import LoginBox from "@/components/LoginBox";
 export default {
   name: 'Menu',
   components: {
     LogoMini,
+    LoginBox
   },
 }
 </script>
@@ -25,15 +29,21 @@ export default {
 <style lang="scss">
 
 .menu{
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  max-height: 120px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
-  border: 2px solid red;
+  background-color: #f4f1f1ef;
   div{
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 200px;
+  }
+  &-item{
+    margin: 0 10px 0 20px;
   }
 }
 

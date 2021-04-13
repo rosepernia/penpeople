@@ -8,6 +8,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@fortawesome/vue-fontawesome": "^3.0.0-3",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "sass-loader": "^7.1.0",

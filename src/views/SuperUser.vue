@@ -1,5 +1,5 @@
 <template> 
-  <div>
+  <div class="view-top">
     <h1>SuperUser</h1>
   </div>
 </template>

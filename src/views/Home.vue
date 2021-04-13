@@ -1,10 +1,9 @@
 <template>
+<div class="center home">
   <Logo/>
-  <h2 class="size1">Tamaño 1</h2>
-  <h2 class="size2">Tamaño 2</h2>
-  <h2 class="size3">Tamaño 3</h2>
-  <h2 class="size4">Tamaño 4</h2>
-  <p class="size5">Tamaño 5</p>
+  <p class="size4">LEER</p>
+  <i class="bi bi-arrow-right-circle size5 button"></i>
+</div>
 </template>
 
 <script>
@@ -18,5 +17,11 @@ export default {
 </script>
 
 <style lang="scss">
-
+.home{
+  padding-top: 30px;
+  text-align: center;
+  p{
+    margin: 0;
+  }
+}
 </style>

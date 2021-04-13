@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <div class="square red"></div>
+    <div class="square black"></div>
     <div class="square blue"></div>
     <div class="square red"></div>
     <div class="square blue"></div>
@@ -22,16 +22,13 @@ export default {
   width: 100px;
   height: 100px;
   div:first-child{
-    transform: rotate(-10deg);
-  }
-  div:nth-child(2){
-    transform: rotate(5deg);
+    transform: rotate(8deg);
   }
   div:nth-child(3){
     transform: rotate(20deg);
   }
   div:nth-child(4){
-    transform: rotate(35deg);
+    transform: rotate(30deg);
   }
 }
 .red{
@@ -42,11 +39,14 @@ export default {
   background-color: #64e8f1;
   mix-blend-mode: multiply;
 }
+.black{
+  background-color: rgb(83, 83, 83);
+  mix-blend-mode: multiply;
+}
 .text{
   color: white;
   display: flex;
   justify-content: center;
-  align-items: center;
   h1{
     font-size: .6em;
     font-weight: 500;

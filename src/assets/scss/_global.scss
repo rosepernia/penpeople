@@ -1,11 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
 
 //Variables globales:
-    $size1: 12px;
-    $size2: 18px;
-    $size3: 24px;
-    $size4: 32px;
-    $size5: 48px;
     $backgroundColor: #f4f1f1;
     $textColor: black;
     $primaryColor: #d37469;
@@ -13,11 +8,20 @@
     $font: 'Raleway', sans-serif;
 
 //Globales:
+*, *::after, *::before { 
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+}
+
 body {
     margin: 0;
     background-color: $backgroundColor;
     line-height: 1.5;
     font-family: $font;
+    font-size: 16px;
     color: $textColor;
 }
 
@@ -30,6 +34,13 @@ img {
     width: 100%;
 }
 
+input{
+    font-family: $font;
+    &:focus{
+        outline:none;
+    }
+}
+
 .center{
     transform: translate(-50%,-50%);
     position: absolute;
@@ -38,26 +49,32 @@ img {
     width: 100%;
 }
 
+.view-top{
+    margin-top: 120px;
+}
+
 .size1 {
-    font-size: $size1;
+    font-size: 1.6rem;
 }
 
 .size2 {
-    font-size: $size2;
+    font-size: 2rem;
 }
 
 .size3 {
-    font-size: $size3;
+    font-size: 2.4rem;
 }
 
 .size4 {
-    font-size: $size4;
+    font-size: 3.2rem;
 }
 
 .size5 {
-    font-size: $size5;
+    font-size: 4rem;
 }
 
-
+.button{
+    cursor: pointer;
+}
 
 
