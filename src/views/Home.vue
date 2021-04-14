@@ -1,8 +1,10 @@
 <template>
 <div class="center home">
   <Logo/>
-  <p class="size4">LEER</p>
-  <i class="bi bi-arrow-right-circle size5 button"></i>
+  <div class="line">
+   <router-link to="/lectura"><p>LEER</p></router-link>
+  </div>
+  <router-link to="/lectura"><i class="bi bi-arrow-right-circle button"></i></router-link>
 </div>
 </template>
 
@@ -16,12 +18,45 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .home{
   padding-top: 30px;
   text-align: center;
+}
+.line{
+  margin: 0 auto;
+  width: 450px;
+  height: 25px;
+  border-bottom: 1px solid $textColor;
   p{
-    margin: 0;
+    font-size: $size4;
+    background-color: $backgroundColor;
+    margin: 0 auto;
+    width: 130px;
+  }
+}
+i::before{
+  padding-top: 30px;
+  font-size: $size5;
+}
+
+@media (max-width: 990px){
+  .line{
+    width: 380px;
+  }
+}
+@media (max-width: 480px){
+  .line{
+    width: 280px;
+    height: 20px;
+    p{
+      font-size: $size3;
+      width: 100px;
+    }
+  }
+  i::before{
+    padding-top: 20px;
+    font-size: $size4;
   }
 }
 </style>

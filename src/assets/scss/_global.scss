@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
 
 //Variables globales:
+    $size1: 1.6rem;
+    $size2: 2rem;
+    $size3: 2.4rem;
+    $size4: 3.2rem;
+    $size5: 4rem;
     $backgroundColor: #f4f1f1;
     $textColor: black;
     $primaryColor: #d37469;
@@ -14,6 +19,15 @@
 
 html{
     font-size: 62.5%;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    & {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+      
 }
 
 body {
@@ -54,23 +68,23 @@ input{
 }
 
 .size1 {
-    font-size: 1.6rem;
+    font-size: $size1;
 }
 
 .size2 {
-    font-size: 2rem;
+    font-size: $size2;
 }
 
 .size3 {
-    font-size: 2.4rem;
+    font-size: $size3;
 }
 
 .size4 {
-    font-size: 3.2rem;
+    font-size: $size4;
 }
 
 .size5 {
-    font-size: 4rem;
+    font-size: $size5;
 }
 
 .button{
