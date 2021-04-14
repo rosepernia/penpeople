@@ -1,16 +1,30 @@
 <template>
  <header class="menu">
-    <div>
-      <router-link to="/">
-        <LogoMini/>
-      </router-link>
-      <router-link to="/autores"><span class="menu-item">Autores</span><i class="bi bi-search"></i></router-link>
-      <!-- <router-link to="/nueva-historia"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link> --> 
-    </div>
-    <div>
-      <router-link to="/registro"><span class="menu-item">Nuevo registro</span><i class="bi bi-person-plus"></i></router-link>
-      <LoginBox/>
-    </div>
+    <router-link to="/">
+      <LogoMini/>
+    </router-link>
+    <nav class="navbar navbar-expand-sm navbar-light">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link to="/autores"><span class="menu-item">Autores</span><i class="bi bi-search"></i></router-link>
+          </li>
+          <li>
+            <router-link to="/nueva-historia"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link>
+          </li>
+          <li>
+            <router-link to="/registro"><span class="menu-item">Nuevo registro</span><i class="bi bi-person-plus"></i></router-link>
+          </li>
+          <li>
+            <LoginBox/>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
  </header>
 </template>
 
@@ -42,9 +56,13 @@ export default {
     display: flex;
     align-items: center;
   }
-  &-item{
-    margin: 0 10px 0 20px;
+  .prueba{
+    border: 1px solid red;
   }
+}
+
+.navbar-toggler{
+  border: none;
 }
 
 </style>

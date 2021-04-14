@@ -45,7 +45,7 @@ i::before{
     width: 380px;
   }
 }
-@media (max-width: 480px){
+@media (max-width: 575px){
   .line{
     width: 280px;
     height: 20px;
