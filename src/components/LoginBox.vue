@@ -58,7 +58,7 @@ export default {
   justify-content: center;
 }
 input{
-  width: 160px;
+  width: 140px;
   height: 30px;
   border: none;
   border-bottom: 1px solid black;

@@ -29,8 +29,8 @@ export default {
 .logo{
   margin: 0 auto;
   position: relative;
-  width: 450px;
-  height: 450px;
+  width: 400px;
+  height: 400px;
 }
 .red{
   background-color: #d44d3e;
@@ -40,19 +40,19 @@ export default {
 }
 .text{
   position: absolute;
-  top: 165px;
+  top: 155px;
   left: 10%;
   width: 80%;
   color: white;
   text-align: center;
   h1{
-    font-size: 3.5rem;
-    margin: 16px auto;
+    font-size: 3.2rem;
+    margin: 8px auto;
   }
   h2{
-    font-size: 1.75rem;
+    font-size: 1.7rem;
     width: 70%;
-    margin: 16px auto;
+    margin: 8px auto;
   }
 }
 .square{
@@ -105,17 +105,17 @@ export default {
 
 @media (max-width: 990px){
   .logo{
-    width: 400px;
-    height: 400px;
+    width: 350px;
+    height: 350px;
   }
   .text{
-    top: 150px;
+    top: 130px;
     h1{
-      font-size: 3rem;
+      font-size: 2.75rem;
       margin: 8px auto;
     }
     h2{
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       margin: 8px auto;
     } 
   }
