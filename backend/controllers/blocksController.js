@@ -9,8 +9,7 @@ blocksController.create = (req,res) => {
     newBlock.save()
       .then(() => res.json('ok'))
       .catch(error => {
-        let errors = {}
-        if (error.errors.body) errors.body = error.errors.body.message
+        let errors = { body: error.errors.body.message }
         res.json(errors)
       })
 }
@@ -57,23 +56,19 @@ blocksController.findByAuthor = (req, res) => {
     .then(blocks => res.json(blocks))
 }
 
-blocksController.findModerate = (req, res) => {
-  let allModerateBlocks=[]
-  Block.find({ author: req.body.author, published: true }).populate('story', 'title image', Story)
-    .then(blocks => {
-        for (let i = 0; i < blocks.length; i++) {
-          Block.find({blockid: { $regex: `^${blocks[i].blockid}.$` }, published: false, story: blocks[i].story }, 'title').populate('story', 'title image', Story)
-          .then(moderateBlocks => {
-            allModerateBlocks.push(...moderateBlocks)
-            if(i==blocks.length-1) res.json(allModerateBlocks)
-          })  
-        }
-    })  
+blocksController.findModerateUser = async (req, res) => {
+  let blocks = await Block.find({ author: req.body.author, published: true }, 'title blockid').populate('story', 'title image', Story)
+  let allModerateBlocks = []
+  blocks.forEach (async (block) => {
+    let moderateBlocks = await Block.find({blockid: { $regex: `^${block.blockid}.$` }, published: false, story: block.story }, 'title blockid').populate('story', 'title image', Story)
+    allModerateBlocks.push(...moderateBlocks)
+  })
+  setTimeout(() => res.json(allModerateBlocks), 1000);
 }
 
 blocksController.findModerateAdmin = (req, res) => {
   let allModerateBlocks=[]
-  Block.find({ published: false }, 'date title').populate('story', 'title image', Story)
+  Block.find({ published: false }, 'date title blockid').populate('story', 'title image', Story)
     .then(blocks => {
       blocks.forEach (block => {
         let moderateDate = Date.parse(new Date(block.date)) + 604800000
@@ -83,6 +78,11 @@ blocksController.findModerateAdmin = (req, res) => {
       })
       res.json(allModerateBlocks)
     })
+}
+
+blocksController.findModerate = (req, res) => {
+  Block.findById(req.body).populate('author', 'nickname', User)
+    .then(block => res.json(block))
 }
 
 blocksController.listPublish = (req, res) => {

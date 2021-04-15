@@ -6,7 +6,7 @@
   </div>
   <div class="loginbox" v-else>
     <div class="user">
-      <img src="/img/users/default.jpg" alt="Avatar usuario" class="avatar">
+      <img src="/img/users/default2.jpg" alt="Avatar usuario" class="avatar">
       <p>{{email}}</p> 
     </div>
     <p class="button" @click="login">Salir</p>

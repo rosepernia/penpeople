@@ -9,8 +9,9 @@ rtBlocks.post('/delete', blocksController.delete)
 rtBlocks.post('/publish', blocksController.publish)
 rtBlocks.post('/like', blocksController.like)
 rtBlocks.post('/findbyauthor', blocksController.findByAuthor)
-rtBlocks.post('/findmoderate', blocksController.findModerate)
+rtBlocks.post('/findmoderateuser', blocksController.findModerateUser)
 rtBlocks.post('/findmoderateadmin', blocksController.findModerateAdmin)
+rtBlocks.post('/findmoderate', blocksController.findModerate)
 rtBlocks.post('/listpublish', blocksController.listPublish)
 
 module.exports= rtBlocks
