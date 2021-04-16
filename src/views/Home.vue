@@ -2,9 +2,9 @@
 <div class="center home">
   <Logo/>
   <div class="line">
-   <router-link to="/lectura"><p>LEER</p></router-link>
+   <router-link to="/libros"><p>LEER</p></router-link>
   </div>
-  <router-link to="/lectura"><i class="bi bi-arrow-right-circle button"></i></router-link>
+  <router-link to="/libros"><i class="bi bi-arrow-right-circle button"></i></router-link>
 </div>
 </template>
 
