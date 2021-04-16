@@ -4,7 +4,6 @@
   <div class="line">
    <router-link to="/libros"><p>LEER</p></router-link>
   </div>
-  <router-link to="/libros"><i class="bi bi-arrow-right-circle button"></i></router-link>
   <router-link to="/lectura"><i class="bi bi-arrow-right-circle clickable"></i></router-link>
 </div>
 </template>
