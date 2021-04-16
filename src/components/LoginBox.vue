@@ -2,14 +2,17 @@
   <div class="loginbox" v-if="!registrado">
     <input type="text" v-model="email" placeholder="Email">
     <input type="password" v-model="password" placeholder="Contraseña">
-    <i class="bi bi-arrow-right-circle size2 button button-arrow" @click="login"></i>
+    <i class="bi bi-arrow-right-circle size2 clickable button-arrow" @click="login"></i>
   </div>
   <div class="loginbox" v-else>
-    <div class="user">
-      <img src="/img/users/default.jpg" alt="Avatar usuario" class="avatar">
-      <p>{{email}}</p> 
-    </div>
-    <p class="button" @click="login">Salir</p>
+    <router-link to="/perfil">
+      <div class="user">
+        <img src="/img/users/default2.jpg" alt="Avatar usuario" class="avatar">
+        <p>{{email}}</p> 
+      </div>  
+    </router-link>
+    
+    <p class="clickable" @click="login">Salir</p>
   </div>
 </template>
 
@@ -58,7 +61,7 @@ export default {
   justify-content: center;
 }
 input{
-  width: 160px;
+  width: 140px;
   height: 30px;
   border: none;
   border-bottom: 1px solid black;

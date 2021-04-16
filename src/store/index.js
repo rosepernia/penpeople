@@ -6,9 +6,15 @@ export default createStore({
     stories:[],
   },
   mutations: {
+<<<<<<< HEAD
     setStory(state,value){
       state.stories=value
     },  
+=======
+    setUser(state,valor){
+      state.user = valor
+    },
+>>>>>>> eb6d2a8f7d7b0cf409fda691331f2a70ce0cbd27
   },
   actions: {
     /* getStory(mutations){

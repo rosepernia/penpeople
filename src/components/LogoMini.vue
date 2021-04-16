@@ -59,4 +59,16 @@ export default {
   width: 70%;
   height: 70%;
 }
+
+@media (max-width: 575px){
+  .logo{
+    width: 80px;
+    height: 80px;
+  }
+  .text{
+    h1{
+      font-size: .5em;
+    }
+  }
+}
 </style>
