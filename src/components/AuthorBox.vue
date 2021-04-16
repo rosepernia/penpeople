@@ -10,7 +10,7 @@
         <i class="bi bi-heart-fill fa-3x fa-lg" style="color:red;"></i>
         <h2 v-text="likes"></h2>
       </div>
-      <router-link to="/perfil" class="button" href="">Ver usuario</router-link>
+      <router-link :to="`/perfil/${nickname}`" class="button" href="">Ver usuario</router-link>
     </div>
   </div>
 

@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { useRoute } from "vue-router"
 import { ref, reactive, onBeforeMount } from "vue";
 import { useStore } from "vuex"
 
@@ -59,14 +60,15 @@ export default {
 
   setup() {
     const store = useStore()
+    const route = useRoute ()
     let user = reactive({})
-    let yourProfile = ref(true)
+    let yourProfile = ref(false)
     let admin = ref(false)
 
     const findUser = () => {
       fetch("http://localhost:8081/users/findbynickname",{
         method: "POST",
-        body:JSON.stringify({nickname: 'Pepita'}),
+        body:JSON.stringify({nickname: route.params.nickname}),
         headers: {"Content-type":"application/json"}
       })
         .then(resp=>resp.json())
@@ -82,7 +84,8 @@ export default {
     return {
       user,
       yourProfile,
-      admin
+      admin,
+      route
     }
   },
 }

@@ -58,7 +58,7 @@ const routes = [
     component: SuperUser
   },
   {
-    path: '/perfil',
+    path: '/perfil/:nickname',
     name: 'UserProfile',
     component: UserProfile
   },
