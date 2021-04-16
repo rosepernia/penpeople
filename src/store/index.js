@@ -5,6 +5,9 @@ export default createStore({
     user:{}
   },
   mutations: {
+    setUser(state,valor){
+      state.user = valor
+    },
   },
   actions: {
   },
