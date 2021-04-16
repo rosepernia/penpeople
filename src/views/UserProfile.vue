@@ -7,15 +7,19 @@
           <button class="button" v-if="yourProfile">Subir imagen</button>
         </div>
         <div class="nickname">
-          <input type="text" v-model="user.value.nickname" placeholder="Nickname" :readonly="!yourProfile">
+          <div>
+            <input type="text" v-model="user.value.nickname" placeholder="Nickname" :readonly="!yourProfile">
+            <div class="error"><p>El nickname no es válido</p></div>
+          </div>
           <div class="likes">
             <p>Junior</p>
             <i class="bi bi-heart"></i><p>{{user.value.likes}}</p>
           </div>
         </div>
-        <div class="error"><p>HOLA</p></div>
         <input type="text" v-model="user.value.firstname" placeholder="Nombre" v-if="yourProfile">
+        <div class="error"><p v-if="!yourProfile">El nombre no es válido</p></div>
         <input type="text" v-model="user.value.lastname" placeholder="Apellido" v-if="yourProfile">
+        <div class="error"><p v-if="!yourProfile">El apellido no es válido</p></div>
         <input type="text" :value="user.value.email" v-if="yourProfile" readonly>
       </div>
       <div class="info-two">
@@ -62,7 +66,7 @@ export default {
     const store = useStore()
     const route = useRoute ()
     let user = reactive({})
-    let yourProfile = ref(false)
+    let yourProfile = ref(true)
     let admin = ref(false)
 
     const findUser = () => {
@@ -155,7 +159,7 @@ export default {
         color: $primaryColor;
         position: absolute;
         top: 36px;
-        left: 10px;
+        //left: 10px;
       }
       p{
         text-align: center;
@@ -202,8 +206,10 @@ textarea{
 }
 .error{
   color: $primaryColor;
+  width: fit-content;
   height: 20px;
   p{
+    width: fit-content;
     font-size: 1.2rem;
     margin: 0;
   }
