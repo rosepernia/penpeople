@@ -1,13 +1,16 @@
 <template>
-<div class="view-top authors">
- 
-  <AuthorBox v-for="(user,ind) in users" :key="ind"
+<div class="view-top">
+<div class="search">
+  <input type="text" @keyup="inputFilter" placeholder="Nickname">
+</div>
+<div class="authors">
+  <AuthorBox v-for="(user,ind) in users" :key="ind" 
     :avatar="user.avatar"
     :email="user.email"
     :nickname="user.nickname"
     :likes="user.likes"
     />
- 
+</div> 
 </div>
 </template>
 
@@ -19,19 +22,24 @@ export default {
   components: {
     AuthorBox
   },
-  setup(props) {
+  setup() {
 
     let users=reactive([])
-     
-    onMounted(() => {
-        list()
+
+    let inputFilter=(e)=>{
+      let letters=e.target.value
+      list(letters)
+      }
+
+   onMounted(() => {
+        list("")
         })
 
-    function list(){
+    function list(letters){
       fetch('http://localhost:8081/users/list',{
         method: 'POST',
         body: JSON.stringify({
-          "nickname":"",
+          "nickname":letters,
           "admin":"false"
         }),
         headers: {'Content-Type':'application/json'}
@@ -45,8 +53,8 @@ export default {
         })
       })            
     }
-    console.log(users)
-    return { users  
+    
+    return { users  , inputFilter
     }
   },
 }
@@ -64,6 +72,14 @@ export default {
   width: 80%;
   justify-content: space-evenly;
   
+}
+.search{
+  margin-left: 100px;
+  
+  input{
+  border: 0;
+  height: 25px;
+  }
 }
 
 </style>
