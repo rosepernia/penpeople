@@ -48,7 +48,7 @@ img {
     width: 100%;
 }
 
-input{
+input, textarea{
     font-family: $font;
     &:focus{
         outline:none;
@@ -64,7 +64,7 @@ input{
 }
 
 .view-top{
-    margin-top: 120px;
+    margin: 120px auto 0 auto;
 }
 
 .size1 {
@@ -87,8 +87,40 @@ input{
     font-size: $size5;
 }
 
-.button{
+.clickable{
     cursor: pointer;
 }
 
+.button{
+    cursor: pointer;
+    font-family: $font;
+    font-size: $size1;
+    border: 1px solid #c4c1c1;
+    padding: 8px 16px;
+    background-color: $backgroundColor;
+    &:hover{
+        background-color: #d6d6d6;
+    }
+}
 
+.box{
+    padding: 20px;
+    background-color:white;
+}
+
+.title{
+    margin-bottom: 10px;
+    background-color: #444;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+    font-size: $size2;
+  }
+
+  @media (max-width: 990px){
+    .button{
+        font-size: 1.2rem;
+        padding: 5px 10px;
+    }
+  }
