@@ -5,7 +5,7 @@
         <LogoMini/>
       </router-link>
       <router-link to="/autores"><span class="menu-item">Autores</span><i class="bi bi-search"></i></router-link>
-      <router-link to="/nueva-historia"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link> 
+      <!-- <router-link to="/nueva-historia"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link> --> 
     </div>
     <div>
       <router-link to="/registro"><span class="menu-item">Nuevo registro</span><i class="bi bi-person-plus"></i></router-link>

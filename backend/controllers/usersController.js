@@ -34,7 +34,30 @@ usersController.validate = (req, res) => {
 }
 
 usersController.login = (req, res) => {
-  //Queda pendiente cuando veamos passport
+  User.findOne({ email: req.body.email})
+    .then(user => {
+      if(user == null) res.json({error:'Usuario no registrado'})
+      else if(user.active == false) res.json({error:'Usuario no validado'})
+      else if(user.password != req.body.password) res.json({error:'Contraseña incorrecta'})
+      else res.json(user)
+    })
+}
+
+usersController.forgetPassword = (req,res) => {
+  User.findOne({ email: req.body.email})
+    .then(user => {
+      mailer.send(user, "Cambio de contraseña")
+      res.json('ok')
+    })
+}
+
+usersController.newPassword = (req,res) => {
+  User.findByIdAndUpdate( req.body._id , { password: req.body.password })
+    .then(() => res.json('ok'))
+    .catch(error => {
+      let errors = { password: error.errors.password.message }
+      res.json(errors)
+    })
 }
 
 usersController.list = (req, res) => {
@@ -50,6 +73,12 @@ usersController.like = (req,res) => {
     })
 }
 
+usersController.findById = (req, res) => {
+  User.findById(req.body)
+    .then(user => res.json(user))
+    .catch(() => res.json(null))
+}
+
 usersController.findByNickname = (req, res) => {
   User.findOne({ nickname: req.body.nickname })
     .then(user => res.json(user))
@@ -57,8 +86,7 @@ usersController.findByNickname = (req, res) => {
 }
 
 usersController.edit = (req, res) => {
-  let newUser = new User(req.body)
-  User.findOneAndUpdate({ email: newUser.email }, { firstname: newUser.firstname, lastname: newUser.lastname, nickname: newUser.nickname, avatar: newUser.avatar, bio: newUser.bio, instagram: newUser.instagram, twitter: newUser.twitter, other: newUser.other })
+  User.findOneAndUpdate({ email: req.body.email }, { firstname: req.body.firstname, lastname: req.body.lastname, nickname: req.body.nickname, avatar: req.body.avatar, bio: req.body.bio, instagram: req.body.instagram, twitter: req.body.twitter, other: req.body.other })
     .then(user => res.json(user))
     .catch(error => {
       let errors = {}

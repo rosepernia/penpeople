@@ -15,8 +15,7 @@ blocksController.create = (req,res) => {
 }
 
 blocksController.edit = (req, res) => {
-  let newBlock = new Block(req.body)
-  Block.findByIdAndUpdate(req.body._id , { body: newBlock.body })
+  Block.findByIdAndUpdate(req.body._id , { body: req.body.body })
     .then(() => res.json('ok'))
     .catch(error => {
       let errors = { body: error.errors.body.message }

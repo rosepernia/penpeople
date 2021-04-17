@@ -9,17 +9,17 @@
         <div class="nickname">
           <div>
             <input type="text" v-model="user.value.nickname" placeholder="Nickname" :readonly="!yourProfile">
-            <div class="error"><p>El nickname no es válido</p></div>
+            <div class="error" v-if="yourProfile"><p >El nickname no es válido</p></div>
           </div>
           <div class="likes">
-            <p>Junior</p>
+            <p>Embajador</p>
             <i class="bi bi-heart"></i><p>{{user.value.likes}}</p>
           </div>
         </div>
         <input type="text" v-model="user.value.firstname" placeholder="Nombre" v-if="yourProfile">
-        <div class="error"><p v-if="!yourProfile">El nombre no es válido</p></div>
+        <div class="error" v-if="yourProfile"><p >El nombre no es válido</p></div>
         <input type="text" v-model="user.value.lastname" placeholder="Apellido" v-if="yourProfile">
-        <div class="error"><p v-if="!yourProfile">El apellido no es válido</p></div>
+        <div class="error" v-if="yourProfile"><p >El apellido no es válido</p></div>
         <input type="text" :value="user.value.email" v-if="yourProfile" readonly>
       </div>
       <div class="info-two">
@@ -27,12 +27,13 @@
         <div v-if="yourProfile" class="socials"><i class="bi bi-twitter"></i><input type="text" class="social" v-model="user.value.twitter" placeholder="Twitter"></div>
         <div v-if="yourProfile" class="socials"><i class="bi bi-share"></i><input type="text" class="social" v-model="user.value.other" placeholder="Página web"></div>
         <textarea v-model="user.value.bio" placeholder="Biografía" :readonly="!yourProfile"></textarea>
+        <div class="error" v-if="yourProfile"><p >La bio no puede superar los 200 caracteres</p></div>
         <div class="social-media" v-if="!yourProfile">
           <a :href="`https://www.instagram.com/${user.value.instagram}`" target="blank"><i class="bi bi-instagram"></i></a>  
           <a :href="`https://www.twitter.com/${user.value.twitter}`" target="blank"><i class="bi bi-twitter"></i></a>  
           <a :href="`https://${user.value.twitter}`" target="blank"><i class="bi bi-share"></i></a>  
         </div>
-        <button class="button" v-if="yourProfile">Modificar</button>
+        <button class="button" v-if="yourProfile" @click="editUser">Modificar</button>
       </div>
     </div>
 
@@ -55,7 +56,7 @@
 
 <script>
 import { useRoute } from "vue-router"
-import { ref, reactive, onBeforeMount } from "vue";
+import { ref, reactive, watch } from "vue";
 import { useStore } from "vuex"
 
 export default {
@@ -66,7 +67,7 @@ export default {
     const store = useStore()
     const route = useRoute ()
     let user = reactive({})
-    let yourProfile = ref(true)
+    let yourProfile = ref(false)
     let admin = ref(false)
 
     const findUser = () => {
@@ -79,17 +80,33 @@ export default {
         .then(data=>{
           user.value=data
           admin.value=user.value.admin
+          if(store.state.user.nickname==user.value.nickname) yourProfile.value = true
           })
+    }
+
+    watch(store.state,()=> findUser())
+
+    const editUser = () => {
+      /*fetch("http://localhost:8081/users/edit",{
+        method: "POST",
+        body:JSON.stringify({nickname: nickname}),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          user.value=data
+          admin.value=user.value.admin
+          })*/
     }
 
     findUser()
    
-    //store.commit("setUser",user)
     return {
       user,
       yourProfile,
       admin,
-      route
+      route,
+      editUser
     }
   },
 }
@@ -102,7 +119,7 @@ export default {
 .profile{
   width: 80%;
   max-width: 800px;
-  height: 530px;
+  height: 590px;
   margin-bottom: 40px;
   display: flex;
   justify-content: space-between;
@@ -115,12 +132,12 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     .blocks-box{
-      height: 190px;
+      height: 230px;
     }
   }
 }
 .profile2{
-  margin-top: 150px;
+  margin-top: 200px;
   height: 350px;
   .profile-blocks{
     .blocks-box{
@@ -141,6 +158,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    margin-bottom: 10px;
   }
   .nickname{
     display: flex;
@@ -153,13 +171,12 @@ export default {
       border: none;
     }
     .likes{
-      width: 80px;
+      width: 100px;
       position: relative;
       i::before{
         color: $primaryColor;
         position: absolute;
         top: 36px;
-        //left: 10px;
       }
       p{
         text-align: center;
@@ -191,6 +208,9 @@ export default {
       font-size: $size3;
     }
   }
+  button{
+    margin-top: 6px;
+  }
 }
 input,textarea{
   margin: 4px 0;
@@ -203,16 +223,6 @@ input{
 textarea{
   height: 100px;
   resize: none;
-}
-.error{
-  color: $primaryColor;
-  width: fit-content;
-  height: 20px;
-  p{
-    width: fit-content;
-    font-size: 1.2rem;
-    margin: 0;
-  }
 }
 
 @media (max-width: 990px){
@@ -229,8 +239,14 @@ textarea{
       width: 100%;
     }
   }
-  .info-one,.info-two{
-    width: 46%;
+  .info-one{
+    width: 55%;
+  }
+  .info-two{
+    width: 35%;
+    button{
+      margin-top: 20px;
+    }
   }
   .avatar{
     width: 80px;
@@ -252,6 +268,11 @@ textarea{
   }
   .info-one,.info-two{
     width: 100%;
+  }
+  .info-two{
+    button{
+      margin-top: 6px;
+    }
   }
   .avatar{
     width: 80px;
