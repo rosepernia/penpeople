@@ -90,7 +90,7 @@ usersController.edit = (req, res) => {
     .then(user => res.json(user))
     .catch(error => {
       let errors = {}
-      if (error.code == 11000) errors.repeat = "Este nickname ya está cogido"
+      if (error.code == 11000) errors.repeat = "Nickname no disponible"
       else {
         if (error.errors.firstname) errors.firstname = error.errors.firstname.message
         if (error.errors.lastname) errors.lastname = error.errors.lastname.message

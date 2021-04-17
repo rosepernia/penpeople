@@ -24,19 +24,19 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
 import { useStore } from "vuex"
 
 export default {
   name: 'LoginBox',
   setup(){
     const store = useStore()
-    let email = ref("")
-    let password = ref("")
-    let registered = ref(false)
-    let error = ref("")
-    let sendMail = ref(false)
-    let user = reactive({})
+    const email = ref("")
+    const password = ref("")
+    const registered = ref(false)
+    const error = ref("")
+    const sendMail = ref(false)
+    const user = reactive({})
 
     const login = () => {
       fetch("http://localhost:8081/users/login",{
@@ -65,8 +65,8 @@ export default {
         .then(resp=>resp.json())
         .then(data=>{
           if(data=='ok') {
-            sendMail.value=true
-            error.value=""
+            sendMail.value = true
+            error.value = ""
             }
         })
     }
@@ -80,6 +80,8 @@ export default {
       email.value = ""
       password.value = ""
     }
+
+    watch(store.state,()=> user.value.nickname = store.state.user.nickname)
 
     return{
       email,
