@@ -61,7 +61,7 @@ export default {
   padding: 10px;
   display: flex;
   justify-content: space-between;
-  background-color: #f4f1f1ef;
+  background-color: #f4f1f1d7;
   div{
     display: flex;
     align-items: center;

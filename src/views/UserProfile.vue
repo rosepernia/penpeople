@@ -41,18 +41,30 @@
         <button class="button" v-if="yourProfile" @click="editUser">Modificar</button>
       </div>
     </div>
-
     <div class="profile-blocks" v-if="user.value">
       <div v-if="!admin">
         <div class="title">Contribuciones</div>
-        <div class="box blocks-box">
-          <h1>bloques</h1>
+        <div class="box">
+          <div class="blocks-box">
+            <BlockCard v-for="(block,i) in blocksPublished" :key="i"
+              :image="block.story.image"
+              :story="block.story.title"
+              :title="block.title"
+              :likes="block.likes"
+            />
+          </div>
         </div>
       </div>
       <div v-if="yourProfile">
         <div class="title">Pendientes de moderación</div>
-        <div class="box blocks-box">
-          <h1>bloques</h1>
+        <div class="box">
+          <div class="blocks-box">
+            <BlockCard v-for="(block,i) in blocksModeration" :key="i"
+              :image="block.story.image"
+              :story="block.story.title"
+              :title="block.title"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -61,17 +73,21 @@
 
 <script>
 import { useRoute } from "vue-router"
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, onMounted } from "vue";
 import { useStore } from "vuex"
+import BlockCard from "@/components/BlockCard"
 
 export default {
   name: "UserProfile",
-  components: {},
-
+  components: {
+    BlockCard
+  },
   setup() {
     const store = useStore()
     const route = useRoute ()
     const user = reactive({})
+    const blocksPublished = reactive([])
+    const blocksModeration = reactive([])
     const yourProfile = ref(false)
     const admin = ref(false)
     const error = reactive({})
@@ -81,7 +97,7 @@ export default {
     const findUser = () => {
       fetch("http://localhost:8081/users/findbynickname",{
         method: "POST",
-        body:JSON.stringify({nickname: route.params.nickname}),
+        body: JSON.stringify({nickname: route.params.nickname}),
         headers: {"Content-type":"application/json"}
       })
         .then(resp=>resp.json())
@@ -89,8 +105,51 @@ export default {
           user.value=data
           admin.value=user.value.admin
           role.value = user.value.likes <= 100 ? "Novel" : user.value.likes <= 400 ? "Experto" : "Embajador"
-          if(store.state.user.nickname==user.value.nickname) yourProfile.value = true
+          if(store.state.user.nickname==user.value.nickname) {
+            yourProfile.value = true
+            if(admin.value==false) findBlocksModerate()
+            else findBlocksModerateAdmin()
+          }
           if(store.state.user.nickname!=user.value.nickname && admin.value==true) user.value = ""
+          if(admin.value==false) findBlocks()
+          })
+    }
+
+    const findBlocks = () => {
+      fetch("http://localhost:8081/blocks/findbyauthor",{
+        method: "POST",
+        body: JSON.stringify({author: user.value._id}),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          blocksPublished.splice(0)
+          data.forEach(block => blocksPublished.push(block))
+          })
+    }
+
+    const findBlocksModerate = () => {
+      fetch("http://localhost:8081/blocks/findmoderateuser",{
+        method: "POST",
+        body: JSON.stringify({author: user.value._id}),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          blocksModeration.splice(0)
+          data.forEach(block => blocksModeration.push(block))
+          })
+    }
+    
+    const findBlocksModerateAdmin = () => {
+      fetch("http://localhost:8081/blocks/findmoderateadmin",{
+        method: "POST",
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          blocksModeration.splice(0)
+          data.forEach(block => blocksModeration.push(block))
           })
     }
 
@@ -102,7 +161,7 @@ export default {
     const editUser = () => {
       fetch("http://localhost:8081/users/edit",{
         method: "POST",
-        body:JSON.stringify({ email: user.value.email, firstname: user.value.firstname, lastname: user.value.lastname, nickname: user.value.nickname, avatar: user.value.avatar, bio: user.value.bio, instagram: user.value.instagram, twitter: user.value.twitter, other: user.value.other }),
+        body:JSON.stringify({ email: store.state.user.email, firstname: user.value.firstname, lastname: user.value.lastname, nickname: user.value.nickname, avatar: user.value.avatar, bio: user.value.bio, instagram: user.value.instagram, twitter: user.value.twitter, other: user.value.other }),
         headers: {"Content-type":"application/json"}
       })
         .then(resp=>resp.json())
@@ -119,11 +178,15 @@ export default {
 
     watch(store.state, () => findUser())
     
-    findUser()
+    onMounted(() => {
+      findUser()
+    })
    
     return {
       route,
       user,
+      blocksPublished,
+      blocksModeration,
       yourProfile,
       admin,
       error,
@@ -156,8 +219,15 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    .box{
+      padding: 20px 10px;
+    }
     .blocks-box{
-      height: 230px;
+      height: 190px;
+      overflow: scroll;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
     }
   }
 }
@@ -166,7 +236,7 @@ export default {
   height: 350px;
   .profile-blocks{
     .blocks-box{
-      height: 300px;
+      height: 260px;
     }
   }
 }
@@ -175,7 +245,7 @@ export default {
   height: 380px;
   .profile-blocks{
     .blocks-box{
-      height: 330px;
+      height: 290px;
     }
   }
   .profile-info{
@@ -287,6 +357,9 @@ textarea{
     }
     &-blocks{
       width: 100%;
+      div:first-child{
+        margin-bottom: 10px;
+      }
     }
   }
   .info-one{
@@ -297,10 +370,6 @@ textarea{
     button{
       margin-top: 20px;
     }
-  }
-  .avatar{
-    width: 80px;
-    height: 80px;
   }
   textarea{
     height: 120px;

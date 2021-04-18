@@ -62,7 +62,7 @@ blocksController.findModerateUser = async (req, res) => {
     let moderateBlocks = await Block.find({blockid: { $regex: `^${block.blockid}.$` }, published: false, story: block.story }, 'title blockid').populate('story', 'title image', Story)
     allModerateBlocks.push(...moderateBlocks)
   })
-  setTimeout(() => res.json(allModerateBlocks), 1000);
+  setTimeout(() => res.json(allModerateBlocks), 300);
 }
 
 blocksController.findModerateAdmin = (req, res) => {
