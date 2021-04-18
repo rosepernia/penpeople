@@ -11,7 +11,7 @@
   </div>
   <div class="loginbox" v-else>
     <router-link :to="`/perfil/${user.value.nickname}`">
-      <div class="user">
+      <div class="user" @click="changeProfile">
         <img :src="user.value.avatar" alt="Avatar usuario" class="avatar">
         <div>
           <p>{{user.value.nickname}}</p>
@@ -81,13 +81,18 @@ export default {
       password.value = ""
     }
 
-    watch(store.state,()=> user.value.nickname = store.state.user.nickname)
+    const changeProfile = () => {
+      store.commit("setProfile")
+    }
+
+    watch(store.state, ()=> user.value.nickname = store.state.user.nickname)
 
     return{
       email,
       password,
       login,
       logout,
+      changeProfile,
       forgetPassword,
       registered,
       error,
