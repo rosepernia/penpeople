@@ -33,11 +33,6 @@ export default {
       let lastname=ref("")
       let password=ref("") */
 
-/*     nicknameerror="Este nickname no está disponible"
-    emailerror="Introduce un email válido"
-    nameerror="Tu nombre debe contener caracteres"
-    lastnameerror="Tus apellidos deben contener"
-    passworderror="La contraseña debe contener" */
     
 /*     return {
       errors:[""],
