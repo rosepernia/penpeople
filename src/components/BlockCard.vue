@@ -34,7 +34,7 @@ export default {
 .card{
   padding: 2px;
   padding-bottom: 12px;
-  width: 160px;
+  width: 190px;
   text-align: center;
   p{
     margin: 0;
@@ -56,9 +56,9 @@ export default {
 
 @media (max-width: 990px){
   .card{
-    width: 140px;
+    width: 145px;
     .story-title{
-      font-size: 1.4rem;
+      font-size: 1.3rem;
     }
     .block-title{
       font-size: 1.1rem;
@@ -72,7 +72,13 @@ export default {
 
 @media (max-width: 575px){
   .card{
-    width: 130px;
+    width: 134px;
+    .story-title{
+      font-size: 1.1rem;
+    }
+    .block-title{
+      font-size: 1rem;
+    }
   }
   .image{
     width: 80px;
