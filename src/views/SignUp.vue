@@ -14,8 +14,9 @@
       <div v-if="passworderror" class="error">{{passworderror}}</div>
       <div><label class="priv input-form"><input type="checkbox" v-model="checked" required> He podido leer y entiendo la política de privacidad y cookies</label></div>
       <div v-if="checkerror" class="error">{{checkerror}}</div>
+      <div class="button" type="submit" value="submit">Registrarse</div>
       </div>
-    <div class="button" type="submit" value="submit">Registrarse</div>
+    
   </div>
 </template>
 
@@ -60,17 +61,11 @@ export default {
   background-color: transparent;
 }
 
-.box{
-  border: 1px solid #131212;
-  background-color: transparent;
-}
-
 .priv{
   font-size: xx-small;
 }
 
 .button{
- margin-top: 20px;
  text-align: center;
 }
 
