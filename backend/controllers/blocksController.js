@@ -15,8 +15,7 @@ blocksController.create = (req,res) => {
 }
 
 blocksController.edit = (req, res) => {
-  let newBlock = new Block(req.body)
-  Block.findByIdAndUpdate(req.body._id , { body: newBlock.body })
+  Block.findByIdAndUpdate(req.body._id , { body: req.body.body })
     .then(() => res.json('ok'))
     .catch(error => {
       let errors = { body: error.errors.body.message }
@@ -63,7 +62,7 @@ blocksController.findModerateUser = async (req, res) => {
     let moderateBlocks = await Block.find({blockid: { $regex: `^${block.blockid}.$` }, published: false, story: block.story }, 'title blockid').populate('story', 'title image', Story)
     allModerateBlocks.push(...moderateBlocks)
   })
-  setTimeout(() => res.json(allModerateBlocks), 1000);
+  setTimeout(() => res.json(allModerateBlocks), 300);
 }
 
 blocksController.findModerateAdmin = (req, res) => {

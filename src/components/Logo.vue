@@ -71,6 +71,7 @@ export default {
 }
 .rotate-one-enter-active{
   transition: all 2s ease;
+  transition-delay: .4s;
 }
 .rotate-two-enter-from{
   transform: rotate(0deg);
@@ -80,7 +81,7 @@ export default {
 }
 .rotate-two-enter-active{
   transition: all 2s ease;
-  transition-delay: .15s;
+  transition-delay: 0.55s;
 }
 .rotate-three-enter-from{
   transform: rotate(0deg);
@@ -90,7 +91,7 @@ export default {
 }
 .rotate-three-enter-active{
   transition: all 2s ease;
-  transition-delay: .3s;
+  transition-delay: 0.7s;
 }
 .rotate-four-enter-from{
   transform: rotate(0deg);
@@ -100,7 +101,7 @@ export default {
 }
 .rotate-four-enter-active{
   transition: all 2s ease;
-  transition-delay: .45s;
+  transition-delay: 0.85s;
 }
 
 @media (max-width: 990px){

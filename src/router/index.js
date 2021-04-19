@@ -10,6 +10,7 @@ import Stories from '../views/Stories.vue'
 import SuperUser from '../views/SuperUser.vue'
 import UserProfile from '../views/UserProfile.vue'
 import MapStory from '../views/MapStory.vue'
+import ChangePassword from '../views/ChangePassword.vue'
 
 
 const routes = [
@@ -67,6 +68,11 @@ const routes = [
     path: '/mapa',
     name: 'MapStory',
     component: MapStory
+  },
+  {
+    path: '/cambiarcontrasena/:id',
+    name: 'ChangePassword',
+    component: ChangePassword
   },
   
 ]

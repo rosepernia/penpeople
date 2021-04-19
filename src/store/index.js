@@ -4,6 +4,7 @@ export default createStore({
   state: {
     user:{},
     stories:[],
+    profile: false
   },
   getters: {
     getUser(state){
@@ -14,8 +15,11 @@ export default createStore({
     setStory(state,value){
       state.stories=value
     },  
-    setUser(state,valor){
-      state.user = valor
+    setUser(state,value){
+      state.user = value
+    },
+    setProfile(state){
+      state.profile = !state.profile
     },
   },
  /*  actions: {
