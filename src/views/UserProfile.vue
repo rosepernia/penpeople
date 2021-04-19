@@ -1,48 +1,70 @@
 <template> 
-  <div :class="{ 'view-top': true, profile: true, profile2: !yourProfile }">
+  <div :class="{ 'view-top': true, profile: true, profile2: !yourProfile, profile3: admin }">
     <div class="profile-info box" v-if="user.value">
       <div class="info-one">
         <div class="img">
           <img :src="user.value.avatar" alt="Avatar usuario" class="avatar">
-          <button class="button" v-if="yourProfile">Subir imagen</button>
+          <div v-if="yourProfile">
+            <label for="image" class="button">Subir imagen</label>
+            <input type="file" id="image" accept=".jpg,.png,.jpeg*" @change="fileSelected">
+          </div>
         </div>
         <div class="nickname">
-          <input type="text" v-model="user.value.nickname" placeholder="Nickname" :readonly="!yourProfile">
-          <div class="likes">
-            <p>Junior</p>
+          <div>
+            <input type="text" v-model="user.value.nickname" placeholder="Nickname" :readonly="!yourProfile">
+            <div class="error" v-if="yourProfile"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeat}}</p></div>
+          </div>
+          <div class="likes" v-if="!admin">
+            <p>{{role}}</p>
             <i class="bi bi-heart"></i><p>{{user.value.likes}}</p>
           </div>
         </div>
-        <div class="error"><p>HOLA</p></div>
         <input type="text" v-model="user.value.firstname" placeholder="Nombre" v-if="yourProfile">
+        <div class="error" v-if="yourProfile"><p v-if="error.value">{{error.value.firstname}}</p></div>
         <input type="text" v-model="user.value.lastname" placeholder="Apellido" v-if="yourProfile">
-        <input type="text" :value="user.value.email" v-if="yourProfile" readonly>
+        <div class="error" v-if="yourProfile"><p v-if="error.value">{{error.value.lastname}}</p></div>
+        <input type="text" v-model="user.value.email" v-if="yourProfile" readonly>
       </div>
       <div class="info-two">
-        <div v-if="yourProfile" class="socials"><i class="bi bi-instagram"></i><input type="text" class="social" v-model="user.value.instagram" placeholder="Instagram"></div>
-        <div v-if="yourProfile" class="socials"><i class="bi bi-twitter"></i><input type="text" class="social" v-model="user.value.twitter" placeholder="Twitter"></div>
-        <div v-if="yourProfile" class="socials"><i class="bi bi-share"></i><input type="text" class="social" v-model="user.value.other" placeholder="Página web"></div>
-        <textarea v-model="user.value.bio" placeholder="Biografía" :readonly="!yourProfile"></textarea>
-        <div class="social-media" v-if="!yourProfile">
-          <a :href="`https://www.instagram.com/${user.value.instagram}`" target="blank"><i class="bi bi-instagram"></i></a>  
-          <a :href="`https://www.twitter.com/${user.value.twitter}`" target="blank"><i class="bi bi-twitter"></i></a>  
-          <a :href="`https://${user.value.twitter}`" target="blank"><i class="bi bi-share"></i></a>  
+        <div v-if="!admin">
+          <div v-if="yourProfile" class="socials"><i class="bi bi-instagram"></i><input type="text" class="social" v-model="user.value.instagram" placeholder="Instagram"></div>
+          <div v-if="yourProfile" class="socials"><i class="bi bi-twitter"></i><input type="text" class="social" v-model="user.value.twitter" placeholder="Twitter"></div>
+          <div v-if="yourProfile" class="socials"><i class="bi bi-share"></i><input type="text" class="social" v-model="user.value.other" placeholder="Página web"></div>
+          <textarea v-model="user.value.bio" placeholder="Biografía" :readonly="!yourProfile"></textarea>
+          <div class="error" v-if="yourProfile"><p v-if="error.value">{{error.value.bio}}</p></div>
+          <div class="social-media" v-if="!yourProfile">
+            <a :href="`https://www.instagram.com/${user.value.instagram}`" target="blank" v-if="user.value.instagram!=''"><i class="bi bi-instagram"></i></a>  
+            <a :href="`https://www.twitter.com/${user.value.twitter}`" target="blank" v-if="user.value.twitter!=''"><i class="bi bi-twitter"></i></a>  
+            <a :href="`https://${user.value.other}`" target="blank" v-if="user.value.other!=''"><i class="bi bi-share"></i></a>  
+          </div>
         </div>
-        <button class="button" v-if="yourProfile">Modificar</button>
+        <button class="button" v-if="yourProfile" @click="editUser">Modificar</button>
       </div>
     </div>
-
-    <div class="profile-blocks">
-      <div>
+    <div class="profile-blocks" v-if="user.value">
+      <div v-if="!admin">
         <div class="title">Contribuciones</div>
-        <div class="box blocks-box">
-          <h1>bloques</h1>
+        <div class="box">
+          <div class="blocks-box">
+            <BlockCard v-for="(block,i) in blocksPublished" :key="i"
+              :image="block.story.image"
+              :story="block.story.title"
+              :title="block.title"
+              :likes="block.likes"
+            />
+          </div>
         </div>
       </div>
       <div v-if="yourProfile">
         <div class="title">Pendientes de moderación</div>
-        <div class="box blocks-box">
-          <h1>bloques</h1>
+        <div class="box">
+          <div class="blocks-box">
+            <BlockCard v-for="(block,i) in blocksModeration" :key="i"
+              :image="block.story.image"
+              :story="block.story.title"
+              :title="block.title"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -51,41 +73,127 @@
 
 <script>
 import { useRoute } from "vue-router"
-import { ref, reactive, onBeforeMount } from "vue";
+import { ref, reactive, watch, onMounted } from "vue";
 import { useStore } from "vuex"
+import BlockCard from "@/components/BlockCard"
 
 export default {
   name: "UserProfile",
-  components: {},
-
+  components: {
+    BlockCard
+  },
   setup() {
     const store = useStore()
     const route = useRoute ()
-    let user = reactive({})
-    let yourProfile = ref(false)
-    let admin = ref(false)
+    const user = reactive({})
+    const blocksPublished = reactive([])
+    const blocksModeration = reactive([])
+    const yourProfile = ref(false)
+    const admin = ref(false)
+    const error = reactive({})
+    const role = ref("")
+    const file = ref("")
 
     const findUser = () => {
       fetch("http://localhost:8081/users/findbynickname",{
         method: "POST",
-        body:JSON.stringify({nickname: route.params.nickname}),
+        body: JSON.stringify({nickname: route.params.nickname}),
         headers: {"Content-type":"application/json"}
       })
         .then(resp=>resp.json())
         .then(data=>{
           user.value=data
           admin.value=user.value.admin
+          role.value = user.value.likes <= 100 ? "Novel" : user.value.likes <= 400 ? "Experto" : "Embajador"
+          if(store.state.user.nickname==user.value.nickname) {
+            yourProfile.value = true
+            if(admin.value==false) findBlocksModerate()
+            else findBlocksModerateAdmin()
+          }
+          if(store.state.user.nickname!=user.value.nickname && admin.value==true) user.value = ""
+          if(admin.value==false) findBlocks()
           })
     }
 
-    findUser()
+    const findBlocks = () => {
+      fetch("http://localhost:8081/blocks/findbyauthor",{
+        method: "POST",
+        body: JSON.stringify({author: user.value._id}),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          blocksPublished.splice(0)
+          data.forEach(block => blocksPublished.push(block))
+          })
+    }
+
+    const findBlocksModerate = () => {
+      fetch("http://localhost:8081/blocks/findmoderateuser",{
+        method: "POST",
+        body: JSON.stringify({author: user.value._id}),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          blocksModeration.splice(0)
+          data.forEach(block => blocksModeration.push(block))
+          })
+    }
+    
+    const findBlocksModerateAdmin = () => {
+      fetch("http://localhost:8081/blocks/findmoderateadmin",{
+        method: "POST",
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          blocksModeration.splice(0)
+          data.forEach(block => blocksModeration.push(block))
+          })
+    }
+
+    const fileSelected = (event) => {
+      file.value = event.target.files[0]
+      console.log(file.value)
+    }
+
+    const editUser = () => {
+      fetch("http://localhost:8081/users/edit",{
+        method: "POST",
+        body:JSON.stringify({ email: store.state.user.email, firstname: user.value.firstname, lastname: user.value.lastname, nickname: user.value.nickname, avatar: user.value.avatar, bio: user.value.bio, instagram: user.value.instagram, twitter: user.value.twitter, other: user.value.other }),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          if(data.email) {
+            error.value = ""
+            user.value = data
+            store.commit("setUser",data)
+            route.params.nickname = data.nickname
+            }
+          else error.value = data
+          })
+    }
+
+    watch(store.state, () => findUser())
+    
+    onMounted(() => {
+      findUser()
+    })
    
-    //store.commit("setUser",user)
     return {
+      route,
       user,
+      blocksPublished,
+      blocksModeration,
       yourProfile,
       admin,
-      route
+      error,
+      role,
+      file,
+      fileSelected,
+      editUser
     }
   },
 }
@@ -98,7 +206,8 @@ export default {
 .profile{
   width: 80%;
   max-width: 800px;
-  height: 530px;
+  height: 590px;
+  margin-top: 120px;
   margin-bottom: 40px;
   display: flex;
   justify-content: space-between;
@@ -110,19 +219,48 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    .box{
+      padding: 20px 10px;
+    }
     .blocks-box{
       height: 190px;
+      overflow: scroll;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
     }
   }
 }
 .profile2{
-  margin-top: 150px;
+  margin-top: 200px;
   height: 350px;
   .profile-blocks{
     .blocks-box{
-      height: 300px;
+      height: 260px;
     }
   }
+}
+.profile3{
+  margin-top: 200px;
+  height: 380px;
+  .profile-blocks{
+    .blocks-box{
+      height: 290px;
+    }
+  }
+  .profile-info{
+    flex-wrap: wrap;
+  }
+  .info-one{
+    width: 100%;
+  }
+  .info-two{
+    width: 100%;
+    button{
+      margin-top: 6px;
+    }
+  }
+  
 }
 .avatar{
   width: 100px;
@@ -137,6 +275,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    margin-bottom: 10px;
+    input[type="file"]{
+      display: none;
+    }
   }
   .nickname{
     display: flex;
@@ -144,18 +286,17 @@ export default {
     justify-content: space-between;
     font-size: $size2;
     input{
-      width: 50%;
+      width: 70%;
       font-size: $size2;
       border: none;
     }
     .likes{
-      width: 80px;
+      width: 100px;
       position: relative;
       i::before{
         color: $primaryColor;
         position: absolute;
         top: 36px;
-        left: 10px;
       }
       p{
         text-align: center;
@@ -187,6 +328,9 @@ export default {
       font-size: $size3;
     }
   }
+  button{
+    margin-top: 6px;
+  }
 }
 input,textarea{
   margin: 4px 0;
@@ -199,14 +343,6 @@ input{
 textarea{
   height: 100px;
   resize: none;
-}
-.error{
-  color: $primaryColor;
-  height: 20px;
-  p{
-    font-size: 1.2rem;
-    margin: 0;
-  }
 }
 
 @media (max-width: 990px){
@@ -221,14 +357,19 @@ textarea{
     }
     &-blocks{
       width: 100%;
+      div:first-child{
+        margin-bottom: 10px;
+      }
     }
   }
-  .info-one,.info-two{
-    width: 46%;
+  .info-one{
+    width: 55%;
   }
-  .avatar{
-    width: 80px;
-    height: 80px;
+  .info-two{
+    width: 35%;
+    button{
+      margin-top: 20px;
+    }
   }
   textarea{
     height: 120px;
@@ -246,6 +387,11 @@ textarea{
   }
   .info-one,.info-two{
     width: 100%;
+  }
+  .info-two{
+    button{
+      margin-top: 6px;
+    }
   }
   .avatar{
     width: 80px;

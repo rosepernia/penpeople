@@ -45,7 +45,7 @@ export default {
         })
       })            
     }
-    console.log(users)
+
     return { users  
     }
   },
