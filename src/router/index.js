@@ -9,6 +9,7 @@ import SignUp from '../views/SignUp.vue'
 import Stories from '../views/Stories.vue'
 import SuperUser from '../views/SuperUser.vue'
 import UserProfile from '../views/UserProfile.vue'
+import MapStory from '../views/MapStory.vue'
 
 
 const routes = [
@@ -38,7 +39,7 @@ const routes = [
     component: NewStory
   },
   {
-    path: '/lectura',
+    path: '/lectura/:title',
     name: 'ReadStory',
     component: ReadStory
   },
@@ -61,6 +62,11 @@ const routes = [
     path: '/perfil/:nickname',
     name: 'UserProfile',
     component: UserProfile
+  },
+  {
+    path: '/mapa',
+    name: 'MapStory',
+    component: MapStory
   },
   
 ]
