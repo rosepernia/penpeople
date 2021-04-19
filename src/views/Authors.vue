@@ -73,7 +73,7 @@ export default {
   
 }
 .search{
-  margin-left: 100px;
+  margin-left: 130px;
   
   input{
   border: 0;
@@ -82,21 +82,15 @@ export default {
   }
 }
 
-@media (max-width: 990px){
+@media (max-width: 575px){
   .search{
-    margin-left: 75px;
+    margin-left: auto;
+    margin-right: auto;
+    display:flex;
+    justify-content: center;
+
   }
 }
 
-@media (max-width: 575px){
-  .search{
-    margin-left: 75px;
-  }
-}
-@media (max-width: 375px){
-  .search{
-    margin-left: 50px;
-  }
-}
 
 </style>
