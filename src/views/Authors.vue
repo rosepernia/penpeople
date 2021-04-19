@@ -1,7 +1,7 @@
 <template>
 <div class="view-top">
 <div class="search">
-  <input type="text" @keyup="inputFilter" placeholder="Nickname">
+  <input type="text" @keyup="inputLetter" placeholder="Nickname">
 </div>
 <div class="authors">
   <AuthorBox v-for="(user,ind) in users" :key="ind" 
@@ -16,7 +16,7 @@
 
 <script>
 import AuthorBox from "@/components/AuthorBox";
-import { ref, reactive, computed, onMounted } from 'vue'
+import {reactive, onMounted } from 'vue'
 export default {
   name: "Author",
   components: {
@@ -26,14 +26,14 @@ export default {
 
     let users=reactive([])
 
-    let inputFilter=(e)=>{
+    onMounted(() => {
+      list("")
+    })
+
+    let inputLetter=(e) => {
       let letters=e.target.value
       list(letters)
-      }
-
-   onMounted(() => {
-        list("")
-        })
+    }
 
     function list(letters){
       fetch('http://localhost:8081/users/list',{
@@ -46,7 +46,6 @@ export default {
       })
       .then(resp=>resp.json())
       .then(data=>{
-        console.log(data)
         users.splice(0)
         data.forEach(user => {
         users.push(user)
@@ -54,7 +53,7 @@ export default {
       })            
     }
     
-    return { users  , inputFilter
+    return { users  , inputLetter
     }
   },
 }
@@ -79,6 +78,24 @@ export default {
   input{
   border: 0;
   height: 25px;
+  font-size: $size1;
+  }
+}
+
+@media (max-width: 990px){
+  .search{
+    margin-left: 75px;
+  }
+}
+
+@media (max-width: 575px){
+  .search{
+    margin-left: 75px;
+  }
+}
+@media (max-width: 375px){
+  .search{
+    margin-left: 50px;
   }
 }
 
