@@ -9,6 +9,7 @@ import SignUp from '../views/SignUp.vue'
 import Stories from '../views/Stories.vue'
 import SuperUser from '../views/SuperUser.vue'
 import UserProfile from '../views/UserProfile.vue'
+import ChangePassword from '../views/ChangePassword.vue'
 
 
 const routes = [
@@ -61,6 +62,11 @@ const routes = [
     path: '/perfil/:nickname',
     name: 'UserProfile',
     component: UserProfile
+  },
+  {
+    path: '/cambiarcontrasena/:id',
+    name: 'ChangePassword',
+    component: ChangePassword
   },
   
 ]
