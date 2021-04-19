@@ -11,7 +11,6 @@ const conexion = require('./mongodb')
 conexion.on('error',console.error.bind(console,"Error de conexion mongo"))
 conexion.once('open',()=>console.log("Conexión mongo OK!!"))
 
-
 //middlewares
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))

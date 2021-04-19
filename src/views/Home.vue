@@ -1,5 +1,5 @@
 <template>
-<div class="view-top home">
+<div class="center home">
   <Logo/>
   <div class="line">
    <router-link to="/libros"><p>LEER</p></router-link>
