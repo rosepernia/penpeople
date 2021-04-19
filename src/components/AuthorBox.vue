@@ -7,10 +7,10 @@
     <div class="description">
       <h2 class="nickname" v-text="`@${nickname}`"></h2>
       <div class="likes">
-        <i class="bi bi-heart-fill fa-3x fa-lg" style="color:red;"></i>
+        <i class="bi bi-heart"></i>
         <h2 v-text="likes"></h2>
       </div>
-      <router-link :to="`/perfil/${nickname}`" class="button" href="">Ver usuario</router-link>
+      <router-link :to="`/perfil/${nickname}`" class="button">Ver usuario</router-link>
     </div>
   </div>
 
@@ -72,6 +72,7 @@ export default {
               padding-top:2px;
               margin:0 10px; 
               font-size: 23px;
+              color: $primaryColor;
             }
            /*  h2{
               background-color: yellow;

@@ -1,52 +1,59 @@
 <template>
-<div class="view-top authors">
- 
-  <AuthorBox v-for="(user,ind) in users" :key="ind"
+<div class="view-top">
+<div class="search">
+  <input type="text" @keyup="inputLetter" placeholder="Nickname">
+</div>
+<div class="authors">
+  <AuthorBox v-for="(user,ind) in users" :key="ind" 
     :avatar="user.avatar"
     :email="user.email"
     :nickname="user.nickname"
     :likes="user.likes"
     />
- 
+</div> 
 </div>
 </template>
 
 <script>
 import AuthorBox from "@/components/AuthorBox";
-import { ref, reactive, computed, onMounted } from 'vue'
+import {reactive, onMounted } from 'vue'
 export default {
   name: "Author",
   components: {
     AuthorBox
   },
-  setup(props) {
+  setup() {
 
     let users=reactive([])
-     
-    onMounted(() => {
-        list()
-        })
 
-    function list(){
+    onMounted(() => {
+      list("")
+    })
+
+    let inputLetter=(e) => {
+      let letters=e.target.value
+      list(letters)
+    }
+
+    function list(letters){
       fetch('http://localhost:8081/users/list',{
         method: 'POST',
         body: JSON.stringify({
-          "nickname":"",
+          "nickname":letters,
           "admin":"false"
         }),
         headers: {'Content-Type':'application/json'}
       })
       .then(resp=>resp.json())
       .then(data=>{
-        console.log(data)
         users.splice(0)
         data.forEach(user => {
         users.push(user)
         })
       })            
     }
-
-    return { users  
+    
+    return { users  , inputLetter
     }
   },
 }
@@ -65,5 +72,25 @@ export default {
   justify-content: space-evenly;
   
 }
+.search{
+  margin-left: 130px;
+  
+  input{
+  border: 0;
+  height: 25px;
+  font-size: $size1;
+  }
+}
+
+@media (max-width: 575px){
+  .search{
+    margin-left: auto;
+    margin-right: auto;
+    display:flex;
+    justify-content: center;
+
+  }
+}
+
 
 </style>
