@@ -1,6 +1,6 @@
 <template> 
   <div class="block">
-    <h2 class="title2">THE OTHER'S GOLD 
+    <h2 class="title2">The other's gold 
      <!--  <router-link to="/mapa"><img src="/img/stories/mapred.png" alt="" class="avatar"> </router-link> -->
     </h2> 
     <div class="read">
@@ -11,43 +11,43 @@
     <div class="send">
       <router-link to="/nuevo-fragmento"><p class="closure">Se marcha a la playa</p></router-link>
       <router-link to="/nuevo-fragmento"><p class="closure">Se queda con Antonia</p></router-link>
-      <!--  <router-link to="/nuevo-fragmento"><button class="button">Se marcha a la playa</button></router-link>
-       <router-link to="/nuevo-fragmento"><button class="button">Se queda con Antonia</button></router-link>
- -->
     </div>
   </div>
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from "vue";
-import { useStore } from "vuex";
+import { useRoute } from "vue-router"
+import { ref, reactive, computed, onMounted } from "vue"
+import { useStore } from "vuex"
+
 export default {
   name: "ReadStory",
   components: {},
 
   setup() {
-   let stories=reactive([])
+   const route = useRoute ()
+   const story = reactive({})
 
-   onMounted(()=> {
-        list()
-        }) 
+   onMounted(() => {
+      findStory()
+    })
 
-    function list(){
-            fetch('http://localhost:8081/stories/list',{
-               method:'POST',
-               body: JSON.stringify({}),
-               headers: {'Content-Type':'application/json'}
-            })
-              .then(resp=>resp.json())
-              .then(data=>{
-                    data.forEach(story => {
-                        stories.push(story)
-                    })
-                      console.log(stories)
-              })            
+   const findStory = () => {
+     console.log("holiiiii")
+      fetch('http://localhost:8081/stories/findbyid',{
+        method:'POST',
+        body: JSON.stringify({id: route.params._id}),
+        headers: {'Content-Type':'application/json'}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          console.log(data)
+          /* story=data */
+        })            
     }
     return {
-      stories,
+      story,
+      findStory
     }
   },
 }
@@ -84,14 +84,15 @@ p{
 }
 
 .title2{
+   font-family: $font3;
     margin-bottom: 10px ;
    /*  background-color: $primaryColor; */
     color: #52b1b9;
     padding: 3px;
     font-weight: bold;
    /*  text-align: center; */
-    font-size: $size1;
-    border-bottom:1px solid   #39888f;
+    font-size: $size2;
+    border-bottom:1px solid   #52b1b9;
 }
 
 .avatar{

@@ -1,4 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+@font-face {
+    font-family: "goldman-regular";
+    src: url("/fonts/aqua.ttf");
+}
+@font-face {
+    font-family: "Alaska Font";
+    src: url("/fonts/Alaska Font.ttf");
+}
+
 
 //Variables globales:
     $size1: 1.6rem;
@@ -11,6 +20,8 @@
     $primaryColor: #d37469;
     $secondaryColor: #bef0f4; 
     $font: 'Raleway', sans-serif;
+    $font2: 'Aqua';
+    $font3: 'Alaska Font';
 
 //Globales:
 *, *::after, *::before { 

@@ -1,9 +1,9 @@
 <template> 
   <div class="block">
-    <h2 class="title2">THE OTHER'S GOLD 
+    <h2 class="title2">The other's gold 
     <!--   <router-link to="/mapa"><img src="/img/stories/mapred.png" alt="" class="avatar"> </router-link> -->
     </h2> 
-    <h3 class="title">Se marcha a la playa</h3>
+    <h3 class="title1">Se marcha a la playa</h3>
     <Editor
        api-key="s22x77w289dsg6ifamwucbt0tzr97yextl5n38le6u8paoho"
        :init="{
@@ -103,7 +103,7 @@ export default {
  .block{
  /*  margin-left: auto;
   margin-right: auto; */
-  margin: 120px auto 0 auto;
+  margin: 130px auto 0 auto;
   width: 90%;
   max-width: 800px;
   min-height: 400px;
@@ -128,28 +128,32 @@ label{
 
 .title1{
   margin-bottom: 20px;
-  margin-left: 10px;
-  font-size: $size2;
+  padding: 0 0 0 30px;
+/*   background-color: #63d4df; */
+  background-image: linear-gradient(85deg, #ff85d8 0, #ff85c3 4.17%, #ff87af 8.33%, #ff8b9c 12.5%, #ff9189 16.67%, #ff9877 20.83%, #ffa165 25%, #ffa954 29.17%, #ffb244 33.33%, #ffba35 37.5%, #ffc226 41.67%, #ffca19 45.83%, #f8d110 50%, #e5d712 54.17%, #d2dd1d 58.33%, #bde22c 62.5%, #a7e73d 66.67%, #8eeb4e 70.83%, #71ee5f 75%, #4af172 79.17%, #00f386 83.33%, #00f59a 87.5%, #00f7ae 91.67%, #00f8c3 95.83%, #00f9d9 100%);
+  font-size: $size1;
   display:flex;
+  align-items: center;
   width: 300px;
+  border-radius: 15px;
 } 
 
 .title2{
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #33a3ad;
+    margin-bottom: 20px;
+    font-family: $font3;
+    color: #52b1b9;
    /*  background-color: $primaryColor; */
     padding: 3px;
     font-weight: bold;
    /*  text-align: center; */
-    font-size: $size1;
-    border-bottom:1px solid  #33a3ad;
+    font-size: $size2;
+    border-bottom:1px solid  #52b1b9;;
 }
 
 .closure{
   display:flex;
   justify-content: center;
-  font-size: $size2;
+  font-size: $size1;
   padding:10px 10px 10px 5px; 
   width:300px;
   border:none;

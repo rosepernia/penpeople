@@ -40,7 +40,7 @@ const routes = [
     component: NewStory
   },
   {
-    path: '/lectura/:title',
+    path: '/lectura/:id',
     name: 'ReadStory',
     component: ReadStory
   },

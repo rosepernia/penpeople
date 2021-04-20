@@ -5,7 +5,7 @@
         <p class="text">{{review}}</p>
         <!-- <h3 class="text">iniciado por: {{author}}</h3>  -->
       </div>
-      <router-link :to="`/lectura/${title}`"><img v-bind:src="image" alt="Portada libro" class="cover desvanecer"></router-link>
+      <router-link :to="`/lectura/${id}`"><img v-bind:src="image" alt="Portada libro" class="cover desvanecer"></router-link>
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@ export default {
   name: "Stories",
   components: {},
   props:{
+      id:String,
       title:String,
       author:String,
       review:String,

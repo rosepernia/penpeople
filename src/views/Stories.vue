@@ -1,7 +1,8 @@
 <template>
   <div class="stories">
      <StoryBox v-for="(story,ind) in stories" :key="ind"
-        :title="story.title.replace(/^(%20 )$/g, '-')"
+        :id="story._id"
+        :title="story.title"
         :author="story.author"
         :review="story.review"
         :image="story.image"
@@ -22,14 +23,7 @@ export default {
 
   setup(props) {
    const store = useStore()
-   const router = useRouter ()
-
    const stories = reactive([])
-
-   console.log (router)
-   const load = () => {
-     router.push("/lectura")
-    }
 
 
    onMounted(()=> {
@@ -45,12 +39,14 @@ export default {
         .then(resp=>resp.json())
         .then(data=>{
           stories.splice(0)
-          if(store.state.user.admin)
+          if(!store.state.user.nickname || store.state.user.admin==false){
+            data.filter(story => story.active==true).forEach(story => stories.push(story))
+          } else{
             data.forEach(story => stories.push(story))
+          }  
         })            
     }
     
-  
     return {
       stories,
     }
