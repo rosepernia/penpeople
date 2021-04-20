@@ -103,6 +103,13 @@ input, textarea, button{
     }
 }
 
+.button-warning{
+    background-color: #d39792;
+    &:hover{
+        background-color: $primaryColor;
+    }
+}
+
 .box{
     padding: 20px;
     background-color:white;

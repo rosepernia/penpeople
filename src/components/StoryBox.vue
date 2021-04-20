@@ -2,7 +2,7 @@
    <div class="view-top box">
     <div>
       <h1>{{title}}</h1>
-      <router-link to="/lectura"><img v-bind:src="image" alt="Portada libro" class="cover"></router-link>
+      <router-link to="/lectura"><img :src="require(`../assets/img/stories/${image}`)" alt="Portada libro" class="cover"></router-link>
     </div>
   </div>
 </template>
