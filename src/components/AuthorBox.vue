@@ -2,7 +2,7 @@
 
   <div class="author box">
     <div class="avatar">
-      <img v-bind:src="avatar">
+      <img :src="require(`../assets/img/users/${avatar}`)">
     </div>
     <div class="description">
       <h2 class="nickname" v-text="`@${nickname}`"></h2>
