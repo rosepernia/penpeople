@@ -3,7 +3,7 @@
     <div class="profile-info box" v-if="user.value">
       <div class="info-one">
         <div class="img">
-          <img :src="user.value.avatar" alt="Avatar usuario" class="avatar">
+          <img :src="user.value.avatar" :alt="`Avatar ${user.value.nickname}`" class="avatar">
           <div v-if="yourProfile">
             <label for="image" class="button">Subir imagen</label>
             <input type="file" id="image" accept=".jpg,.png,.jpeg*" @change="fileSelected">
@@ -40,7 +40,7 @@
         </div>
         <div v-if="yourProfile" class="buttons">
           <button class="button"  @click="editUser">Modificar</button> 
-          <button class="button button-warning"  @click="closeUser"><router-link to="/">Cerrar cuenta</router-link></button>
+          <button class="button button-warning"  @click="closeUser"><router-link to="/">Borrar cuenta</router-link></button>
         </div>
       </div>
     </div>
@@ -191,13 +191,6 @@ export default {
           else error.value = data
           })
     }
-
-
-
-
-
-
-
 
     const closeUser = () => {
       fetch("http://localhost:8081/users/closeaccount",{

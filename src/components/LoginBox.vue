@@ -13,7 +13,7 @@
   <div class="loginbox" v-else>
     <router-link :to="`/perfil/${user.value.nickname}`">
       <div class="user" @click="changeProfile">
-        <img :src="user.value.avatar" alt="Avatar usuario" class="avatar">
+        <img :src="user.value.avatar" :alt="`Avatar ${user.value.nickname}`" class="avatar">
         <div>
           <p>{{user.value.nickname}}</p>
           <p v-if="user.value.admin==true" class="admin">Admin</p>
