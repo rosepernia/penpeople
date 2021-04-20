@@ -3,7 +3,7 @@
     <div class="profile-info box" v-if="user.value">
       <div class="info-one">
         <div class="img">
-          <img :src="user.value.avatar" :alt="`Avatar ${user.value.nickname}`" class="avatar">
+          <img :src="require(`../assets/img/users/${user.value.avatar}`)" :alt="`Avatar ${user.value.nickname}`" class="avatar">
           <div v-if="yourProfile">
             <label for="image" class="button">Subir imagen</label>
             <input type="file" id="image" accept=".jpg,.png,.jpeg*" @change="fileSelected">
@@ -165,7 +165,7 @@ export default {
       let fd = new FormData()
       if(file.value.name) {
         fd.append('image', file.value)
-        fd.append('avatar', `/img/users/${store.state.user._id}.jpg`)
+        fd.append('avatar', `${store.state.user._id}.jpg`)
       }else fd.append('avatar', store.state.user.avatar)
       fd.append('_id', store.state.user._id)
       fd.append('email', store.state.user.email)

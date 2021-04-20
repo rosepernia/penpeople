@@ -97,7 +97,7 @@ usersController.findByNickname = (req, res) => {
 usersController.edit = (req, res) => {
   User.findOneAndUpdate({ email: req.body.email }, { firstname: req.body.firstname, lastname: req.body.lastname, nickname: req.body.nickname, bio: req.body.bio, avatar: req.body.avatar, instagram: req.body.instagram, twitter: req.body.twitter, other: req.body.other })
     .then(user => {
-      if(req.files!=null) req.files.image.mv(path.join(__dirname,'../..',`/public/img/users/${req.body._id}.jpg`), err => { if (err) console.log( err ) })
+      if(req.files!=null) req.files.image.mv(path.join(__dirname,'../..',`/src/assets/img/users/${req.body._id}.jpg`), err => { if (err) console.log( err ) })
       res.json(user)
     })
     .catch(error => {

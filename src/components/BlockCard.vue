@@ -1,6 +1,6 @@
 <template>
   <div class="card clickable">
-    <img :src="image" alt="Imagen historia" class="image">
+    <img :src="require(`../assets/img/stories/${image}`)" alt="Imagen historia" class="image">
     <p class="story-title">{{story}}</p>
     <p class="block-title">{{title}}</p>
     <p v-if="published"><i class="bi bi-heart-fill"></i> {{likes}}</p>
