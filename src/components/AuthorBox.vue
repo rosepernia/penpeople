@@ -79,11 +79,24 @@ export default {
             }
              */
           }
-    
       }
-
-   
   }
-  
+    @media (max-width: 990px){
+    .author{
+      width: 300px;
+      margin: 10px;
+      height: 150px;
+    
+      .avatar img{
+          width: 100px;
+          height: 100px;
+          margin-top: 10px;
+          margin-right: 10px;
+      }
+      .description h2{
+        font-size: $size2;
+      }
+    }
+  }
 
 </style>

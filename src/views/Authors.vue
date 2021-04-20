@@ -16,7 +16,7 @@
 
 <script>
 import AuthorBox from "@/components/AuthorBox";
-import {reactive, onMounted } from 'vue'
+import { reactive, onMounted } from 'vue'
 export default {
   name: "Author",
   components: {
@@ -46,6 +46,13 @@ export default {
       })
       .then(resp=>resp.json())
       .then(data=>{
+        
+        data.sort((a, b) => {
+        if (a.likes > b.likes) return -1
+        if (a.likes < b.likes) return 1;
+        return 0;
+        })
+        
         users.splice(0)
         data.forEach(user => {
         users.push(user)
@@ -53,7 +60,8 @@ export default {
       })            
     }
     
-    return { users  , inputLetter
+    return {
+      users, inputLetter
     }
   },
 }
@@ -70,7 +78,6 @@ export default {
   flex-wrap: wrap;
   width: 80%;
   justify-content: space-evenly;
-  
 }
 .search{
   margin-left: 130px;
@@ -88,7 +95,6 @@ export default {
     margin-right: auto;
     display:flex;
     justify-content: center;
-
   }
 }
 
