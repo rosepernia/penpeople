@@ -3,45 +3,85 @@
     <div class="title">Formulario de registro</div>
     <div class="box square">
       <input class="inputs input-form" type="text" v-model="nickname" placeholder="Nickname" required>
-      <div v-if="nicknameerror" class="error"> {{nicknameerror}} </div>
+      <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeat}}</p></div>
       <input class="inputs input-form" type="text" v-model="email" placeholder="Correo electrónico" required>
-      <div v-if="emailerror" class)="error">{{emailerror}}</div>
-      <input class="inputs input-form" type="text" v-model="name" placeholder="Nombre" required>
-      <div v-if="nameerror" class="error">{{nameerror}}</div>
+      <div class="error"><p v-if="error.value">{{error.value.email}}{{error.value.repeat}}</p></div>
+      <input class="inputs input-form" type="text" v-model="firstname" placeholder="Nombre" required>
+      <div class="error"></div>
       <input class="inputs input-form" type="text" v-model="lastname" placeholder="Apellidos" required>
-      <div v-if="lastnameerror" class="error">{{lastnameerror}}</div>
+      <div class="error"><p v-if="error.value">{{error.value.lastname}}</p></div>
       <input class="inputs input-form" type="password" v-model="password" placeholder="Contraseña" required>
-      <div v-if="passworderror" class="error">{{passworderror}}</div>
+      <div class="error"><p v-if="error.value">{{error.value.password}}</p></div>
       <div><label class="priv input-form"><input type="checkbox" v-model="checked" required> He podido leer y entiendo la política de privacidad y cookies</label></div>
-      <div v-if="checkerror" class="error">{{checkerror}}</div>
-      <div class="button" type="submit" value="submit">Registrarse</div>
+      <div class="error"><p v-if="error.value">{{error.value.nickname}}</p></div>
+      <button @click="send" class="button" type="submit" value="submit">Registrarse</button>
+ <!--      <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeat}}</p></div> -->
       </div>
-    
-  </div>
+      <div>
+        <p v-if="oksignup.value"> Gracias por registrarte. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
+       </div>
+</div>
 </template>
 
 <script>
+
+import { ref, reactive } from "vue";
+
 export default {
   name: "SignUp",
   components: {},
 
   setup() {
 
-/*    let nickname=ref("")
-      let email=ref("")
-      let name=ref("")
-      let lastname=ref("")
-      let password=ref("") */
+  const nickname=ref("")
+  const email=ref("")
+  const firstname=ref("")
+  const lastname=ref("")
+  const password=ref("")
+  const error= reactive({})
+  const oksignup= ref("")
 
-    
-/*     return {
-      errors:[""],
+
+      function send(){
+            console.log(nickname.value)
+            fetch('http://localhost:8081/users/create',{
+                method: 'POST',
+                body: JSON.stringify({
+
+                  "nickname":nickname.value,
+                   "email":email.value,
+                  "firstname":firstname.value,
+                  "lastname":lastname.value,
+                  "password":password.value
+                  
+                }),
+                headers: {'Content-Type':'application/json'}
+            }).then(resp=>resp.json())
+                .then (data=> {
+                if (data=="ok"){
+                console.log("Usuario creado correctamente")
+                error.value="",
+                oksignup.value=""
+                } 
+               
+                else error.value=data
+                console.log(data)
+                })
+        }
+
+
+
+
+return {
       nickname,
       email,
-      name,
+      firstname,
       lastname,
-      password
-    } */
+      password,
+      send,
+      error,
+      oksignup
+    }
   },
 }
 </script>
@@ -50,10 +90,9 @@ export default {
 
 .inputs{
   width: 100%;
-  height: 50px;
+  height: 25px;
   border: none;
-  border-bottom: 1px solid black;
-  background-color: transparent;
+  border-bottom: 1px solid $backgroundColor;
 }
 
 .priv{
