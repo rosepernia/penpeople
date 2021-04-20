@@ -1,5 +1,6 @@
 <template> 
   <div class="view-top">
+     
     <div class="title">Formulario de registro</div>
     <div class="box square">
       <input class="inputs input-form" type="text" v-model="nickname" placeholder="Nickname" required>
@@ -14,11 +15,11 @@
       <div class="error"><p v-if="error.value">{{error.value.password}}</p></div>
       <div><label class="priv input-form"><input type="checkbox" v-model="checked" required> He podido leer y entiendo la política de privacidad y cookies</label></div>
       <div class="error"><p v-if="error.value">{{error.value.nickname}}</p></div>
+      
       <button @click="send" class="button" type="submit" value="submit">Registrarse</button>
- <!--      <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeat}}</p></div> -->
-      <div v-if="oksignup.value">
-        <p>Gracias por registrarte. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
       </div>
+      <div v-if="oksignup">
+        <p>¡Gracias por unirte a Penpeople!. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
       </div>
      
 </div>
@@ -40,7 +41,7 @@ export default {
   const lastname=ref("")
   const password=ref("")
   const error= reactive({})
-  const oksignup= ref("")
+  const oksignup= ref(false)
 
 
       function send(){
@@ -49,7 +50,7 @@ export default {
                 body: JSON.stringify({
 
                   "nickname":nickname.value,
-                   "email":email.value,
+                  "email":email.value,
                   "firstname":firstname.value,
                   "lastname":lastname.value,
                   "password":password.value
@@ -62,7 +63,6 @@ export default {
                 console.log("Usuario creado correctamente")
                 error.value="",
                 oksignup.value=true
-                console.log(oksignup.value)
                 } 
                
                 else error.value=data
