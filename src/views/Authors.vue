@@ -1,16 +1,16 @@
 <template>
 <div class="view-top">
-<div class="search">
-  <input type="text" @keyup="inputLetter" placeholder="Nickname">
-</div>
-<div class="authors">
-  <AuthorBox v-for="(user,ind) in users" :key="ind" 
-    :avatar="user.avatar"
-    :email="user.email"
-    :nickname="user.nickname"
-    :likes="user.likes"
-    />
-</div> 
+  <div class="search">
+    <input type="text" @keyup="inputLetter" placeholder="Nickname">
+  </div>
+  <div class="authors">
+    <AuthorBox v-for="(user,ind) in users" :key="ind" 
+      :avatar="user.avatar"
+      :email="user.email"
+      :nickname="user.nickname"
+      :likes="user.likes"
+      />
+  </div> 
 </div>
 </template>
 

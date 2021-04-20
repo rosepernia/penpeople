@@ -74,10 +74,6 @@ export default {
               font-size: 23px;
               color: $primaryColor;
             }
-           /*  h2{
-              background-color: yellow;
-            }
-             */
           }
       }
   }

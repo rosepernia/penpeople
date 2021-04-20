@@ -16,10 +16,11 @@
       <div class="error"><p v-if="error.value">{{error.value.nickname}}</p></div>
       <button @click="send" class="button" type="submit" value="submit">Registrarse</button>
  <!--      <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeat}}</p></div> -->
+      <div v-if="oksignup.value">
+        <p>Gracias por registrarte. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
       </div>
-      <div>
-        <p v-if="oksignup.value"> Gracias por registrarte. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
-       </div>
+      </div>
+     
 </div>
 </template>
 
@@ -43,7 +44,6 @@ export default {
 
 
       function send(){
-            console.log(nickname.value)
             fetch('http://localhost:8081/users/create',{
                 method: 'POST',
                 body: JSON.stringify({
@@ -61,11 +61,12 @@ export default {
                 if (data=="ok"){
                 console.log("Usuario creado correctamente")
                 error.value="",
-                oksignup.value=""
+                oksignup.value=true
+                console.log(oksignup.value)
                 } 
                
                 else error.value=data
-                console.log(data)
+                
                 })
         }
 
@@ -105,9 +106,17 @@ return {
 
 .view-top{
   width: 35%;
+  display:flex;
+  flex-direction: column;
 }
 
 .error{
   color:red
+}
+
+@media (max-width: 575px){
+.view-top{
+  width: 70%;
+}
 }
 </style>
