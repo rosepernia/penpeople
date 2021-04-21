@@ -10,6 +10,7 @@ import Validate from '../views/Validate.vue'
 import Stories from '../views/Stories.vue'
 import SuperUser from '../views/SuperUser.vue'
 import UserProfile from '../views/UserProfile.vue'
+import MapStory from '../views/MapStory.vue'
 import ChangePassword from '../views/ChangePassword.vue'
 
 
@@ -40,7 +41,7 @@ const routes = [
     component: NewStory
   },
   {
-    path: '/lectura',
+    path: '/lectura/:id',
     name: 'ReadStory',
     component: ReadStory
   },
@@ -68,6 +69,11 @@ const routes = [
     path: '/perfil/:nickname',
     name: 'UserProfile',
     component: UserProfile
+  },
+  {
+    path: '/mapa',
+    name: 'MapStory',
+    component: MapStory
   },
   {
     path: '/cambiarcontrasena/:id',

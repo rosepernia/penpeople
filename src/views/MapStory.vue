@@ -1,12 +1,12 @@
 <template> 
   <div class="view-top">
-    <h1>NewBlock</h1>
+    <h1>Mapa</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "NewStory",
+  name: "MapStory",
   components: {},
 
   setup() {
