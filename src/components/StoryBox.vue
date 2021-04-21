@@ -68,27 +68,6 @@ export default {
 /*   border-radius: 100%; */
   box-shadow: 1px 1px 3px #cfcdcd;
 }
-@media (max-width: 1024px){
-   .cover{
-   width: 360px;
-   height: 370px;
-  }
-  .efecto{
-   width: 360px;
-   height: 370px;
-  }
-}
 
-
- @media (max-width: 575px){
-  .cover{
-   width: 120px;
-   height: 120px;
-  }
-  .efecto{
-   width: 120px;
-   height: 120px;
-  }
-}
 
 </style>
