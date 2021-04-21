@@ -1,41 +1,40 @@
 <template>
 <div class="view-top">
-<div class="search">
-  <input type="text" @keyup="inputLetter" placeholder="Nickname">
-</div>
-<div class="authors">
-  <AuthorBox v-for="(user,ind) in users" :key="ind" 
-    :avatar="user.avatar"
-    :email="user.email"
-    :nickname="user.nickname"
-    :likes="user.likes"
-    />
-</div> 
+  <div class="search">
+    <input type="text" @keyup="inputLetter" v-model="letters" placeholder="Nickname">
+  </div>
+  <div class="authors">
+    <AuthorBox v-for="(user,ind) in users" :key="ind" 
+      :avatar="user.avatar"
+      :email="user.email"
+      :nickname="user.nickname"
+      :likes="user.likes"
+      />
+  </div> 
 </div>
 </template>
 
 <script>
 import AuthorBox from "@/components/AuthorBox";
-import {reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 export default {
   name: "Author",
   components: {
     AuthorBox
   },
   setup() {
-
-    let users=reactive([])
+    const users = reactive([])
+    const letters = ref("")
 
     onMounted(() => {
       list("")
     })
 
-    let inputLetter=(e) => {
-      let letters=e.target.value
-      list(letters)
+    let inputLetter = () => {
+      list(letters.value)
     }
 
-    function list(letters){
+    const list = (letters) => {
       fetch('http://localhost:8081/users/list',{
         method: 'POST',
         body: JSON.stringify({
@@ -44,8 +43,15 @@ export default {
         }),
         headers: {'Content-Type':'application/json'}
       })
-      .then(resp=>resp.json())
-      .then(data=>{
+      .then(resp => resp.json())
+      .then(data => {
+        
+        data.sort((a, b) => {
+        if (a.likes > b.likes) return -1
+        if (a.likes < b.likes) return 1;
+        return 0;
+        })
+        
         users.splice(0)
         data.forEach(user => {
         users.push(user)
@@ -53,7 +59,10 @@ export default {
       })            
     }
     
-    return { users  , inputLetter
+    return {
+      users,
+      inputLetter,
+      letters
     }
   },
 }
@@ -70,7 +79,6 @@ export default {
   flex-wrap: wrap;
   width: 80%;
   justify-content: space-evenly;
-  
 }
 .search{
   margin-left: 130px;
@@ -88,7 +96,6 @@ export default {
     margin-right: auto;
     display:flex;
     justify-content: center;
-
   }
 }
 
