@@ -93,10 +93,6 @@ export default {
         })            
     }
 
-    watch(store.state, () => {
-      superadmin.value = store.state.user.superadmin
-    })
-
     onMounted(() => {
       list(letters)
       superadmin.value = store.state.user.superadmin
