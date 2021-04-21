@@ -4,8 +4,8 @@
       <router-link to="/">
         <LogoMini/>
       </router-link>
-      <router-link to="/autores"><span class="menu-item">Autores</span><i class="bi bi-search"></i></router-link>
-      <router-link to="/nueva-historia" v-if="admin"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link>
+      <router-link to="/autores" v-if="superadmin!=true"><span class="menu-item">Autores</span><i class="bi bi-search"></i></router-link>
+      <router-link to="/nueva-historia" v-if="admin==true && superadmin==false"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link>
     </div>
     <div>
       <router-link to="/registro" v-if="!registered"><span class="menu-item">Nuevo registro</span><i class="bi bi-person-plus"></i></router-link>
@@ -29,8 +29,8 @@ export default {
     const store = useStore()
     const registered = ref(false)
     const admin = ref(false)
+    const superadmin = ref(false)
     
-
     function login(user){
       admin.value = user.admin
       console.log(user.admin)
@@ -39,11 +39,13 @@ export default {
     watch(store.state, () => {
       registered.value = store.state.user.active
       admin.value = store.state.user.admin
-      } )
+      superadmin.value = store.state.user.superadmin
+      })
 
     return{
       registered,
       admin,
+      superadmin,
       login
     }
   }

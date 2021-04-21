@@ -1,19 +1,46 @@
 <template>
 <div class="center home">
   <Logo/>
-  <div class="line">
-   <router-link to="/libros"><p>LEER</p></router-link>
+  <div v-if="superadmin==true">
+    <div class="line" >
+      <router-link to="/administrar"><p class="admin">ADMINISTRAR</p></router-link>
+    </div>
+    <router-link to="/administrar"><i class="bi bi-arrow-right-circle clickable"></i></router-link>
   </div>
-  <router-link to="/lectura"><i class="bi bi-arrow-right-circle clickable"></i></router-link>
+  <div v-else>
+    <div class="line" >
+      <router-link to="/libros"><p>LEER</p></router-link>
+    </div>
+    <router-link to="/libros"><i class="bi bi-arrow-right-circle clickable"></i></router-link>
+  </div>
 </div>
 </template>
 
 <script>
 import Logo from '@/components/Logo.vue'
+import { ref, watch, onMounted } from 'vue'
+import { useStore } from "vuex"
+
 export default {
   name: 'Home',
   components: {
     Logo
+  },
+  setup(){
+    const store = useStore()
+    const superadmin = ref(false)
+
+    watch(store.state, () => {
+      superadmin.value = store.state.user.superadmin
+      })
+
+    onMounted(() => {
+      superadmin.value = store.state.user.superadmin
+    })
+
+    return{
+      superadmin
+    }
   }
 }
 </script>
@@ -34,6 +61,9 @@ export default {
     margin: 0 auto;
     width: 130px;
   }
+  .admin{
+      width: 270px;
+    }
 }
 i::before{
   padding-top: 30px;

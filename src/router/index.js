@@ -60,7 +60,7 @@ const routes = [
     component: Stories
   },
   {
-    path: '/admin',
+    path: '/administrar',
     name: 'SuperUser',
     component: SuperUser
   },

@@ -14,6 +14,7 @@ rtUsers.post('/like', usersController.like)
 rtUsers.post('/findbyid', usersController.findById)
 rtUsers.post('/findbynickname', usersController.findByNickname)
 rtUsers.post('/edit', usersController.edit)
+rtUsers.post('/editavatar', usersController.editAvatar)
 rtUsers.post('/delete', usersController.delete)
 rtUsers.post('/closeaccount', usersController.closeAccount)
 
