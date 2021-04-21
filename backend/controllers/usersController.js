@@ -14,8 +14,8 @@ usersController.signup = (req, res) => {
     .catch(error => {
       let errors = {}
       if (error.code == 11000) {
-        if (error.keyPattern.nickname) errors.repeat = "Este nickname ya está cogido"
-        if (error.keyPattern.email) errors.repeat = "Este email ya está registrado"
+        if (error.keyPattern.nickname) errors.repeatnickname = "Este nickname ya está cogido"
+        if (error.keyPattern.email) errors.repeatemail = "Este email ya está registrado"
       }
       else {
         if (error.errors.firstname) errors.firstname = error.errors.firstname.message
@@ -95,11 +95,8 @@ usersController.findByNickname = (req, res) => {
 }
 
 usersController.edit = (req, res) => {
-  User.findOneAndUpdate({ email: req.body.email }, { firstname: req.body.firstname, lastname: req.body.lastname, nickname: req.body.nickname, bio: req.body.bio, avatar: req.body.avatar, instagram: req.body.instagram, twitter: req.body.twitter, other: req.body.other })
-    .then(user => {
-      if(req.files!=null) req.files.image.mv(path.join(__dirname,'../..',`/src/assets/img/users/${req.body._id}.jpg`), err => { if (err) console.log( err ) })
-      res.json(user)
-    })
+  User.findOneAndUpdate({ email: req.body.email }, { firstname: req.body.firstname, lastname: req.body.lastname, nickname: req.body.nickname, bio: req.body.bio, instagram: req.body.instagram, twitter: req.body.twitter, other: req.body.other })
+    .then(user => res.json(user))
     .catch(error => {
       let errors = {}
       if (error.code == 11000) errors.repeat = "Nickname no disponible"
@@ -110,6 +107,14 @@ usersController.edit = (req, res) => {
         if (error.errors.bio) errors.bio = error.errors.bio.message
       }
       res.json(errors)
+    })
+}
+
+usersController.editAvatar = (req, res) => {
+  User.findOneAndUpdate({ email: req.body.email }, { avatar: req.body.avatar })
+    .then(user => {
+      req.files.image.mv(path.join(__dirname,'../..',`/src/assets/img/users/${req.body._id}.jpg`), err => { if (err) console.log( err ) })
+      res.json(user)
     })
 }
 
