@@ -15,7 +15,7 @@
       <div class="error"><p v-if="error.value">{{error.value.password}}</p></div>
         <div>
           <label class="priv input-form">
-            <input type="checkbox" v-model="checked"> He podido leer y entiendo la política de privacidad y cookies
+            <input type="checkbox" v-model="checked" @click="check"> He podido leer y entiendo la política de privacidad y cookies
           </label>
         </div>
       <div class="error">
@@ -47,16 +47,16 @@ export default {
     password:"",
   })
   
-  const error= reactive({})
-  let oksignup= ref(false)
-  let checked= ref("")
-  let priv=  ref("")
+  const error = reactive({})
+  let oksignup = ref(false)
+  let checked = ref("")
+  let priv =  ref("")
 
-      let privacity=() => {
-          console.log(checked.value)
-          if (!checked.value) {
-            priv.value="Recuerda que debes aceptar la política de privacidad"
-          }
+
+
+      let check= () => priv.value=""
+      let privacity= () => {
+          if (!checked.value) priv.value="Recuerda que debes aceptar la política de privacidad"
       } 
 
       let send=() => {
@@ -96,7 +96,8 @@ export default {
             oksignup,
             checked,
             privacity,
-            priv
+            priv,
+            check
           }
   },
 }
