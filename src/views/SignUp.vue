@@ -4,9 +4,9 @@
     <div class="title">Formulario de registro</div>
     <div class="box square">
       <input class="inputs input-form" type="text" v-model="nickname" placeholder="Nickname" required>
-      <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeat}}</p></div>
+      <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeatnickname}}</p></div>
       <input class="inputs input-form" type="text" v-model="email" placeholder="Correo electrónico" required>
-      <div class="error"><p v-if="error.value">{{error.value.email}}{{error.value.repeat}}</p></div>
+      <div class="error"><p v-if="error.value">{{error.value.email}}{{error.value.repeatemail}}</p></div>
       <input class="inputs input-form" type="text" v-model="firstname" placeholder="Nombre" required>
       <div class="error"></div>
       <input class="inputs input-form" type="text" v-model="lastname" placeholder="Apellidos" required>
@@ -44,6 +44,7 @@ export default {
 
 
       function send(){
+        console.log(nickname.value)
             fetch('http://localhost:8081/users/create',{
                 method: 'POST',
                 body: JSON.stringify({

@@ -1,7 +1,7 @@
 <template>
 <div class="view-top">
   <div class="search">
-    <input type="text" @keyup="inputLetter" placeholder="Nickname">
+    <input type="text" @keyup="inputLetter" v-model="letters" placeholder="Nickname">
   </div>
   <div class="authors">
     <AuthorBox v-for="(user,ind) in users" :key="ind" 
@@ -16,26 +16,25 @@
 
 <script>
 import AuthorBox from "@/components/AuthorBox";
-import { reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 export default {
   name: "Author",
   components: {
     AuthorBox
   },
   setup() {
-
-    let users=reactive([])
+    const users=reactive([])
+    const letters = ref("")
 
     onMounted(() => {
       list("")
     })
 
-    let inputLetter=(e) => {
-      let letters=e.target.value
-      list(letters)
+    let inputLetter=() => {
+      list(letters.value)
     }
 
-    function list(letters){
+    const list= (letters) =>{
       fetch('http://localhost:8081/users/list',{
         method: 'POST',
         body: JSON.stringify({
@@ -61,7 +60,9 @@ export default {
     }
     
     return {
-      users, inputLetter
+      users,
+      inputLetter,
+      letters
     }
   },
 }
