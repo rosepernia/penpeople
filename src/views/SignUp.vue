@@ -57,7 +57,7 @@ export default {
           if (checked.value) {
             priv.value="Recuerda que debes aceptar la política de privacidad"
           }
-        } 
+      } 
 
       let send=() => {
           if (checked.value){
@@ -82,22 +82,21 @@ export default {
                 error.value="",
                 oksignup.value=true
                 } 
-               
                 else error.value=data
-                
                 })
-        }}
+          }
+      }
         
 
-return {
-      form,
-      send,
-      error,
-      oksignup,
-      checked,
-      privacity,
-      priv
-    }
+      return {
+            form,
+            send,
+            error,
+            oksignup,
+            checked,
+            privacity,
+            priv
+          }
   },
 }
 </script>
