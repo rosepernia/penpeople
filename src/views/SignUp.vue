@@ -15,7 +15,7 @@
       <div class="error"><p v-if="error.value">{{error.value.password}}</p></div>
         <div>
           <label class="priv input-form">
-            <input @click="privacity" type="checkbox" v-model="checked"> He podido leer y entiendo la política de privacidad y cookies
+            <input type="checkbox" v-model="checked"> He podido leer y entiendo la política de privacidad y cookies
           </label>
         </div>
       <div class="error">
@@ -54,12 +54,13 @@ export default {
 
       let privacity=() => {
           console.log(checked.value)
-          if (checked.value) {
+          if (!checked.value) {
             priv.value="Recuerda que debes aceptar la política de privacidad"
           }
       } 
 
       let send=() => {
+        privacity()
           if (checked.value){
 
             fetch('http://localhost:8081/users/create',{
@@ -77,7 +78,7 @@ export default {
                  })
                   .then(resp=>resp.json())
                   .then(data=> {
-                if(data=="ok"){
+                if (data=="ok"){
                 console.log("Usuario creado correctamente")
                 error.value="",
                 oksignup.value=true
