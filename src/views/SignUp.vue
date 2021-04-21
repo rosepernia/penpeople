@@ -2,26 +2,31 @@
   <div class="view-top">
      
     <div class="title">Formulario de registro</div>
-    <div class="box square">
-      <input class="inputs input-form" type="text" v-model="nickname" placeholder="Nickname" required>
+      <div class="box square">
+        <input class="inputs input-form" type="text" v-model="form.nickname" placeholder="Nickname">
       <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeatnickname}}</p></div>
-      <input class="inputs input-form" type="text" v-model="email" placeholder="Correo electrónico" required>
+        <input class="inputs input-form" type="text" v-model="form.email" placeholder="Correo electrónico">
       <div class="error"><p v-if="error.value">{{error.value.email}}{{error.value.repeatemail}}</p></div>
-      <input class="inputs input-form" type="text" v-model="firstname" placeholder="Nombre" required>
+        <input class="inputs input-form" type="text" v-model="form.firstname" placeholder="Nombre">
       <div class="error"></div>
-      <input class="inputs input-form" type="text" v-model="lastname" placeholder="Apellidos" required>
+        <input class="inputs input-form" type="text" v-model="form.lastname" placeholder="Apellidos">
       <div class="error"><p v-if="error.value">{{error.value.lastname}}</p></div>
-      <input class="inputs input-form" type="password" v-model="password" placeholder="Contraseña" required>
+        <input class="inputs input-form" type="password" v-model="form.password" placeholder="Contraseña">
       <div class="error"><p v-if="error.value">{{error.value.password}}</p></div>
-      <div><label class="priv input-form"><input type="checkbox" v-model="checked" required> He podido leer y entiendo la política de privacidad y cookies</label></div>
-      <div class="error"><p v-if="error.value">{{error.value.nickname}}</p></div>
-      <button @click="send" class="button">Registrarse</button>
+        <div>
+          <label class="priv input-form">
+            <input @click="privacity" type="checkbox" v-model="checked"> He podido leer y entiendo la política de privacidad y cookies
+          </label>
+        </div>
+      <div class="error">
+        <p>{{priv}}</p>
       </div>
+        <button @click="send" class="button">Registrarse</button>
+    </div>
       <div v-if="oksignup">
         <p>¡Gracias por unirte a Penpeople!. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
-      </div>
-     
-</div>
+      </div> 
+  </div>
 </template>
 
 <script>
@@ -34,32 +39,45 @@ export default {
 
   setup() {
 
-  const nickname=ref("")
-  const email=ref("")
-  const firstname=ref("")
-  const lastname=ref("")
-  const password=ref("")
+  let form=reactive({
+    nickname:"",
+    email:"",
+    firstname:"",
+    lastname:"",
+    password:"",
+  })
+  
   const error= reactive({})
   let oksignup= ref(false)
+  let checked= ref("")
+  let priv=  ref("")
 
+      let privacity=() => {
+          console.log(checked.value)
+          if (checked.value) {
+            priv.value="Recuerda que debes aceptar la política de privacidad"
+          }
+        } 
 
-      function send(){
-        console.log(nickname.value)
+      let send=() => {
+          if (checked.value){
+
             fetch('http://localhost:8081/users/create',{
                 method: 'POST',
                 body: JSON.stringify({
 
-                  "nickname":nickname.value,
-                  "email":email.value,
-                  "firstname":firstname.value,
-                  "lastname":lastname.value,
-                  "password":password.value
+                  "nickname":form.nickname,
+                  "email":form.email,
+                  "firstname":form.firstname,
+                  "lastname":form.lastname,
+                  "password":form.password
                   
                 }),
                 headers: {'Content-Type':'application/json'}
-            }).then(resp=>resp.json())
-                .then (data=> {
-                if (data=="ok"){
+                 })
+                  .then(resp=>resp.json())
+                  .then(data=> {
+                if(data=="ok"){
                 console.log("Usuario creado correctamente")
                 error.value="",
                 oksignup.value=true
@@ -68,20 +86,17 @@ export default {
                 else error.value=data
                 
                 })
-        }
-
-
-
+        }}
+        
 
 return {
-      nickname,
-      email,
-      firstname,
-      lastname,
-      password,
+      form,
       send,
       error,
-      oksignup
+      oksignup,
+      checked,
+      privacity,
+      priv
     }
   },
 }
@@ -105,18 +120,13 @@ return {
 }
 
 .view-top{
-  width: 35%;
+  width: 80%;
+  max-width: 450px;
   display:flex;
   flex-direction: column;
 }
 
 .error{
   color:red
-}
-
-@media (max-width: 575px){
-.view-top{
-  width: 70%;
-}
 }
 </style>
