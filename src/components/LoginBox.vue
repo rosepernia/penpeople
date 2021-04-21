@@ -11,7 +11,7 @@
     </div> 
   </div>
   <div class="loginbox" v-else>
-    <router-link :to="`/perfil/${user.value.nickname}`">
+    <router-link :to="`/perfil/${user.value.nickname}`" v-if="!user.value.superadmin">
       <div class="user" @click="changeProfile">
         <img :src="require(`../assets/img/users/${user.value.avatar}`)" :alt="`Avatar ${user.value.nickname}`" class="avatar">
         <div>
@@ -20,6 +20,7 @@
         </div>
       </div>  
     </router-link>
+    <p v-if="user.value.superadmin">PenPeople Admin</p>
     <router-link to="/"><p class="clickable" @click="logout">Salir</p></router-link>
   </div>
 </template>

@@ -159,38 +159,41 @@ export default {
 
     const fileSelected = (event) => {
       file.value = event.target.files[0]
-    }
-
-    const editUser = () => {
       let fd = new FormData()
-      if(file.value.name) {
-        fd.append('image', file.value)
-        fd.append('avatar', `${store.state.user._id}.jpg`)
-      }else fd.append('avatar', store.state.user.avatar)
-      fd.append('_id', store.state.user._id)
+      fd.append('image', file.value)
+      fd.append('avatar', `${store.state.user._id}.jpg`)
       fd.append('email', store.state.user.email)
-      fd.append('firstname', user.value.firstname)
-      fd.append('lastname', user.value.lastname)
-      fd.append('nickname', user.value.nickname)
-      fd.append('bio',user.value.bio)
-      fd.append('instagram', user.value.instagram)
-      fd.append('twitter', user.value.twitter)
-      fd.append('other', user.value.other)
-      fetch("http://localhost:8081/users/edit",{
+      fd.append('_id', store.state.user._id)
+      fetch("http://localhost:8081/users/editavatar",{
         method: "POST",
         body: fd
       })
         .then(resp => resp.json())
         .then(data => {
+          error.value = ""
+          user.value = data
+          store.commit("setUser",data)
+          })
+    }
+
+    const editUser = () => {
+      fetch("http://localhost:8081/users/edit",{
+        method: "POST",
+        body:JSON.stringify({ email: store.state.user.email, firstname: user.value.firstname, lastname: user.value.lastname, nickname: user.value.nickname, bio: user.value.bio, instagram: user.value.instagram, twitter: user.value.twitter, other: user.value.other }),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
           if(data.email) {
             error.value = ""
             user.value = data
             store.commit("setUser",data)
             route.params.nickname = data.nickname
-            }
+          }
           else error.value = data
           })
     }
+
 
     const closeUser = () => {
       fetch("http://localhost:8081/users/closeaccount",{
