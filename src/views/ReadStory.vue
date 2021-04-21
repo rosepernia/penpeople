@@ -7,7 +7,7 @@
     <div class="box">
       <div><p class="box-title">{{block.value.closure[0]}}</p></div> 
       <div class="box-data">
-        <img src="/img/users/default1.jpg" alt="Foto autor" class="box-avatar">
+        <img src="@/assets/img/users/default1.jpg" alt="Foto autor" class="box-avatar">
         <p class="box-author">{{block.value.author}}</p>
       </div> 
       <p class="text">{{block.value.body}}</p>
