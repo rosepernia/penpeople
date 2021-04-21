@@ -6,6 +6,7 @@ import NewBlock from '../views/NewBlock.vue'
 import NewStory from '../views/NewStory.vue'
 import ReadStory from '../views/ReadStory.vue'
 import SignUp from '../views/SignUp.vue'
+import Validate from '../views/Validate.vue'
 import Stories from '../views/Stories.vue'
 import SuperUser from '../views/SuperUser.vue'
 import UserProfile from '../views/UserProfile.vue'
@@ -50,12 +51,17 @@ const routes = [
     component: SignUp
   },
   {
+    path: '/validar/:id',
+    name: 'Validate',
+    component: Validate
+  },
+  {
     path: '/libros',
     name: 'Stories',
     component: Stories
   },
   {
-    path: '/admin',
+    path: '/administrar',
     name: 'SuperUser',
     component: SuperUser
   },

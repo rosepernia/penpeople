@@ -53,8 +53,9 @@ const schemaUser = new Schema({
   },
   active: { type: Boolean, default: false },
   admin: { type: Boolean, default: false },
+  superadmin: { type: Boolean, default: false },
   likes: { type: Number, default:0},
-  avatar: { type: String, default:`/img/users/default${Math.round(Math.random()*(4-1)+1)}.jpg`},
+  avatar: { type: String, default:`default${Math.round(Math.random()*(4-1)+1)}.jpg`},
   bio: {
     type: String,
     validate: {

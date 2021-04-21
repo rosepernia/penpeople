@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const mailer = require("../modules/mailer")
+const path = require('path')
 
 const usersController = {}
 
@@ -13,8 +14,8 @@ usersController.signup = (req, res) => {
     .catch(error => {
       let errors = {}
       if (error.code == 11000) {
-        if (error.keyPattern.nickname) errors.repeat = "Este nickname ya está cogido"
-        if (error.keyPattern.email) errors.repeat = "Este email ya está registrado"
+        if (error.keyPattern.nickname) errors.repeatnickname = "Este nickname ya está cogido"
+        if (error.keyPattern.email) errors.repeatemail = "Este email ya está registrado"
       }
       else {
         if (error.errors.firstname) errors.firstname = error.errors.firstname.message
@@ -29,7 +30,7 @@ usersController.signup = (req, res) => {
 
 usersController.validate = (req, res) => {
   User.findByIdAndUpdate(req.body, { active: true })
-    .then(() => res.json('ok'))
+    .then(user => res.json(user))
     .catch(() => res.json(null))
 }
 
@@ -47,6 +48,14 @@ usersController.forgetPassword = (req,res) => {
   User.findOne({ email: req.body.email})
     .then(user => {
       mailer.send(user, "Cambio de contraseña")
+      res.json('ok')
+    })
+}
+
+usersController.validateEmail = (req,res) => {
+  User.findOne({ email: req.body.email})
+    .then(user => {
+      mailer.send(user, "Activar cuenta")
       res.json('ok')
     })
 }
@@ -86,7 +95,7 @@ usersController.findByNickname = (req, res) => {
 }
 
 usersController.edit = (req, res) => {
-  User.findOneAndUpdate({ email: req.body.email }, { firstname: req.body.firstname, lastname: req.body.lastname, nickname: req.body.nickname, avatar: req.body.avatar, bio: req.body.bio, instagram: req.body.instagram, twitter: req.body.twitter, other: req.body.other })
+  User.findOneAndUpdate({ email: req.body.email }, { firstname: req.body.firstname, lastname: req.body.lastname, nickname: req.body.nickname, bio: req.body.bio, instagram: req.body.instagram, twitter: req.body.twitter, other: req.body.other })
     .then(user => res.json(user))
     .catch(error => {
       let errors = {}
@@ -101,8 +110,21 @@ usersController.edit = (req, res) => {
     })
 }
 
+usersController.editAvatar = (req, res) => {
+  User.findOneAndUpdate({ email: req.body.email }, { avatar: req.body.avatar })
+    .then(user => {
+      req.files.image.mv(path.join(__dirname,'../..',`/src/assets/img/users/${req.body._id}.jpg`), err => { if (err) console.log( err ) })
+      res.json(user)
+    })
+}
+
 usersController.delete = (req, res) => {
   User.findOneAndRemove({ email: req.body.email })
+    .then(() => res.json('ok'))
+}
+
+usersController.closeAccount = (req, res) => {
+  User.findOneAndUpdate({ email: req.body.email }, { active: false })
     .then(() => res.json('ok'))
 }
 

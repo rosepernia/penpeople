@@ -6,19 +6,21 @@
     <div class="error">
       <p v-if="error!=''">{{error}}</p>
       <p v-if="error=='Contraseña incorrecta'" class="clickable" @click="forgetPassword">Pulse para cambiarla</p>
+      <p v-if="error=='Usuario no validado'" class="clickable" @click="validate">Pulse para validarse</p>
       <p v-if="sendMail">Revise su email</p>
     </div> 
   </div>
   <div class="loginbox" v-else>
-    <router-link :to="`/perfil/${user.value.nickname}`">
+    <router-link :to="`/perfil/${user.value.nickname}`" v-if="!user.value.superadmin">
       <div class="user" @click="changeProfile">
-        <img :src="user.value.avatar" alt="Avatar usuario" class="avatar">
+        <img :src="require(`../assets/img/users/${user.value.avatar}`)" :alt="`Avatar ${user.value.nickname}`" class="avatar">
         <div>
           <p>{{user.value.nickname}}</p>
           <p v-if="user.value.admin==true" class="admin">Admin</p>
         </div>
       </div>  
     </router-link>
+    <p v-if="user.value.superadmin">PenPeople Admin</p>
     <router-link to="/"><p class="clickable" @click="logout">Salir</p></router-link>
   </div>
 </template>
@@ -71,6 +73,21 @@ export default {
         })
     }
 
+    const validate = () => {
+      fetch("http://localhost:8081/users/validateemail",{
+        method: "POST",
+        body:JSON.stringify({email: email.value}),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp=>resp.json())
+        .then(data=>{
+          if(data=='ok') {
+            sendMail.value = true
+            error.value = ""
+            }
+        })
+    }
+
     const logout = () => {
       store.commit("setUser",{})
       error.value=""
@@ -85,7 +102,18 @@ export default {
       store.commit("setProfile")
     }
 
-    watch(store.state, ()=> user.value.nickname = store.state.user.nickname)
+    watch(store.state, ()=> {
+      user.value.nickname = store.state.user.nickname
+      user.value.avatar = store.state.user.avatar
+      if(!store.state.user.nickname) {
+        error.value=""
+        registered.value = false
+        sendMail.value = false
+        user.value = {}
+        email.value = ""
+        password.value = ""
+      }
+    })
 
     return{
       email,
@@ -94,6 +122,7 @@ export default {
       logout,
       changeProfile,
       forgetPassword,
+      validate,
       registered,
       error,
       sendMail,

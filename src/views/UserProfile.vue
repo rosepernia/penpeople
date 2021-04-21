@@ -3,7 +3,7 @@
     <div class="profile-info box" v-if="user.value">
       <div class="info-one">
         <div class="img">
-          <img :src="user.value.avatar" alt="Avatar usuario" class="avatar">
+          <img :src="require(`../assets/img/users/${user.value.avatar}`)" :alt="`Avatar ${user.value.nickname}`" class="avatar">
           <div v-if="yourProfile">
             <label for="image" class="button">Subir imagen</label>
             <input type="file" id="image" accept=".jpg,.png,.jpeg*" @change="fileSelected">
@@ -38,7 +38,10 @@
             <a :href="`https://${user.value.other}`" target="blank" v-if="user.value.other!=''"><i class="bi bi-share"></i></a>  
           </div>
         </div>
-        <button class="button" v-if="yourProfile" @click="editUser">Modificar</button>
+        <div v-if="yourProfile" class="buttons">
+          <button class="button"  @click="editUser">Modificar</button> 
+          <button class="button button-warning"  @click="closeUser"><router-link to="/">Borrar cuenta</router-link></button>
+        </div>
       </div>
     </div>
     <div class="profile-blocks" v-if="user.value">
@@ -75,6 +78,7 @@
 import { useRoute } from "vue-router"
 import { ref, reactive, watch, onMounted } from "vue";
 import { useStore } from "vuex"
+import axios from 'axios';
 import BlockCard from "@/components/BlockCard"
 
 export default {
@@ -100,8 +104,8 @@ export default {
         body: JSON.stringify({nickname: route.params.nickname}),
         headers: {"Content-type":"application/json"}
       })
-        .then(resp=>resp.json())
-        .then(data=>{
+        .then(resp => resp.json())
+        .then(data => {
           user.value=data
           admin.value=user.value.admin
           role.value = user.value.likes <= 100 ? "Novel" : user.value.likes <= 400 ? "Experto" : "Embajador"
@@ -121,8 +125,8 @@ export default {
         body: JSON.stringify({author: user.value._id}),
         headers: {"Content-type":"application/json"}
       })
-        .then(resp=>resp.json())
-        .then(data=>{
+        .then(resp => resp.json())
+        .then(data => {
           blocksPublished.splice(0)
           data.forEach(block => blocksPublished.push(block))
           })
@@ -134,8 +138,8 @@ export default {
         body: JSON.stringify({author: user.value._id}),
         headers: {"Content-type":"application/json"}
       })
-        .then(resp=>resp.json())
-        .then(data=>{
+        .then(resp => resp.json())
+        .then(data => {
           blocksModeration.splice(0)
           data.forEach(block => blocksModeration.push(block))
           })
@@ -146,8 +150,8 @@ export default {
         method: "POST",
         headers: {"Content-type":"application/json"}
       })
-        .then(resp=>resp.json())
-        .then(data=>{
+        .then(resp => resp.json())
+        .then(data => {
           blocksModeration.splice(0)
           data.forEach(block => blocksModeration.push(block))
           })
@@ -155,13 +159,27 @@ export default {
 
     const fileSelected = (event) => {
       file.value = event.target.files[0]
-      console.log(file.value)
+      let fd = new FormData()
+      fd.append('image', file.value)
+      fd.append('avatar', `${store.state.user._id}.jpg`)
+      fd.append('email', store.state.user.email)
+      fd.append('_id', store.state.user._id)
+      fetch("http://localhost:8081/users/editavatar",{
+        method: "POST",
+        body: fd
+      })
+        .then(resp => resp.json())
+        .then(data => {
+          error.value = ""
+          user.value = data
+          store.commit("setUser",data)
+          })
     }
 
     const editUser = () => {
       fetch("http://localhost:8081/users/edit",{
         method: "POST",
-        body:JSON.stringify({ email: store.state.user.email, firstname: user.value.firstname, lastname: user.value.lastname, nickname: user.value.nickname, avatar: user.value.avatar, bio: user.value.bio, instagram: user.value.instagram, twitter: user.value.twitter, other: user.value.other }),
+        body:JSON.stringify({ email: store.state.user.email, firstname: user.value.firstname, lastname: user.value.lastname, nickname: user.value.nickname, bio: user.value.bio, instagram: user.value.instagram, twitter: user.value.twitter, other: user.value.other }),
         headers: {"Content-type":"application/json"}
       })
         .then(resp=>resp.json())
@@ -171,9 +189,20 @@ export default {
             user.value = data
             store.commit("setUser",data)
             route.params.nickname = data.nickname
-            }
+          }
           else error.value = data
           })
+    }
+
+
+    const closeUser = () => {
+      fetch("http://localhost:8081/users/closeaccount",{
+        method: "POST",
+        body:JSON.stringify({ email: store.state.user.email }),
+        headers: {"Content-type":"application/json"}
+      })
+        .then(resp => resp.json())
+        .then(() => store.commit("setUser", {}))
     }
 
     watch(store.state, () => findUser())
@@ -193,7 +222,8 @@ export default {
       role,
       file,
       fileSelected,
-      editUser
+      editUser,
+      closeUser
     }
   },
 }
@@ -328,8 +358,9 @@ export default {
       font-size: $size3;
     }
   }
-  button{
+  .buttons{
     margin-top: 6px;
+    display: flex;
   }
 }
 input,textarea{
@@ -366,7 +397,7 @@ textarea{
     width: 55%;
   }
   .info-two{
-    width: 35%;
+    width: 43%;
     button{
       margin-top: 20px;
     }
