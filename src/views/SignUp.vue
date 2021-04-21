@@ -15,8 +15,7 @@
       <div class="error"><p v-if="error.value">{{error.value.password}}</p></div>
       <div><label class="priv input-form"><input type="checkbox" v-model="checked" required> He podido leer y entiendo la política de privacidad y cookies</label></div>
       <div class="error"><p v-if="error.value">{{error.value.nickname}}</p></div>
-      
-      <button @click="send" class="button" type="submit" value="submit">Registrarse</button>
+      <button @click="send" class="button">Registrarse</button>
       </div>
       <div v-if="oksignup">
         <p>¡Gracias por unirte a Penpeople!. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
