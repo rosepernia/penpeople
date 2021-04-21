@@ -23,18 +23,18 @@ export default {
     AuthorBox
   },
   setup() {
-    const users=reactive([])
+    const users = reactive([])
     const letters = ref("")
 
     onMounted(() => {
       list("")
     })
 
-    let inputLetter=() => {
+    let inputLetter = () => {
       list(letters.value)
     }
 
-    const list= (letters) =>{
+    const list = (letters) => {
       fetch('http://localhost:8081/users/list',{
         method: 'POST',
         body: JSON.stringify({
@@ -43,8 +43,8 @@ export default {
         }),
         headers: {'Content-Type':'application/json'}
       })
-      .then(resp=>resp.json())
-      .then(data=>{
+      .then(resp => resp.json())
+      .then(data => {
         
         data.sort((a, b) => {
         if (a.likes > b.likes) return -1

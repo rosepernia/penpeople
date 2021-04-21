@@ -40,7 +40,7 @@ export default {
   const lastname=ref("")
   const password=ref("")
   const error= reactive({})
-  const oksignup= ref(false)
+  let oksignup= ref(false)
 
 
       function send(){
