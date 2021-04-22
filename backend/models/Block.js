@@ -15,8 +15,8 @@ const schemaBlock = new Schema({
       validator: function (body) { 
         let text = body.replace(/\r?\n/g," ").replace(/[ ]+/g," ").replace (/^ /,"").replace (/ $/,"")
         let words = text.split(" ")
-        return words.length>=200 && words.length<=500 ? true : false },
-      message: "El fragmento ha de tener entre 200 y 500 palabras"
+        return words.length>=100 && words.length<=250 ? true : false },
+      message: "El fragmento ha de tener entre 100 y 250 palabras"
     }
   },
   closure: [{type: String}],

@@ -24,7 +24,7 @@ blocksController.edit = (req, res) => {
 }
 
 blocksController.findByBlockId = (req, res) => {
-  Block.findOne({ blockid: req.body.blockid, story: req.body.story, published: true }).populate('author', 'nickname', User)
+  Block.findOne({ blockid: req.body.blockid, story: req.body.story, published: true }).populate('author', 'nickname avatar', User)
     .then(block => res.json(block))
     .catch(() => res.json(null))
 }
