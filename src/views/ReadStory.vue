@@ -10,8 +10,8 @@
         <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
       </div> 
       <p class="text">{{block.value.body}}</p>
-      <div class="likes">
-        <i class="bi bi-heart likes-heart"></i>
+      <div class="likes" v-if="block.value.blockid!=''">
+        <i @click.once="like" class="bi bi-heart likes-heart"></i>
       </div>
       <div class="closures">
         <p v-if="closures.length==0">THE END</p>
@@ -41,6 +41,7 @@ export default {
     const blocks = reactive([])
     const closures = reactive([])
     const choose = ref('')
+
    
 
    onMounted(() => {
@@ -101,8 +102,23 @@ export default {
       } else if (store.state.user.admin==false){
         router.push(`/nuevo-fragmento/${story.value._id}/${title}/${blockid}`)
       }
-    
    }
+
+    const like = () => {
+    console.log("holiiii")
+    console.log(block.value.author.nickname)
+    fetch('http://localhost:8081/users/like', {
+        method:'POST',
+        body: JSON.stringify({nickname: block.value.author.nickname}),
+        headers: {'Content-Type':'application/json'}
+       }) 
+       .then(resp=>resp.json())
+       .then(data=>(console.log(data)))
+   }
+
+  
+
+  
 
     return {
       story,
@@ -111,7 +127,8 @@ export default {
       blocks,
       closures,
       findBlock,
-      choose
+      choose,
+      like,
     }
   },
 }
@@ -164,7 +181,7 @@ i.head-tree::before{
 .box-title{
   margin-bottom: 20px;
   padding: 0 0 0 30px;
-  background-color: #63d4df;
+  background-color: #a6ebf1;
   font-size: $size1;
   display:flex;
   align-items: center;
@@ -195,6 +212,16 @@ p{
   padding: 20px 20px 20px 20px;
 }
 
+.text:first-letter {
+    float: left;
+    font-weight: bold;
+    color: $secondaryColor;
+    font-size: 800%;
+    line-height: 80%;
+    margin: 0 1rem 0.4rem -0.6rem;
+}
+
+
 .likes{
   position: relative;
 }
@@ -208,10 +235,18 @@ i.likes-heart::before{
   cursor: pointer;
 }
 
+i.likes-fill-heart::before{
+  right: 30px;
+  top:-20px;
+  position: absolute;
+  font-size: $size1;
+  color: $primaryColor;
+}
+
 .closures{
   margin: 0 auto 0 auto;
   display:flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   background-color: white;
   width: 90%;
 }
@@ -220,8 +255,8 @@ i.likes-heart::before{
   display:flex;
   justify-content: center;
   font-size: $size1;
-  /* padding:10px 10px 10px 5px;  */
-  width:250px;
+  padding:10px 10px 10px 5px; 
+  width:210px;
   border:none;
   border-bottom:1px solid black;
   background-color: transparent;
