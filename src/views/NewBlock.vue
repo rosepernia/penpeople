@@ -29,28 +29,22 @@
        }"
        v-model="body"
      />
-     <div class="checkbox" v-if="!check">
-        <label>UNA DECISIÓN</label>
-        <input  v-model="check" value="1" type="radio"> 
+     <div class="checkbox">
         <label>DOS DECISIONES</label>
         <input  v-model="check" value="2" type="radio">
+        <label>UNA DECISIÓN</label>
+        <input  v-model="check" value="1" type="radio"> 
         <label>FINAL</label>
         <input  v-model="check" value="0" type="radio">
-        {{check}}
-     </div>
-
-     <div>
-        <input v-model="closure1" class="closure" placeholder="Decisión 1">
       </div>
+
       <div>
          <input v-model="closure1" class="closure" placeholder="Decisión 1">
-         <input v-model="closure1" class="closure" placeholder="Decisión 1">
+         <input v-model="closure2" class="closure" placeholder="Decisión 2">
       </div>
      
-
-     
      <div class="send">
-        <button @click="create" class="button2">Enviar</button>
+        <button class="button2">Enviar</button>
      </div>
      
   </div>
@@ -67,37 +61,22 @@ export default {
    },
   setup() {
       const route = useRoute()
-     
-      let body=ref('')
-      let closure=ref('')
-      let choose = ref(false)
-      let check = ref('')
-      let title = route.params.title
-
-      
-
-
-      function create(){
-            fetch('http://localhost:8081/api/api/users/signup',{
-                method: 'POST',
-                body: JSON.stringify({
-                    body: body.value,
-                    closure: closure.value,
-                }),
-                headers: {'Content-Type':'application/json'}
-            }).then(resp=>resp.json())
-                .then(data=>data)
-        }  
+      const body = ref('')
+      const closure = ref('')
+      const choose = ref(false)
+      const check = ref('')
+      const story = route.params.story
+      const title = route.params.title
+      const blockid = route.params.blockid
 
     return {
         choose,
         body,
         closure,
-        create,
         check,
-        title
-      
-
+        story,
+        title,
+        blockid
     }
   },
 }
