@@ -7,7 +7,7 @@
     </div>
     <router-link to="/administrar"><i class="bi bi-arrow-right-circle clickable"></i></router-link>
   </div>
-  <div v-else>
+  <div v-if="superadmin==false || superadmin==undefined">
     <div class="line" >
       <router-link to="/libros"><p>LEER</p></router-link>
     </div>

@@ -78,7 +78,6 @@
 import { useRoute } from "vue-router"
 import { ref, reactive, watch, onMounted } from "vue";
 import { useStore } from "vuex"
-import axios from 'axios';
 import BlockCard from "@/components/BlockCard"
 
 export default {
@@ -207,9 +206,7 @@ export default {
 
     watch(store.state, () => findUser())
     
-    onMounted(() => {
-      findUser()
-    })
+    onMounted(() => findUser())
    
     return {
       route,
