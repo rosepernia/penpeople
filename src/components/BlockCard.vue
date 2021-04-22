@@ -1,6 +1,6 @@
 <template>
-  <div class="card clickable">
-    <img :src="require(`../assets/img/stories/${image}`)" alt="Imagen historia" class="image">
+  <div class="card">
+    <router-link :to="route"><img :src="require(`../assets/img/stories/${image}`)" alt="Imagen historia" class="image clickable"></router-link>
     <p class="story-title">{{story}}</p>
     <p class="block-title">{{title}}</p>
     <p v-if="published"><i class="bi bi-heart-fill"></i> {{likes}}</p>
@@ -13,18 +13,25 @@ import { ref } from 'vue'
 export default {
   name:'BlockCard',
   props:{
+    user:String,
     image:String,
     story:String,
+    id:String,
     title:String,
     likes:{String,default:null}
   },
   setup(props){
     const published = ref(true)
+    const route = ref('/')
 
-    if(props.likes==null) published.value = false
+    if(props.likes==null) {
+      published.value = false
+      route.value = `/moderar/${props.user}/${props.id}`
+      }
 
     return{
-      published
+      published,
+      route
     }
   }
 }

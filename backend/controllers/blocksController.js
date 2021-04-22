@@ -29,9 +29,20 @@ blocksController.findByBlockId = (req, res) => {
     .catch(() => res.json(null))
 }
 
+blocksController.findById = (req, res) => {
+  Block.findById( req.body ).populate('author', 'nickname avatar', User).populate('story', 'title', Story)
+    .then(block => res.json(block))
+    .catch(() => res.json(null))
+}
+
 blocksController.delete = (req, res) => {
   Block.deleteMany({ blockid: { $regex: `^${req.body.blockid}`} , story: req.body.story })
       .then(() => res.json("ok"))
+}
+
+blocksController.deleteOne = (req, res) => {
+  Block.findByIdAndRemove( req.body )
+    .then(() => res.json('ok'))
 }
 
 blocksController.publish = (req, res) => {
@@ -62,7 +73,7 @@ blocksController.findModerateUser = async (req, res) => {
     let moderateBlocks = await Block.find({blockid: { $regex: `^${block.blockid}.$` }, published: false, story: block.story }, 'title blockid').populate('story', 'title image', Story)
     allModerateBlocks.push(...moderateBlocks)
   })
-  setTimeout(() => res.json(allModerateBlocks), 300);
+  setTimeout(() => res.json(allModerateBlocks), 600);
 }
 
 blocksController.findModerateAdmin = (req, res) => {

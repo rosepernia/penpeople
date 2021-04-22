@@ -78,7 +78,7 @@ usersController.like = (req,res) => {
   User.findOne({ nickname: req.body.nickname })
     .then(user => {
       User.findOneAndUpdate(req.body.nickname, { likes: user.likes+1 })
-      .then(() => res.json('ok'))
+      .then(user => res.json('ok'))
     })
 }
 
