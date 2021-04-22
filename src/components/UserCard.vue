@@ -33,7 +33,7 @@ export default {
     likes:Number,
     user:String,
   },
-  setup(props,context) {
+  setup(props, context) {
     const store = useStore()
     const admin = ref(false)
 
