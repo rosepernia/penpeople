@@ -81,6 +81,7 @@ export default {
             oksignup.value = false
           }
         })
+      list(letters.value)
     }
 
     let inputLetter = () => list(letters.value)
