@@ -6,8 +6,8 @@
     <div class="box">
       <div><p class="box-title" v-if="block.value.author.avatar">{{choose}}</p></div> 
       <div class="box-data">
-        <p class="box-author">{{block.value.author.nickname}}</p>
-        <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar">
+        <router-link :to="`/perfil/${block.value.author.nickname}`"><p class="box-author">{{block.value.author.nickname}}</p>
+        <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
       </div> 
       <p class="text">{{block.value.body}}</p>
       <div class="likes">
