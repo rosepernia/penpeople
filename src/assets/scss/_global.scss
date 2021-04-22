@@ -121,6 +121,13 @@ input, textarea, button{
     }
 }
 
+.button-ok{
+    background-color: #c2e4e5;
+    &:hover{
+        background-color: $secondaryColor;
+    }
+}
+
 .box{
     padding: 20px;
     background-color:white;

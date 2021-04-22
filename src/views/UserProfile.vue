@@ -50,8 +50,10 @@
         <div class="box">
           <div class="blocks-box">
             <BlockCard v-for="(block,i) in blocksPublished" :key="i"
+              :user="user.value.nickname"
               :image="block.story.image"
               :story="block.story.title"
+              :id="block._id"
               :title="block.title"
               :likes="block.likes"
             />
@@ -63,8 +65,10 @@
         <div class="box">
           <div class="blocks-box">
             <BlockCard v-for="(block,i) in blocksModeration" :key="i"
+              :user="user.value.nickname"
               :image="block.story.image"
               :story="block.story.title"
+              :id="block._id"
               :title="block.title"
             />
           </div>
@@ -87,7 +91,7 @@ export default {
   },
   setup() {
     const store = useStore()
-    const route = useRoute ()
+    const route = useRoute()
     const user = reactive({})
     const blocksPublished = reactive([])
     const blocksModeration = reactive([])
@@ -205,7 +209,9 @@ export default {
 
     watch(store.state, () => findUser())
     
-    onMounted(() => findUser())
+    onMounted(() => {
+      findUser()
+    })
    
     return {
       route,

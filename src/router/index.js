@@ -26,7 +26,7 @@ const routes = [
     component: Authors
   },
   {
-    path: '/moderar',
+    path: '/moderar/:user/:id',
     name: 'ChooseBlock',
     component: ChooseBlock
   },
