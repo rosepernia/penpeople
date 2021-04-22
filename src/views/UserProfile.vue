@@ -193,7 +193,6 @@ export default {
           })
     }
 
-
     const closeUser = () => {
       fetch("http://localhost:8081/users/closeaccount",{
         method: "POST",
