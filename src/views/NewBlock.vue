@@ -2,7 +2,7 @@
   <div class="block">
     <h2 class="title2">The other's gold 
     </h2> 
-    <h3 class="title1">Se marcha a la playa</h3>
+    <h3 class="title1">{{title}}</h3>
     <Editor
        api-key="s22x77w289dsg6ifamwucbt0tzr97yextl5n38le6u8paoho"
        :init="{
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { useRoute } from "vue-router"
 import {ref} from 'vue'
 import Editor from '@tinymce/tinymce-vue'
 export default {
@@ -65,10 +66,13 @@ export default {
      'Editor': Editor
    },
   setup() {
+      const route = useRoute()
+     
       let body=ref('')
       let closure=ref('')
       let choose = ref(false)
       let check = ref('')
+      let title = route.params.title
 
       
 
@@ -91,6 +95,8 @@ export default {
         closure,
         create,
         check,
+        title
+      
 
     }
   },

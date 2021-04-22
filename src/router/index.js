@@ -31,7 +31,7 @@ const routes = [
     component: ChooseBlock
   },
   {
-    path: '/nuevo-fragmento',
+    path: '/nuevo-fragmento/:title',
     name: 'NewBlock',
     component: NewBlock
   },
