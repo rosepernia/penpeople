@@ -28,19 +28,21 @@
 <script>
 import { useRoute, useRouter } from "vue-router"
 import { ref, reactive, onMounted } from "vue"
+import { useStore } from "vuex"
 
 export default {
   name: "ReadStory",
   components: {},
 
   setup() {
-   const router = useRouter()
-   const route = useRoute()
-   const story = reactive({})
-   const block = reactive({})
-   const blocks = reactive([])
-   const closures = reactive([])
-   const choose = ref('')
+    const store = useStore()
+    const router = useRouter()
+    const route = useRoute()
+    const story = reactive({})
+    const block = reactive({})
+    const blocks = reactive([])
+    const closures = reactive([])
+    const choose = ref('')
    
 
    onMounted(() => {
@@ -81,7 +83,6 @@ export default {
    const findBlock = (blockid, active, title) => {
      if(active==true){
        choose.value=title
-       console.log(choose.value)
        fetch('http://localhost:8081/blocks/findbyblockid', {
         method:'POST',
         body: JSON.stringify({story: route.params.id, blockid: blockid}),
@@ -99,8 +100,8 @@ export default {
               closures.push(decission)
             }
         })  
-      } else {
-        router.push(`/nuevo-fragmento/${title}`)
+      } else if (store.state.user.admin==false){
+        router.push(`/nuevo-fragmento/${story.value._id}/${title}/${blockid}`)
       }
     
    }
