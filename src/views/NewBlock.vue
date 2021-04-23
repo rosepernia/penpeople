@@ -1,17 +1,20 @@
 <template> 
   <div class="block">
-    <h2 class="title2">The other's gold 
-    </h2> 
+    <h2 class="title2">{{storytitle}}</h2> 
+  <div class="box">
     <h3 class="title1">{{title}}</h3>
+    
     <Editor
        api-key="s22x77w289dsg6ifamwucbt0tzr97yextl5n38le6u8paoho"
        :init="{
+         branding: false,
          height: 260,
          placeholder: 'Comienza a escribir tu fragmento...',
          menubar: false,
          skin: 'outside',
          toolbar_location: 'bottom',
-         language_url : '/languages/es.js',
+         language_url : '/languages/langs/es.js',
+         language: 'es',
          plugins: [
            'advlist autolink lists charmap print preview anchor',
            'searchreplace visualblocks code fullscreen',
@@ -24,11 +27,14 @@
           menu: {
             favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
           },
+          removed_menuitems: 'undo, redo',
           selector: 'textarea',
           content_style: 'body {color:#666262; font-family: Avenir;}',
+          
        }"
        v-model="body"
      />
+     <div class=error>{{error}}</div>
      <div class="checkbox">
         <label>DOS DECISIONES</label>
         <input  v-model="check" value="2" type="radio">
@@ -38,21 +44,26 @@
         <input  v-model="check" value="0" type="radio">
       </div>
 
-      <div>
-         <input v-model="closure1" class="closure" placeholder="Decisión 1">
-         <input v-model="closure2" class="closure" placeholder="Decisión 2">
+      <div class="decissions" v-if="check==1">
+         <input v-model="closure[0]" class="closure" placeholder="Decisión 1">
+      </div>
+      
+      <div class="decissions" v-if="check==2">
+        <input v-model="closure[0]" class="closure" placeholder="Decisión 1">
+        <input v-model="closure[1]" class="closure" placeholder="Decisión 2">
       </div>
      
      <div class="send">
-        <button class="button2">Enviar</button>
+        <button @click="send" class="button2">Enviar</button>
      </div>
-     
+    </div> 
   </div>
 </template>
 
 <script>
 import { useRoute } from "vue-router"
-import {ref} from 'vue'
+import { useStore } from "vuex"
+import { ref, reactive, onMounted } from 'vue'
 import Editor from '@tinymce/tinymce-vue'
 export default {
   name: "NewBlock",
@@ -60,23 +71,71 @@ export default {
      'Editor': Editor
    },
   setup() {
-      const route = useRoute()
-      const body = ref('')
-      const closure = ref('')
-      const choose = ref(false)
-      const check = ref('')
-      const story = route.params.story
-      const title = route.params.title
-      const blockid = route.params.blockid
+    const route = useRoute()
+    const store = useStore()
+    const closure = reactive([])
+    const check = ref('')
+    const story = route.params.story
+    const storytitle=ref('')
+    const title = route.params.title
+    const blockid = route.params.blockid
+    const author = store.state.user._id
+    const body=ref('')
+    const error =ref('')
+
+    onMounted(() => getstoytitle())
+    const getstoytitle = () => {
+      fetch('http://localhost:8081/stories/findbyid',{
+            method:'POST',
+            body: JSON.stringify({_id: story}),
+            headers: {'Content-Type':'application/json'}
+          })
+            .then(resp=>resp.json())
+            .then(data=>{
+              storytitle.value=data.title
+            })          
+    }
+
+    const send = () => {
+      console.log(closure)
+      if(check.value==0 || (check.value==1 && closure.length==1) || (check.value==2 && closure.length==2) ){
+            fetch('http://localhost:8081/blocks/create',{
+                method: 'POST',
+                body: JSON.stringify({
+                "blockid":blockid,
+                "title":title,
+                "body":body.value,
+                "closure":closure,
+                "author": author,
+                "story":story
+                }),
+                headers: {'Content-Type':'application/json'}
+                 })
+                  .then(resp=>resp.json())
+                  .then(data=> {
+                    console.log(data)
+                if (data=="ok"){
+              
+                console.log("Fragmento creado correctamente")
+                error.value=""
+                } 
+                else error.value=data.body
+                })
+      }
+    }
 
     return {
-        choose,
-        body,
+      
         closure,
         check,
         story,
         title,
-        blockid
+        blockid,
+        body,
+        author,
+        send,
+        error,
+        storytitle
     }
   },
 }
@@ -102,6 +161,13 @@ label{
   margin-top: 20px;
   display:flex;
   justify-content: center;
+}
+.decissions{
+  display:flex;
+  justify-content: center;
+  input{
+   margin: 30px;
+  }
 }
 
 .send{
@@ -143,13 +209,7 @@ label{
 }  
 .closure:focus  	{ outline:none; }
 
-.avatar{
-  /* margin-left: 480px; */
-  width: 50px;
-  height: 40px;
-  object-fit: cover;
-  object-position: center;
-}
+
 
 .button2{
     cursor: pointer;
