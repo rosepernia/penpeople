@@ -11,14 +11,17 @@
       </div> 
       <p class="text">{{block.value.body}}</p>
       <div class="likes" v-if="block.value.blockid!=''">
-        <i class="bi bi-arrow-left-circle size2 clickable button-arrow"></i>
+        <i @click="back" class="bi bi-arrow-left-circle size2 clickable button-arrow"></i>
         <i @click="like" :class="{ bi:true, 'clickable':!likes, 'bi-heart':!likes, 'bi-heart-fill':likes }"></i>
       </div>
       <div class="closures">
         <p v-if="closures.length==0" class="end">THE END</p>
         <p v-for="(option, index) in closures" :key="index" :class="{'closures-choose':true, 'clickable':true, 'closures-on':option.active==true, 'closures-off':option.active==false}" @click="findBlock(option.blockid+index, option.active)">{{option.title}}</p>
       </div>
-      <div class="error"><p v-if="error==true">Este camino no ha sido continuado por nadie, <router-link to="/registro">regístrate</router-link> para continuarlo</p></div>
+      <div class="error">
+        <p v-if="error==true">Este camino no ha sido continuado por nadie, <router-link to="/registro">regístrate</router-link> para continuarlo.</p>
+        <p v-if="error2==true">No puedes continuar un fragmento escrito por ti.</p>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +46,7 @@ export default {
     const choose = ref('')
     const likes = ref(false)
     const error = ref(false)
+    const error2 = ref(false)
 
    onMounted(() => {
       findStory()
@@ -74,13 +78,15 @@ export default {
                 if(blocksId.indexOf(i.toString())!=-1) decission.active = true
                 else decission.active = false
                 closures.push(decission)
-              }
+              } 
+              window.scrollTo(0,0)
             })
         }) 
     }
 
     const findBlock = (blockid, active) => {
       error.value=false
+      error2.value=false
       if(active==true){
         likes.value=false
         fetch('http://localhost:8081/blocks/findbyblockid', {
@@ -102,9 +108,18 @@ export default {
               }
             window.scrollTo(0,0)
           })  
-        } else if (store.state.user.admin==false){
+        } else if (store.state.user.admin==false && store.state.user.nickname!=block.value.author.nickname){
           router.push(`/nuevo-fragmento/${story.value._id}/${block.value.title}/${blockid}`)
-        } else error.value=true
+        } else if (store.state.user.admin==false && store.state.user.nickname==block.value.author.nickname){
+          error2.value=true
+        }
+        else error.value=true
+    }
+
+    const back = () => {
+      let previusBlock = block.value.blockid.substring(0, block.value.blockid.length - 1)
+      if(previusBlock.length!=0) findBlock(previusBlock, true)
+      else findStory()
     }
 
     const like = () => {
@@ -114,16 +129,13 @@ export default {
           body: JSON.stringify({ nickname: block.value.author.nickname }),
           headers: {'Content-Type':'application/json'}
         }) 
-        .then(resp=>resp.json())
-        .then(data=>(console.log(data)))
       fetch('http://localhost:8081/blocks/like', {
           method:'POST',
           body: JSON.stringify({ _id: block.value._id }),
           headers: {'Content-Type':'application/json'}
         }) 
-        .then(resp=>resp.json())
-        .then(data=>(console.log(data)))
     }
+    
 
     return {
       story,
@@ -135,7 +147,9 @@ export default {
       choose,
       like,
       likes,
-      error
+      error,
+      error2,
+      back
     }
   },
 }
@@ -228,10 +242,6 @@ p{
     color: $primaryColor;
   }
 }
-.text{
-    height: 350px;
-    overflow: scroll;
-  }
 .closures{
   margin: 0 auto;
   display:flex;
@@ -274,10 +284,6 @@ p{
 }
 
 @media (max-width: 990px){
-  .text{
-    height: 500px;
-    overflow: scroll;
-  }
   .closures{
     &-on {
       font-weight: bold;
@@ -294,8 +300,9 @@ p{
 @media (max-width: 575px){
   .text{
     font-size: 1.4rem;
-    height: 300px;
-    overflow: scroll;
+  }
+  .error{
+    text-align: center;
   }
 }
 </style>
