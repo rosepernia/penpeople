@@ -11,12 +11,14 @@
       </div> 
       <p class="text">{{block.value.body}}</p>
       <div class="likes" v-if="block.value.blockid!=''">
-        <i @click="like" class="bi bi-heart likes-heart"></i>
+        <i class="bi bi-arrow-left-circle size2 clickable button-arrow"></i>
+        <i @click="like" :class="{ bi:true, 'clickable':!likes, 'bi-heart':!likes, 'bi-heart-fill':likes }"></i>
       </div>
       <div class="closures">
         <p v-if="closures.length==0" class="end">THE END</p>
         <p v-for="(option, index) in closures" :key="index" :class="{'closures-choose':true, 'clickable':true, 'closures-on':option.active==true, 'closures-off':option.active==false}" @click="findBlock(option.blockid+index, option.active)">{{option.title}}</p>
       </div>
+      <div class="error"><p v-if="error==true">Este camino no ha sido continuado por nadie, <router-link to="/registro">regístrate</router-link> para continuarlo</p></div>
     </div>
   </div>
 </template>
@@ -39,6 +41,8 @@ export default {
     const blocks = reactive([])
     const closures = reactive([])
     const choose = ref('')
+    const likes = ref(false)
+    const error = ref(false)
 
    onMounted(() => {
       findStory()
@@ -75,45 +79,51 @@ export default {
         }) 
     }
 
-   const findBlock = (blockid, active) => {
-     if(active==true){
-      fetch('http://localhost:8081/blocks/findbyblockid', {
-        method:'POST',
-        body: JSON.stringify({story: route.params.id, blockid: blockid}),
-        headers: {'Content-Type':'application/json'}
-      }) 
-        .then(resp=>resp.json())
-        .then(data=>{
-          block.value=data
-          choose.value=block.value.title
-          closures.splice(0)
-            for (let i = 0; i < block.value.closure.length; i++) {
-              let decission = {title: block.value.closure[i], blockid: block.value.blockid}
-              let blocksId = blocks.map(b=>b.blockid)
-              if(blocksId.indexOf((block.value.blockid+i).toString())!=-1) decission.active = true
-              else decission.active = false
-              closures.push(decission)
-            }
-        })  
-      } else if (store.state.user.admin==false){
-        router.push(`/nuevo-fragmento/${story.value._id}/${block.value.title}/${blockid}`)
-      }
-   }
+    const findBlock = (blockid, active) => {
+      error.value=false
+      if(active==true){
+        likes.value=false
+        fetch('http://localhost:8081/blocks/findbyblockid', {
+          method:'POST',
+          body: JSON.stringify({story: route.params.id, blockid: blockid}),
+          headers: {'Content-Type':'application/json'}
+        }) 
+          .then(resp=>resp.json())
+          .then(data=>{
+            block.value=data
+            choose.value=block.value.title
+            closures.splice(0)
+              for (let i = 0; i < block.value.closure.length; i++) {
+                let decission = {title: block.value.closure[i], blockid: block.value.blockid}
+                let blocksId = blocks.map(b=>b.blockid)
+                if(blocksId.indexOf((block.value.blockid+i).toString())!=-1) decission.active = true
+                else decission.active = false
+                closures.push(decission)
+              }
+            window.scrollTo(0,0)
+          })  
+        } else if (store.state.user.admin==false){
+          router.push(`/nuevo-fragmento/${story.value._id}/${block.value.title}/${blockid}`)
+        } else error.value=true
+    }
 
     const like = () => {
-    console.log(block.value.author.nickname)
-    fetch('http://localhost:8081/users/like', {
-        method:'POST',
-        body: JSON.stringify({nickname: block.value.author.nickname}),
-        headers: {'Content-Type':'application/json'}
-       }) 
-       .then(resp=>resp.json())
-       .then(data=>(console.log(data)))
-   }
-
-  
-
-  
+      likes.value=true
+      fetch('http://localhost:8081/users/like', {
+          method:'POST',
+          body: JSON.stringify({ nickname: block.value.author.nickname }),
+          headers: {'Content-Type':'application/json'}
+        }) 
+        .then(resp=>resp.json())
+        .then(data=>(console.log(data)))
+      fetch('http://localhost:8081/blocks/like', {
+          method:'POST',
+          body: JSON.stringify({ _id: block.value._id }),
+          headers: {'Content-Type':'application/json'}
+        }) 
+        .then(resp=>resp.json())
+        .then(data=>(console.log(data)))
+    }
 
     return {
       story,
@@ -124,6 +134,8 @@ export default {
       findBlock,
       choose,
       like,
+      likes,
+      error
     }
   },
 }
@@ -205,23 +217,21 @@ p{
   margin: 0 1rem 0.4rem -0.6rem;
 }
 .likes{
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto;
+  i::before{
+    font-size: $size3;
+  }
+  i.bi-heart-fill::before,i.bi-heart::before{
+    color: $primaryColor;
+  }
 }
-i.likes-heart::before{
-  right: 30px;
-  top:-20px;
-  position: absolute;
-  font-size: $size3;
-  color: $primaryColor;
-  cursor: pointer;
-}
-i.likes-fill-heart::before{
-  right: 30px;
-  top:-20px;
-  position: absolute;
-  font-size: $size1;
-  color: $primaryColor;
-}
+.text{
+    height: 350px;
+    overflow: scroll;
+  }
 .closures{
   margin: 0 auto;
   display:flex;
@@ -254,10 +264,38 @@ i.likes-fill-heart::before{
     padding: 10px;
   }
 }
+.error{
+  margin-top: 8px;
+  color: #888;
+  p{
+    padding: 0;
+    margin: 0 auto;
+  }
+}
 
+@media (max-width: 990px){
+  .text{
+    height: 500px;
+    overflow: scroll;
+  }
+  .closures{
+    &-on {
+      font-weight: bold;
+      color: #73d0d8;
+      border-bottom: 1px solid #73d0d8;
+    }
+    &-off {
+      font-weight: bold;
+      color: $primaryColor;
+      border-bottom: 1px solid $primaryColor;
+    }
+  }
+}
 @media (max-width: 575px){
   .text{
     font-size: 1.4rem;
+    height: 300px;
+    overflow: scroll;
   }
 }
 </style>
