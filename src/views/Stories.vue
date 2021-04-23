@@ -1,36 +1,32 @@
 <template>
-  <div class="stories">
-     <StoryBox v-for="(story,ind) in stories" :key="ind"
-        :id="story._id"
-        :title="story.title"
-        :author="story.author"
-        :review="story.review"
-        :image="story.image"
-      /> 
+  <div class="stories view-top">
+    <StoryCard v-for="(story,ind) in stories" :key="ind" @update="update"
+      :id="story._id"
+      :title="story.title"
+      :author="story.author"
+      :review="story.review"
+      :image="story.image"
+      :active="story.active"
+    /> 
   </div>
 </template>
 
 <script>
-import { useRouter } from "vue-router"
+import StoryCard from '@/components/StoryCard'
 import { useStore } from "vuex"
-import StoryBox from '@/components/StoryBox'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
+
 export default {
   name: "Stories",
   components: {
-    StoryBox
+    StoryCard
   },
-
-  setup(props) {
+  setup() {
    const store = useStore()
    const stories = reactive([])
+   const admin = ref(false)
 
-
-   onMounted(()=> {
-        list()
-        }) 
-
-    function list(){
+    const list = () => {
       fetch('http://localhost:8081/stories/list',{
         method:'POST',
         body: JSON.stringify({}),
@@ -39,45 +35,48 @@ export default {
         .then(resp=>resp.json())
         .then(data=>{
           stories.splice(0)
-          if(!store.state.user.nickname || store.state.user.admin==false){
-            data.filter(story => story.active==true).forEach(story => stories.push(story))
-          } else{
-            data.forEach(story => stories.push(story))
-          }  
+          if(admin.value != true){
+            data.filter(story => story.active == true).forEach(story => stories.push(story))
+          } else data.forEach(story => stories.push(story))
         })            
     }
-    
+
+    const update = () => list()
+
+    watch(store.state, () => {
+      admin.value = store.state.user.admin
+      list()
+      })
+
+    onMounted(()=> {
+      admin.value = store.state.user.admin
+      list()
+      }) 
+
     return {
       stories,
+      update,
+      admin
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-
+.view-top{
+  margin-top: 200px;
+}
 .stories{
-  margin: 200px auto 0 auto;
-  /* border: 1px solid red; */
   margin-right: auto;
-  margin-left: auto ;
+  margin-left: auto;
+  margin-bottom: 50px;
   display: flex;
   flex-wrap: wrap;
-  width: 80%;
+  width: 90%;
+  max-width: 1100px;
   justify-content: space-evenly;
 }
-
 h1:hover{
   color:$primaryColor;
 }
-
-@media (max-width: 1024px){
-  .stories{
-   margin-top: 150px;
-   flex-direction: column;
-   align-items: stretch;
-  }
-}
-
-
 </style>
