@@ -96,7 +96,7 @@ export default {
             }
         })  
       } else if (store.state.user.admin==false){
-        router.push(`/nuevo-fragmento/${story.value._id}/${title}/${blockid}`)
+        router.push(`/nuevo-fragmento/${story.value._id}/${block.value.title}/${blockid}`)
       }
    }
 
