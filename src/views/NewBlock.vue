@@ -1,7 +1,7 @@
 <template> 
   <div class="block">
-    <h2 class="title2">{{story}}
-    </h2> 
+    <h2 class="title2">{{storytitle}}</h2> 
+  <div class="box">
     <h3 class="title1">{{title}}</h3>
     
     <Editor
@@ -27,12 +27,14 @@
           menu: {
             favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
           },
+          removed_menuitems: 'undo, redo',
           selector: 'textarea',
           content_style: 'body {color:#666262; font-family: Avenir;}',
+          
        }"
        v-model="body"
      />
-     <div>{{error}}</div>
+     <div class=error>{{error}}</div>
      <div class="checkbox">
         <label>DOS DECISIONES</label>
         <input  v-model="check" value="2" type="radio">
@@ -54,14 +56,14 @@
      <div class="send">
         <button @click="send" class="button2">Enviar</button>
      </div>
-     
+    </div> 
   </div>
 </template>
 
 <script>
 import { useRoute } from "vue-router"
 import { useStore } from "vuex"
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Editor from '@tinymce/tinymce-vue'
 export default {
   name: "NewBlock",
@@ -69,44 +71,58 @@ export default {
      'Editor': Editor
    },
   setup() {
-      const route = useRoute()
-      const store = useStore()
-      const closure = reactive([])
-      const check = ref('')
-      const story = route.params.story
-      const title = route.params.title
-      const blockid = route.params.blockid
-      const author = store.state.user._id
-      const body=ref('')
-      const error =ref('')
-      console.log(route.params)
-      console.log(author)
+    const route = useRoute()
+    const store = useStore()
+    const closure = reactive([])
+    const check = ref('')
+    const story = route.params.story
+    const storytitle=ref('')
+    const title = route.params.title
+    const blockid = route.params.blockid
+    const author = store.state.user._id
+    const body=ref('')
+    const error =ref('')
 
-  let send=() => {
+    onMounted(() => getstoytitle())
+    const getstoytitle = () => {
+      fetch('http://localhost:8081/stories/findbyid',{
+            method:'POST',
+            body: JSON.stringify({_id: story}),
+            headers: {'Content-Type':'application/json'}
+          })
+            .then(resp=>resp.json())
+            .then(data=>{
+              storytitle.value=data.title
+            })          
+    }
+
+    const send = () => {
+      console.log(closure)
+      if(check.value==0 || (check.value==1 && closure.length==1) || (check.value==2 && closure.length==2) ){
             fetch('http://localhost:8081/blocks/create',{
                 method: 'POST',
                 body: JSON.stringify({
-
                 "blockid":blockid,
                 "title":title,
                 "body":body.value,
                 "closure":closure,
                 "author": author,
                 "story":story
-
-                  
                 }),
                 headers: {'Content-Type':'application/json'}
                  })
                   .then(resp=>resp.json())
                   .then(data=> {
+                    console.log(data)
                 if (data=="ok"){
+              
                 console.log("Fragmento creado correctamente")
                 error.value=""
                 } 
-                else error.value="Debe contener entre 150 y 200 palabras"
+                else error.value=data.body
                 })
       }
+    }
 
     return {
       
@@ -118,7 +134,8 @@ export default {
         body,
         author,
         send,
-        error
+        error,
+        storytitle
     }
   },
 }
