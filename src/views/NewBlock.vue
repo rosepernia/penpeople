@@ -1,8 +1,9 @@
 <template> 
   <div class="block">
-    <h2 class="title2">The other's gold 
+    <h2 class="title2">{{story}}
     </h2> 
     <h3 class="title1">{{title}}</h3>
+    
     <Editor
        api-key="s22x77w289dsg6ifamwucbt0tzr97yextl5n38le6u8paoho"
        :init="{
@@ -11,7 +12,8 @@
          menubar: false,
          skin: 'outside',
          toolbar_location: 'bottom',
-         language_url : '/languages/es.js',
+         language_url : '/languages/langs/es.js',
+         language: 'es',
          plugins: [
            'advlist autolink lists charmap print preview anchor',
            'searchreplace visualblocks code fullscreen',
@@ -29,6 +31,7 @@
        }"
        v-model="body"
      />
+     <div>{{error}}</div>
      <div class="checkbox">
         <label>DOS DECISIONES</label>
         <input  v-model="check" value="2" type="radio">
@@ -38,13 +41,17 @@
         <input  v-model="check" value="0" type="radio">
       </div>
 
-      <div>
-         <input v-model="closure1" class="closure" placeholder="Decisión 1">
-         <input v-model="closure2" class="closure" placeholder="Decisión 2">
+      <div class="decissions" v-if="check==1">
+         <input v-model="closure[0]" class="closure" placeholder="Decisión 1">
+      </div>
+      
+      <div class="decissions" v-if="check==2">
+        <input v-model="closure[0]" class="closure" placeholder="Decisión 1">
+        <input v-model="closure[1]" class="closure" placeholder="Decisión 2">
       </div>
      
      <div class="send">
-        <button class="button2">Enviar</button>
+        <button @click="send" class="button2">Enviar</button>
      </div>
      
   </div>
@@ -52,7 +59,8 @@
 
 <script>
 import { useRoute } from "vue-router"
-import {ref} from 'vue'
+import { useStore } from "vuex"
+import { ref, reactive } from 'vue'
 import Editor from '@tinymce/tinymce-vue'
 export default {
   name: "NewBlock",
@@ -61,22 +69,55 @@ export default {
    },
   setup() {
       const route = useRoute()
-      const body = ref('')
-      const closure = ref('')
-      const choose = ref(false)
+      const store = useStore()
+      const closure = reactive([])
       const check = ref('')
       const story = route.params.story
       const title = route.params.title
       const blockid = route.params.blockid
+      const author = store.state.user._id
+      const body=ref('')
+      const error =ref('')
+      console.log(route.params)
+      console.log(author)
+
+  let send=() => {
+            fetch('http://localhost:8081/blocks/create',{
+                method: 'POST',
+                body: JSON.stringify({
+
+                "blockid":blockid,
+                "title":title,
+                "body":body.value,
+                "closure":closure,
+                "author": author,
+                "story":story
+
+                  
+                }),
+                headers: {'Content-Type':'application/json'}
+                 })
+                  .then(resp=>resp.json())
+                  .then(data=> {
+                if (data=="ok"){
+                console.log("Fragmento creado correctamente")
+                error.value=""
+                } 
+                else error.value="Debe contener entre 150 y 200 palabras"
+                })
+      }
 
     return {
-        choose,
-        body,
+      
         closure,
         check,
         story,
         title,
-        blockid
+        blockid,
+        body,
+        author,
+        send,
+        error
     }
   },
 }
@@ -102,6 +143,13 @@ label{
   margin-top: 20px;
   display:flex;
   justify-content: center;
+}
+.decissions{
+  display:flex;
+  justify-content: center;
+  input{
+   margin: 30px;
+  }
 }
 
 .send{
@@ -143,13 +191,7 @@ label{
 }  
 .closure:focus  	{ outline:none; }
 
-.avatar{
-  /* margin-left: 480px; */
-  width: 50px;
-  height: 40px;
-  object-fit: cover;
-  object-position: center;
-}
+
 
 .button2{
     cursor: pointer;

@@ -8,7 +8,7 @@
         <input class="inputs input-form" type="text" v-model="form.email" placeholder="Correo electrónico">
       <div class="error"><p v-if="error.value">{{error.value.email}}{{error.value.repeatemail}}</p></div>
         <input class="inputs input-form" type="text" v-model="form.firstname" placeholder="Nombre">
-      <div class="error"></div>
+      <div class="error"><p v-if="error.value">{{error.value.firstname}}</p></div>
         <input class="inputs input-form" type="text" v-model="form.lastname" placeholder="Apellidos">
       <div class="error"><p v-if="error.value">{{error.value.lastname}}</p></div>
         <input class="inputs input-form" type="password" v-model="form.password" placeholder="Contraseña">
