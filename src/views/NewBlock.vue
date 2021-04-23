@@ -7,6 +7,7 @@
     <Editor
        api-key="s22x77w289dsg6ifamwucbt0tzr97yextl5n38le6u8paoho"
        :init="{
+         branding: false,
          height: 260,
          placeholder: 'Comienza a escribir tu fragmento...',
          menubar: false,
