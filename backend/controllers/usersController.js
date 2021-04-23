@@ -77,8 +77,8 @@ usersController.list = (req, res) => {
 usersController.like = (req,res) => {
   User.findOne({ nickname: req.body.nickname })
     .then(user => {
-      User.findOneAndUpdate(req.body.nickname, { likes: user.likes+1 })
-      .then(user => res.json('ok'))
+      User.findByIdAndUpdate( user._id, { likes: user.likes+1 })
+      .then(() => res.json('ok'))
     })
 }
 

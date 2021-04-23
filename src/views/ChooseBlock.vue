@@ -24,7 +24,7 @@
 
 <script>
 import { useRoute } from "vue-router"
-import { ref, reactive, onMounted } from "vue";
+import { reactive, onMounted } from "vue";
 
 export default {
   name: "ChooseBlock",
