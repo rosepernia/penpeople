@@ -21,7 +21,7 @@
       </div>  
     </router-link>
     <p v-if="user.value.superadmin">PenPeople Admin</p>
-    <router-link to="/"><p class="clickable" @click="logout">Salir</p></router-link>
+    <router-link to="/"><p class="clickable" @click="logout"><i class="bi bi-box-arrow-right"></i>Salir</p></router-link>
   </div>
 </template>
 
@@ -143,9 +143,11 @@ export default {
   p{
     margin: 0;
   }
+  i::before{
+    padding-bottom: 2px;
+  }
 }
 .user{
-  width: 80%;
   display: flex;
   justify-content: center;
   div{

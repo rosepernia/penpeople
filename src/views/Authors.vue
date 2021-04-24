@@ -28,7 +28,7 @@ export default {
     const users = reactive([])
     const letters = ref("")
 
-    let inputLetter = () => list(letters.value)
+    const inputLetter = () => list(letters.value)
 
     const list = (letters) => {
       fetch('http://localhost:8081/users/list',{

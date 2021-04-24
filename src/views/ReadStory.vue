@@ -4,19 +4,25 @@
       <h2 class="head-title">{{story.value.title}}<i class="bi bi-diagram-3-fill"></i></h2> 
     </div>
     <div class="box">
-      <div><p class="box-title" v-if="block.value.author.avatar">{{choose}}</p></div> 
+      <div class="box-title" v-if="block.value.blockid!=''">
+        <p>{{choose}}</p>
+        <div v-if="admin==true">
+          <router-link :to="`/editar-fragmento/${block.value._id}`"><i class="bi bi-pencil clickable size4"></i></router-link>
+          <i class="bi bi-trash clickable size4" @click="deleteBlock"></i>
+        </div>
+      </div> 
       <div class="box-data">
         <router-link :to="`/perfil/${block.value.author.nickname}`"><p class="box-author">{{block.value.author.nickname}}</p>
         <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
-      </div> 
-      <p class="text">{{block.value.body}}</p>
+      </div>
+      <div class="text" v-html="block.value.body"></div>
       <div class="likes" v-if="block.value.blockid!=''">
         <i @click="back" class="bi bi-arrow-left-circle size2 clickable button-arrow"></i>
         <i @click="like" :class="{ bi:true, 'clickable':!likes, 'bi-heart':!likes, 'bi-heart-fill':likes }"></i>
       </div>
       <div class="closures">
         <p v-if="closures.length==0" class="end">THE END</p>
-        <p v-for="(option, index) in closures" :key="index" :class="{'closures-choose':true, 'clickable':true, 'closures-on':option.active==true, 'closures-off':option.active==false}" @click="findBlock(option.blockid+index, option.active)">{{option.title}}</p>
+        <p v-for="(option, index) in closures" :key="index" :class="{'closures-choose':true, 'clickable':true, 'closures-on':option.active==true, 'closures-off':option.active==false}" @click="findBlock(option.blockid+index, option.active, option.title)">{{option.title}}</p>
       </div>
       <div class="error">
         <p v-if="error==true">Este camino no ha sido continuado por nadie, <router-link to="/registro">regístrate</router-link> para continuarlo.</p>
@@ -28,7 +34,7 @@
 
 <script>
 import { useRoute, useRouter } from "vue-router"
-import { ref, reactive, onMounted } from "vue"
+import { ref, reactive, watch, onMounted } from "vue"
 import { useStore } from "vuex"
 
 export default {
@@ -39,6 +45,7 @@ export default {
     const store = useStore()
     const router = useRouter()
     const route = useRoute()
+    const admin = ref(false)
     const story = reactive({})
     const block = reactive({})
     const blocks = reactive([])
@@ -48,11 +55,9 @@ export default {
     const error = ref(false)
     const error2 = ref(false)
 
-   onMounted(() => {
-      findStory()
-    })
-
-   const findStory = () => {
+    const findStory = (noRecharge) => {
+      error.value = false
+      error2.value = false
       fetch('http://localhost:8081/blocks/listpublish', {
         method:'POST',
         body: JSON.stringify({story: route.params.id}),
@@ -78,17 +83,18 @@ export default {
                 if(blocksId.indexOf(i.toString())!=-1) decission.active = true
                 else decission.active = false
                 closures.push(decission)
-              } 
+              }
+              if(route.params.blockid && noRecharge==false) findBlock(route.params.blockid, true)
               window.scrollTo(0,0)
             })
         }) 
     }
 
-    const findBlock = (blockid, active) => {
-      error.value=false
-      error2.value=false
+    const findBlock = (blockid, active, title) => {
+      error.value = false
+      error2.value = false
       if(active==true){
-        likes.value=false
+        likes.value = false
         fetch('http://localhost:8081/blocks/findbyblockid', {
           method:'POST',
           body: JSON.stringify({story: route.params.id, blockid: blockid}),
@@ -109,7 +115,7 @@ export default {
             window.scrollTo(0,0)
           })  
         } else if (store.state.user.admin==false && store.state.user.nickname!=block.value.author.nickname){
-          router.push(`/nuevo-fragmento/${story.value._id}/${block.value.title}/${blockid}`)
+          router.push(`/nuevo-fragmento/${story.value._id}/${blockid}/${title}`)
         } else if (store.state.user.admin==false && store.state.user.nickname==block.value.author.nickname){
           error2.value=true
         }
@@ -119,11 +125,11 @@ export default {
     const back = () => {
       let previusBlock = block.value.blockid.substring(0, block.value.blockid.length - 1)
       if(previusBlock.length!=0) findBlock(previusBlock, true)
-      else findStory()
+      else findStory(true)
     }
 
     const like = () => {
-      likes.value=true
+      likes.value = true
       fetch('http://localhost:8081/users/like', {
           method:'POST',
           body: JSON.stringify({ nickname: block.value.author.nickname }),
@@ -135,9 +141,25 @@ export default {
           headers: {'Content-Type':'application/json'}
         }) 
     }
-    
+
+    const deleteBlock = () => {
+      fetch('http://localhost:8081/blocks/delete', {
+          method:'POST',
+          body: JSON.stringify({ story: route.params.id, blockid: block.value.blockid }),
+          headers: {'Content-Type':'application/json'}
+        })
+        .then(() => back())
+    }
+
+    watch(store.state, () => admin.value = store.state.user.admin)
+
+    onMounted(() => {
+      admin.value = store.state.user.admin
+      findStory(false)
+    })
 
     return {
+      admin,
       story,
       findStory,
       block,
@@ -149,7 +171,8 @@ export default {
       likes,
       error,
       error2,
-      back
+      back,
+      deleteBlock
     }
   },
 }
@@ -193,14 +216,21 @@ export default {
 .box{
   margin-bottom: 40px;
   &-title{
-    margin-bottom: 20px;
-    padding: 0 0 0 30px;
-    background-color: #a6ebf1;
-    font-size: $size1;
-    display:flex;
-    align-items: center;
-    width: 300px;
-    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    p{
+      margin-bottom: 16px;
+      padding: 0 0 0 30px;
+      background-color: #a6ebf1;
+      font-size: $size1;
+      max-width: 300px;
+      width: 100%;
+      border-radius: 15px;
+    }
+    i::before{
+      margin-left: 10px;
+      color: #888;
+    }
   }
   &-data{
     position: relative;
@@ -222,13 +252,8 @@ export default {
 p{
   padding: 20px;
 }
-.text:first-letter {
-  float: left;
-  font-weight: bold;
-  color: $secondaryColor;
-  font-size: 800%;
-  line-height: 80%;
-  margin: 0 1rem 0.4rem -0.6rem;
+.text{
+  padding: 24px 32px;
 }
 .likes{
   display: flex;
@@ -300,6 +325,19 @@ p{
 @media (max-width: 575px){
   .text{
     font-size: 1.4rem;
+    padding: 8px 8px;
+  }
+  .box{
+    &-title{
+      p{
+        max-width: 200px;
+      }
+      i::before{
+        font-size: $size3;
+        margin-left: 10px;
+        color: #888;
+      }
+    }
   }
   .error{
     text-align: center;

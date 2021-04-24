@@ -62,12 +62,12 @@ blocksController.like = (req,res) => {
 }
 
 blocksController.findByAuthor = (req, res) => {
-  Block.find({ author: req.body.author, published: true }, 'title likes').populate('story', 'title image', Story)
+  Block.find({ author: req.body.author, published: true }, 'title likes blockid').populate('story', 'title image active', Story)
     .then(blocks => res.json(blocks))
 }
 
 blocksController.findModerateUser = async (req, res) => {
-  let blocks = await Block.find({ author: req.body.author, published: true }, 'title blockid').populate('story', 'title image', Story)
+  let blocks = await Block.find({ author: req.body.author, published: true }, 'title blockid').populate('story', 'title image active', Story)
   let allModerateBlocks = []
   blocks.forEach (async (block) => {
     let moderateBlocks = await Block.find({blockid: { $regex: `^${block.blockid}.$` }, published: false, story: block.story }, 'title blockid').populate('story', 'title image', Story)

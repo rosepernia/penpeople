@@ -9,7 +9,7 @@
         <router-link :to="`/perfil/${block.value.author.nickname}`"><p class="box-author">{{block.value.author.nickname}}</p>
         <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
       </div> 
-      <p class="text">{{block.value.body}}</p>
+      <div class="text" v-html="block.value.body"></div>
       <div class="closures">
         <p v-if="block.value.closure.length==0" class="end">THE END</p>
         <p v-for="(option, i) in block.value.closure" :key="i" class="closures-choose">{{option}}</p>
@@ -112,13 +112,12 @@ export default {
 .box{
   margin-bottom: 40px;
   &-title{
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     padding: 0 0 0 30px;
     background-color: #a6ebf1;
     font-size: $size1;
-    display:flex;
-    align-items: center;
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
     border-radius: 15px;
   }
   &-data{
@@ -141,13 +140,8 @@ export default {
 p{
   padding: 20px;
 }
-.text:first-letter {
-  float: left;
-  font-weight: bold;
-  color: $secondaryColor;
-  font-size: 800%;
-  line-height: 80%;
-  margin: 0 1rem 0.4rem -0.6rem;
+.text{
+  padding: 24px 32px;
 }
 .closures{
   margin: 0 auto;
