@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Authors from '../views/Authors.vue'
 import ChooseBlock from '../views/ChooseBlock.vue'
 import NewBlock from '../views/NewBlock.vue'
+import EditBlock from '../views/EditBlock.vue'
 import NewStory from '../views/NewStory.vue'
 import ReadStory from '../views/ReadStory.vue'
 import SignUp from '../views/SignUp.vue'
@@ -31,9 +32,14 @@ const routes = [
     component: ChooseBlock
   },
   {
-    path: '/nuevo-fragmento/:story/:title/:blockid',
+    path: '/nuevo-fragmento/:story/:blockid/:title',
     name: 'NewBlock',
     component: NewBlock
+  },
+  {
+    path: '/editar-fragmento/:id',
+    name: 'EditBlock',
+    component: EditBlock
   },
   {
     path: '/nueva-historia',
@@ -43,6 +49,11 @@ const routes = [
   {
     path: '/lectura/:id',
     name: 'ReadStory',
+    component: ReadStory
+  },
+  {
+    path: '/lectura/:id/:blockid',
+    name: 'ReadStoryBlock',
     component: ReadStory
   },
   {

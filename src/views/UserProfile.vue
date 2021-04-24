@@ -53,6 +53,9 @@
               :user="user.value.nickname"
               :image="block.story.image"
               :story="block.story.title"
+              :active="block.story.active"
+              :storyid="block.story._id"
+              :blockid="block.blockid"
               :id="block._id"
               :title="block.title"
               :likes="block.likes"
@@ -68,6 +71,7 @@
               :user="user.value.nickname"
               :image="block.story.image"
               :story="block.story.title"
+              :active="block.story.active"
               :id="block._id"
               :title="block.title"
             />

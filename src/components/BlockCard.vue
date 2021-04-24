@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <router-link :to="route"><img :src="require(`../assets/img/stories/${image}`)" alt="Imagen historia" class="image clickable"></router-link>
+    <router-link :to="route"><img :src="require(`../assets/img/stories/${image}`)" alt="Imagen historia" class="image"></router-link>
     <p class="story-title">{{story}}</p>
     <p class="block-title">{{title}}</p>
     <p v-if="published"><i class="bi bi-heart-fill"></i> {{likes}}</p>
@@ -16,6 +16,9 @@ export default {
     user:String,
     image:String,
     story:String,
+    active:Boolean,
+    storyid:String,
+    blockid:String,
     id:String,
     title:String,
     likes:{String,default:null}
@@ -24,10 +27,11 @@ export default {
     const published = ref(true)
     const route = ref('/')
 
-    if(props.likes==null) {
+    if(props.active==false) route.value = ""
+    else if(props.likes==null) {
       published.value = false
       route.value = `/moderar/${props.user}/${props.id}`
-      }
+    }else route.value = `/lectura/${props.storyid}/${props.blockid}`
 
     return{
       published,

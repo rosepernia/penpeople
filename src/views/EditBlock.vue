@@ -1,10 +1,14 @@
 <template> 
-  <div class="view-top">
+  <div class="view-top" v-if="block.value && admin==true">
     <div class="head">
-      <h2 class="head-title">{{story.title}}</h2> 
+      <h2 class="head-title">{{block.value.story.title}}</h2> 
     </div>
     <div class="box">
-      <div><p class="box-title">{{title}}</p></div>
+      <div><p class="box-title">{{block.value.title}}</p></div>
+      <div class="box-data">
+        <router-link :to="`/perfil/${block.value.author.nickname}`"><p class="box-author">{{block.value.author.nickname}}</p>
+        <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
+      </div>
       <Editor
         api-key="s22x77w289dsg6ifamwucbt0tzr97yextl5n38le6u8paoho"
         :init="{
@@ -31,31 +35,15 @@
             removed_menuitems: 'undo, redo',
             selector: 'textarea',
             content_style: 'body {color:#666262; font-family: Avenir;}',
-            
         }"
-        v-model="body"
+        v-model="block.value.body"
       />
-      <div class=error><p v-if="error.value">{{error.value.body}}</p></div>
-      <div class="checkbox">
-        <div>
-          <label for="two">DOS DECISIONES</label>
-          <input  v-model="check" id="two" value="2" type="radio">
-        </div>
-        <div>
-          <label for="one">UNA DECISIÓN</label>
-          <input  v-model="check" id="one" value=1 type="radio"> 
-        </div>
-        <div>
-          <label for="zero">FINAL</label>
-          <input  v-model="check" id="zero" value=0 type="radio">
-        </div>
+      <div class=error><p v-if="error">{{error}}</p></div>
+      <div class="closures">
+        <p v-if="block.value.closure.length==0" class="end">THE END</p>
+        <p v-for="(option, i) in block.value.closure" :key="i" class="closures-choose">{{option}}</p>
       </div>
-      <div class="decisions">
-        <input v-if="check>=1" v-model="closures[0]" placeholder="Decisión 1">
-        <input v-if="check==2" v-model="closures[1]" placeholder="Decisión 2">
-      </div>
-      <div class=error><p v-if="error.value">{{error.value.decisions}}</p></div>
-      <button @click="send" class="button">Enviar</button>
+      <button @click="send" class="button">Corregir</button>
     </div> 
   </div>
 </template>
@@ -67,7 +55,7 @@ import { useStore } from "vuex"
 import Editor from '@tinymce/tinymce-vue'
 
 export default {
-  name: "NewBlock",
+  name: "EditBlock",
   components: {
     Editor
   },
@@ -75,57 +63,43 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
-    const story = ref('')
-    const title = route.params.title
-    const body = ref('')
-    const check = ref(0)
-    const closures = []
-    const error = reactive({})
+    const block = reactive({})
+    const error = ref("")
+    const admin = ref(false)
 
-    const getStory = () => {
-      fetch('http://localhost:8081/stories/findbyid',{
+    const getBlock = () => {
+      admin.value = store.state.user.admin
+      fetch('http://localhost:8081/blocks/findbyid',{
         method:'POST',
-        body: JSON.stringify({_id: route.params.story}),
+        body: JSON.stringify({_id: route.params.id}),
         headers: {'Content-Type':'application/json'}
       })
         .then(resp=>resp.json())
         .then(data=>{
-          story.value=data
+          block.value=data
         })          
     }
 
-    const createOptions = () => closures.splice(0)
-
     const send = () => {
-      if(closures.length!=check.value || closures[0]=="" || closures[1]=="") error.value = { decisions: "Las decisiones no pueden estar vacías" }
-      else{
-        error.value = {}
-        fetch('http://localhost:8081/blocks/create',{
+        fetch('http://localhost:8081/blocks/edit',{
           method: "POST",
-          body: JSON.stringify({ blockid: route.params.blockid, title: route.params.title, body:body.value, closure:closures, author: store.state.user._id, story: route.params.story }),
+          body: JSON.stringify({ _id: route.params.id, body: block.value.body }),
           headers: {'Content-Type':'application/json'}
         })
           .then(resp=>resp.json())
           .then(data=>{
-          if(data=="ok") router.push(`/lectura/${story.value._id}/${route.params.blockid.substring(0, route.params.blockid.length - 1)}`)
-          else error.value = data
+            if(data=="ok") router.push(`/lectura/${block.value.story._id}/${block.value.blockid}`)
+            else error.value = data.body
           })
-      }
     }
 
-    watch(check, () => createOptions())
-
-    onMounted(() => getStory())
+    onMounted(() => getBlock())
 
     return {
-      story,
-      title,
-      body,
-      check,
-      closures,
+      block,
       error,
-      createOptions,
-      send
+      send,
+      admin
     }
   },
 }
@@ -174,11 +148,11 @@ export default {
     position: relative;
   }
   &-author{
-    top: -15px; 
-    left: 50px;
+    left: 60px;
     position: absolute;
   }
   &-avatar{
+    margin: 0 8px 8px 0;
     width: 50px;
     height: 50px;
     object-fit: cover;
@@ -192,39 +166,34 @@ export default {
     margin: 0 auto;
   }
 }
-.checkbox{
-  margin-top: 8px;
+.closures{
+  margin: 0 auto;
   display:flex;
-  justify-content: space-evenly;
-}
-.decisions{
-  height: 36px;
-  margin: 24px 0 16px 0;
-  display:flex;
-  justify-content: space-evenly;
-  input{
-    margin: 4px 0;
-    height: 32px;
-    width: 200px;
-    border: none;
-    border-bottom: 1px solid $textColor;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 90%;
+  &-choose{
+    text-align: center;
+    font-size: $size1;
+    margin: 10px;
+    padding: 5px;
+    width: 210px;
+    border-bottom: 1px solid #888;
+  }
+  .end{
+    margin: 0;
+    padding: 10px;
   }
 }
 .button{
   margin-top: 8px;
 }
 
+@media (max-width: 990px){
+  
+}
 @media (max-width: 575px){
-  .checkbox{
-    flex-direction: column;
-    align-items: center;
-  }
-  .decisions{
-    height: 100px;
-    margin: 8px 0 8px 0;
-    flex-direction: column;
-    align-items: center;
-  }
+  
 }
 
 </style>

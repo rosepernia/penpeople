@@ -22,9 +22,9 @@ export default {
     StoryCard
   },
   setup() {
-   const store = useStore()
-   const stories = reactive([])
-   const admin = ref(false)
+    const store = useStore()
+    const stories = reactive([])
+    const admin = ref(false)
 
     const list = () => {
       fetch('http://localhost:8081/stories/list',{

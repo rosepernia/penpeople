@@ -1,28 +1,28 @@
 <template> 
-  <div class="view-top">
+  <div class="center">
     <div class="title">Formulario de registro</div>
-      <div class="box square">
-        <input class="inputs input-form" type="text" v-model="form.nickname" placeholder="Nickname">
-        <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeatnickname}}</p></div>
-        <input class="inputs input-form" type="text" v-model="form.email" placeholder="Correo electrónico">
-        <div class="error"><p v-if="error.value">{{error.value.email}}{{error.value.repeatemail}}</p></div>
-        <input class="inputs input-form" type="text" v-model="form.firstname" placeholder="Nombre">
+    <div class="box square">
+      <input class="inputs input-form" type="text" v-model="form.nickname" placeholder="Nickname">
+      <div class="error"><p v-if="error.value">{{error.value.nickname}}{{error.value.repeatnickname}}</p></div>
+      <input class="inputs input-form" type="text" v-model="form.email" placeholder="Correo electrónico">
+      <div class="error"><p v-if="error.value">{{error.value.email}}{{error.value.repeatemail}}</p></div>
+      <input class="inputs input-form" type="text" v-model="form.firstname" placeholder="Nombre">
       <div class="error"><p v-if="error.value">{{error.value.firstname}}</p></div>
-        <input class="inputs input-form" type="text" v-model="form.lastname" placeholder="Apellidos">
-        <div class="error"><p v-if="error.value">{{error.value.lastname}}</p></div>
-        <input class="inputs input-form" type="password" v-model="form.password" placeholder="Contraseña">
-        <div class="error"><p v-if="error.value">{{error.value.password}}</p></div>
-        <div>
-          <label class="priv input-form">
-            <input type="checkbox" v-model="checked" @click="check"> He podido leer y entiendo la política de privacidad y cookies
-          </label>
-        </div>
-        <div class="error"><p>{{message}}</p></div>
-        <button @click="send" class="button">Registrarse</button>
+      <input class="inputs input-form" type="text" v-model="form.lastname" placeholder="Apellidos">
+      <div class="error"><p v-if="error.value">{{error.value.lastname}}</p></div>
+      <input class="inputs input-form" type="password" v-model="form.password" placeholder="Contraseña">
+      <div class="error"><p v-if="error.value">{{error.value.password}}</p></div>
+      <div>
+        <label class="priv input-form">
+          <input type="checkbox" v-model="checked" @click="check"> He podido leer y entiendo la política de privacidad y cookies
+        </label>
+      </div>
+      <div class="error"><p>{{message}}</p></div>
+      <button @click="send" class="button">Registrarse</button>
     </div>
-      <div v-if="oksignup">
-        <p>¡Gracias por unirte a Penpeople!. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
-      </div> 
+    <div v-if="oksignup">
+      <p>¡Gracias por unirte a Penpeople!. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
+    </div> 
   </div>
 </template>
 
@@ -51,23 +51,23 @@ export default {
       if (!checked.value) message.value = "Recuerda que debes aceptar la política de privacidad"
       else message.value = ""
       error.value = ""
-        if (checked.value){
-          fetch('http://localhost:8081/users/create',{
-            method: 'POST',
-            body: JSON.stringify({nickname:form.nickname, email:form.email, firstname:form.firstname, lastname:form.lastname, password:form.password}),
-            headers: {'Content-Type':'application/json'}
+      if (checked.value){
+        fetch('http://localhost:8081/users/create',{
+          method: 'POST',
+          body: JSON.stringify({nickname:form.nickname, email:form.email, firstname:form.firstname, lastname:form.lastname, password:form.password}),
+          headers: {'Content-Type':'application/json'}
+          })
+            .then(resp=>resp.json())
+            .then(data=> {
+              if (data=="ok"){
+                error.value = "",
+                oksignup.value = true
+              }else {
+                error.value=data
+                oksignup.value = false
+              }
             })
-              .then(resp=>resp.json())
-              .then(data=> {
-                if (data=="ok"){
-                  error.value = "",
-                  oksignup.value = true
-                }else {
-                  error.value=data
-                  oksignup.value = false
-                }
-            })
-        }
+      }
     }
  
     return {
@@ -83,8 +83,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.view-top{
-  margin-bottom: 50px;
+.center{
+  width: 80%;
+  max-width: 450px;
 }
 .inputs{
   width: 100%;
@@ -98,14 +99,13 @@ export default {
 .button{
  text-align: center;
 }
-.view-top{
-  width: 80%;
-  max-width: 450px;
-  display:flex;
-  flex-direction: column;
-}
 
 @media (max-width: 575px){
+  .center{
+    transform: none;
+    position: initial;
+    margin: 120px auto 50px auto;
+  }
   .error{
     height: 36px;
   }

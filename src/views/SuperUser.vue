@@ -191,7 +191,7 @@ input{
     &-admins{
       width: 100%;
       .admins{
-      height: 300px;
+      height: 400px;
     }
     }
   }
