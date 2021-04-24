@@ -1,5 +1,5 @@
 const User = require('../models/User')
-const mailer = require("../modules/mailer")
+const mailer = require("../helpers/mailer")
 const path = require('path')
 
 const usersController = {}
