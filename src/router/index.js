@@ -13,6 +13,7 @@ import SuperUser from '../views/SuperUser.vue'
 import UserProfile from '../views/UserProfile.vue'
 import MapStory from '../views/MapStory.vue'
 import ChangePassword from '../views/ChangePassword.vue'
+import Error404 from '../views/Error404.vue'
 
 
 const routes = [
@@ -20,6 +21,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'Error404',
+    component: Error404
   },
   {
     path: '/autores',

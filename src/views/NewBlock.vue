@@ -38,19 +38,20 @@
       <div class=error><p v-if="error.value">{{error.value.body}}</p></div>
       <div class="checkbox">
         <div>
-          <label for="two">DOS DECISIONES</label>
           <input  v-model="check" id="two" value="2" type="radio">
+          <label for="two">DOS DECISIONES</label>
         </div>
         <div>
+          <input  v-model="check" id="one" value=1 type="radio">
           <label for="one">UNA DECISIÓN</label>
-          <input  v-model="check" id="one" value=1 type="radio"> 
         </div>
         <div>
-          <label for="zero">FINAL</label>
           <input  v-model="check" id="zero" value=0 type="radio">
+          <label for="zero">FINAL</label>
         </div>
       </div>
       <div class="decisions">
+        <p v-if="check==0"><i>The End</i></p>
         <input v-if="check>=1" v-model="closures[0]" placeholder="Decisión 1">
         <input v-if="check==2" v-model="closures[1]" placeholder="Decisión 2">
       </div>
@@ -78,7 +79,7 @@ export default {
     const story = ref('')
     const title = route.params.title
     const body = ref('')
-    const check = ref(0)
+    const check = ref(-1)
     const closures = []
     const error = reactive({})
 
@@ -196,6 +197,42 @@ export default {
   margin-top: 8px;
   display:flex;
   justify-content: space-evenly;
+  input[type="radio"] {
+    display: none;
+ }
+  input[type="radio"]:checked +label {
+    /* padding: 5px 15px; */
+    background: $backgroundColor;
+    border-radius: 2px;
+ }
+  input[type="radio"]:checked +label:before {
+    display:none;
+ }
+  label{
+    padding:5px 15px 5px 15px;
+    display:inline-block;
+    position:relative;
+    border-radius: 3px ;
+    cursor: pointer;
+ /*    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease; */
+   }
+   label:hover{
+     background: $backgroundColor;
+   }
+  label:before{
+     content:"";
+/*      width:15px;
+     height: 15px;
+     display:inline-block;
+     background: none;
+     border: 2px solid $secondaryColor;
+     border-radius:50%;
+     position:absolute;
+     left:25px;
+     top:8px; */
+   }
 }
 .decisions{
   height: 36px;
