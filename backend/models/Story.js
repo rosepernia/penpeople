@@ -33,7 +33,7 @@ const schemaStory = new Schema({
       message: "El fragmento ha de tener entre 100 y 250 palabras"
     }
   },
-  image: { type: String, required: [true, "Introduce una imagen"]},
+  image: { type: String, /* required: [true, "Introduce una imagen"] */},
   closure: [{type: String}],
 })
 
