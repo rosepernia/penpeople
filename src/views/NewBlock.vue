@@ -39,15 +39,15 @@
       <div class="checkbox">
         <div>
           <input  v-model="check" id="two" value="2" type="radio">
-          <label for="two">DOS DECISIONES</label>
+          <label class="clickable" for="two">DOS DECISIONES</label>
         </div>
         <div>
           <input  v-model="check" id="one" value=1 type="radio">
-          <label for="one">UNA DECISIÓN</label>
+          <label class="clickable" for="one">UNA DECISIÓN</label>
         </div>
         <div v-if="blockid.length>2">
           <input  v-model="check" id="zero" value=0 type="radio">
-          <label for="zero">FINAL</label>
+          <label class="clickable" for="zero">FINAL</label>
         </div>
       </div>
       <div class="decisions">
@@ -222,40 +222,16 @@ export default {
   justify-content: space-evenly;
   input[type="radio"] {
     display: none;
- }
-  input[type="radio"]:checked +label {
-    /* padding: 5px 15px; */
+  }
+  input[type="radio"]:checked + label {
     background: $backgroundColor;
-    border-radius: 2px;
- }
-  input[type="radio"]:checked +label:before {
-    display:none;
- }
+  }
   label{
-    padding:5px 15px 5px 15px;
-    display:inline-block;
-    position:relative;
-    border-radius: 3px ;
-    cursor: pointer;
- /*    -webkit-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease; */
-   }
-   label:hover{
-     background: $backgroundColor;
-   }
-  label:before{
-     content:"";
-/*      width:15px;
-     height: 15px;
-     display:inline-block;
-     background: none;
-     border: 2px solid $secondaryColor;
-     border-radius:50%;
-     position:absolute;
-     left:25px;
-     top:8px; */
-   }
+    padding: 8px 16px;
+  }
+  label:hover{
+    background: $backgroundColor;
+  }
 }
 .decisions{
   height: 36px;
