@@ -1,7 +1,7 @@
 <template> 
   <div class="view-top">
     <div class="head">
-      <h2 class="head-title">{{story.title}}</h2> 
+      <h2 class="head-title">{{story.title}}<i class="bi bi-arrow-left-circle clickable" @click="comeBack"></i></h2> 
     </div>
     <div class="box">
       <div><p class="box-title">{{title}}</p></div>
@@ -45,7 +45,7 @@
           <input  v-model="check" id="one" value=1 type="radio">
           <label for="one">UNA DECISIÓN</label>
         </div>
-        <div>
+        <div v-if="blockid.length>2">
           <input  v-model="check" id="zero" value=0 type="radio">
           <label for="zero">FINAL</label>
         </div>
@@ -56,8 +56,12 @@
         <input v-if="check==2" v-model="closures[1]" placeholder="Decisión 2">
       </div>
       <div class=error><p v-if="error.value">{{error.value.decisions}}</p></div>
-      <button @click="send" class="button">Enviar</button>
-    </div> 
+      <div v-if="oksignup" class="ok">
+        <p>¡Gracias por enviar tu propuesta! En un plazo máximo de 7 días sabrás si ha sido publicada.</p>
+        <p class="clickable" @click="comeBack">Retomar la lectura</p>
+      </div> 
+      <button v-if="!oksignup" @click="send" class="button">Enviar</button>
+    </div>
   </div>
 </template>
 
@@ -78,10 +82,12 @@ export default {
     const store = useStore()
     const story = ref('')
     const title = route.params.title
+    const blockid = route.params.blockid
     const body = ref('')
     const check = ref(-1)
     const closures = []
     const error = reactive({})
+    const oksignup = ref(false)
 
     const getStory = () => {
       fetch('http://localhost:8081/stories/findbyid',{
@@ -95,23 +101,31 @@ export default {
         })          
     }
 
-    const createOptions = () => closures.splice(0)
+    const createOptions = () => {
+      closures.splice(0)
+      error.value = {}
+      }
 
     const send = () => {
-      if(closures.length!=check.value || closures[0]=="" || closures[1]=="") error.value = { decisions: "Las decisiones no pueden estar vacías" }
+      if (check.value==-1) error.value = { decisions: "Tienes que decidir como continuará tu fragmento" }
+      else if(closures.length!=check.value || closures[0]=="" || closures[1]=="") error.value = { decisions: "Las decisiones no pueden estar vacías" }
       else{
         error.value = {}
         fetch('http://localhost:8081/blocks/create',{
           method: "POST",
-          body: JSON.stringify({ blockid: route.params.blockid, title: route.params.title, body:body.value, closure:closures, author: store.state.user._id, story: route.params.story }),
+          body: JSON.stringify({ blockid: blockid, title: title, body:body.value, closure:closures, author: store.state.user._id, story: route.params.story }),
           headers: {'Content-Type':'application/json'}
         })
           .then(resp=>resp.json())
           .then(data=>{
-          if(data=="ok") router.push(`/lectura/${story.value._id}/${route.params.blockid.substring(0, route.params.blockid.length - 1)}`)
+          if(data=="ok") oksignup.value = true
           else error.value = data
           })
       }
+    }
+
+    const comeBack = () => {
+      router.push(`/lectura/${story.value._id}/${blockid.substring(0, blockid.length - 1)}`)
     }
 
     watch(check, () => createOptions())
@@ -121,12 +135,15 @@ export default {
     return {
       story,
       title,
+      blockid,
       body,
       check,
       closures,
       error,
+      oksignup,
       createOptions,
-      send
+      send,
+      comeBack
     }
   },
 }
@@ -158,6 +175,13 @@ export default {
     font-weight: bold;
     font-size: $size2;
     border-bottom:1px solid #52b1b9;
+  }
+  i::before{
+    top:0;
+    right:24px;
+    position: absolute;
+    font-size: $size3;
+    color: #52b1b9;
   }
 }
 .box{
@@ -194,7 +218,6 @@ export default {
   }
 }
 .checkbox{
-  margin-top: 8px;
   display:flex;
   justify-content: space-evenly;
   input[type="radio"] {
@@ -250,7 +273,12 @@ export default {
 .button{
   margin-top: 8px;
 }
-
+.ok{
+  text-align: center;
+  p{
+    margin: 0;
+  }
+}
 @media (max-width: 575px){
   .checkbox{
     flex-direction: column;

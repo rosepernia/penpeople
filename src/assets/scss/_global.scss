@@ -101,6 +101,10 @@ input, textarea, button{
     cursor: pointer;
 }
 
+.clickable:hover{
+    color: #666;
+}
+
 .button{
     cursor: pointer;
     display: block;

@@ -21,7 +21,7 @@
       <button @click="send" class="button">Registrarse</button>
     </div>
     <div v-if="oksignup">
-      <p>¡Gracias por unirte a Penpeople!. Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
+      <p>¡Gracias por unirte a Penpeople! Abre el correo electrónico que has recibido y haz clic en el botón para confirmar tu registro.</p>
     </div> 
   </div>
 </template>

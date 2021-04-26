@@ -1,27 +1,19 @@
 <template>
 <div class="center home">
-  <div class="img">
-     <img src="../assets/img/error/tinta.png">
-  </div>
-  <div class="error-text">
-    <h1 class="error">Error 404</h1>
-    <h1>Lo sentimos, pero la página que estás buscando no existe.</h1>
-    <h2>Puedes revisar la dirección introducida o volver a empezar.</h2>
-    <router-link to="/"><h3>Quiero volver al inicio</h3></router-link>
-  </div>
+  <img src="../assets/img/tinta.png">
+  <p class="error-message">Error 404</p>
+  <p class="error-message2">Lo sentimos, pero la página que estás buscando no existe.</p>
+  <p class="error-message3">Puedes revisar la dirección introducida o volver a empezar.</p>
+  <router-link to="/"><p class="clickable">Quiero volver al inicio</p></router-link>
 </div>
 </template>
 
 <script>
-
-
 export default {
-  name: 'Home',
+  name: '404',
   components: {
-
   },
   setup(){
-
 
     return{
 
@@ -32,55 +24,56 @@ export default {
 
 <style lang="scss" scoped>
 .home{
+  width: 80%;
   text-align: center;
-  .img{
-    img{
-      height: 175px;
-      width: 200px;
-     
-    }
+  img{
+    width: 400px;
   }
 }
-.error{
-  font-size: 80px;
-  margin-bottom: 120px;
-  margin-top: 0px;
+p{
+  margin: 0;
+}
+.clickable{
+  margin-top: 24px;
+}
+.error-message{
+  color: $primaryColor;
+  font-size: 6rem;
+  font-weight: bold;
+}
+.error-message2{
+  font-size:$size4;
+}
+.error-message3{
+  font-size:$size3;
+}
 
-  
-}
-  h3:hover{
-     color: grey;
-  }
- 
 @media (max-width: 990px){
-  .error{
-    font-size:$size5;
-    margin-bottom: 40px;
+  .error-message{
+    font-size:5rem;
   }
-  h1{ 
+  .error-message2{
     font-size:$size3;
   }
-   h2{ 
+  .error-message3{
     font-size:$size2;
   }
 }
 @media (max-width: 575px){
-  .error{
-    font-size:$size5;
-    margin-bottom: 50px;
+  .home{
+    img{
+      width: 300px;
+    }
   }
-  h1{
-     font-size:$size3;
+  .error-message{
+    font-size:$size4;
   }
-  h2{ 
+  .error-message2{
     font-size:$size2;
   }
+  .error-message3{
+    font-size:$size1;
+  }
 }
-
-
-
-
-
-
 
 </style>
