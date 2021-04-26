@@ -4,11 +4,11 @@
       <router-link to="/">
         <LogoMini/>
       </router-link>
-      <router-link to="/autores" v-if="superadmin!=true"><span class="menu-item">Autores</span><i class="bi bi-search"></i></router-link>
-      <router-link to="/nueva-historia" v-if="admin==true && superadmin==false"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link>
+      <router-link to="/autores" class="clickable" v-if="superadmin!=true"><span class="menu-item">Autores</span><i class="bi bi-search"></i></router-link>
+      <router-link to="/nueva-historia" class="clickable" v-if="admin==true && superadmin==false"><span class="menu-item">Crear Historia</span><i class="bi bi-journal-text"></i></router-link>
     </div>
     <div>
-      <router-link to="/registro" v-if="!registered"><span class="menu-item">Nuevo registro</span><i class="bi bi-person-plus"></i></router-link>
+      <router-link to="/registro" class="clickable" v-if="!registered"><span class="menu-item">Nuevo registro</span><i class="bi bi-person-plus"></i></router-link>
       <LoginBox/>
     </div>
  </header>

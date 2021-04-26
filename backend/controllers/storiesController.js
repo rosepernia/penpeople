@@ -5,7 +5,14 @@ const storiesController={}
 storiesController.create = (req,res) => {
   let newStory = new Story(req.body)
   newStory.save()
-    .then(() => res.json('ok'))
+    .then(story => {
+      Story.findByIdAndUpdate(story._id)
+        .then(data => {
+          req.files.image.mv(path.join(__dirname,'../..',`/src/assets/img/stories/${req.body._id}.jpg`), err => { if (err) console.log( err ) })
+          res.json(data)
+    })
+      res.json('ok')
+    })
     .catch(error => {
       let errors = {}
       if (error.errors.title) errors.title = error.errors.title.message
