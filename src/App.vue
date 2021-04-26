@@ -5,14 +5,18 @@
       <component :is="Component"></component>
     </transition>
   </router-view> 
+  <Footer/>
 </template>
 
 <script>
 import Menu from "@/components/Menu";
+import Footer from "@/components/Footer";
+
 export default {
   name: "App",
   components: {
     Menu,
+    Footer
   },
   setup() {
    
