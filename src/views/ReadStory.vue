@@ -275,6 +275,7 @@ export default {
   }
 }
 .box{
+  margin-top: 210px;
   margin-bottom: 40px;
   &-title{
     display: flex;

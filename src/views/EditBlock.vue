@@ -1,7 +1,7 @@
 <template> 
   <div class="view-top" v-if="block.value && admin==true">
     <div class="head">
-      <h2 class="head-title">{{block.value.story.title}}</h2> 
+      <h2 class="head-title">{{block.value.story.title}}<i class="bi bi-arrow-left-circle clickable" @click="comeBack"></i></h2> 
     </div>
     <div class="box">
       <div><p class="box-title">{{block.value.title}}</p></div>
@@ -94,13 +94,18 @@ export default {
           })
     }
 
+    const comeBack = () => {
+      router.push(`/lectura/${block.value.story._id}/${block.value.blockid}`)
+    }
+
     onMounted(() => getBlock())
 
     return {
       block,
       error,
       send,
-      admin
+      admin,
+      comeBack
     }
   },
 }
@@ -132,6 +137,13 @@ export default {
     font-weight: bold;
     font-size: $size2;
     border-bottom:1px solid #52b1b9;
+  }
+  i::before{
+    top:0;
+    right:24px;
+    position: absolute;
+    font-size: $size3;
+    color: #52b1b9;
   }
 }
 .box{

@@ -126,7 +126,7 @@ export default {
     }
 
     const comeBack = () => {
-      router.push(`/lectura/${story.value._id}/${blockid.substring(0, blockid.length - 1)}`)
+      router.push(`/lectura/${story.value._id}/${blockid.slice(0,-1)}`)
     }
 
     watch(check, () => createOptions())
