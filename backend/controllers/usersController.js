@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const mailer = require("../helpers/mailer")
 const path = require('path')
+const bcrypt = require("bcrypt")
 
 const usersController = {}
 
@@ -36,10 +37,11 @@ usersController.validate = (req, res) => {
 
 usersController.login = (req, res) => {
   User.findOne({ email: req.body.email})
-    .then(user => {
+    .then(async user => {
+      let response = await bcrypt.compare(req.body.password, user.password)
       if(user == null) res.json({error:'Usuario no registrado'})
       else if(user.active == false) res.json({error:'Usuario no validado'})
-      else if(user.password != req.body.password) res.json({error:'Contraseña incorrecta'})
+      else if(response == false) res.json({error:'Contraseña incorrecta'})
       else res.json(user)
     })
 }
@@ -61,12 +63,17 @@ usersController.validateEmail = (req,res) => {
 }
 
 usersController.newPassword = (req,res) => {
-  User.findByIdAndUpdate( req.body._id , { password: req.body.password })
-    .then(() => res.json('ok'))
-    .catch(error => {
-      let errors = { password: error.errors.password.message }
-      res.json(errors)
-    })
+  let newUser = new User(req.body)
+  if(newUser.validateSync().errors.password==undefined){
+    bcrypt.hash(req.body.password, 10)
+      .then(hash => {
+        User.findOneAndUpdate({ _id: req.body._id }, { password: hash }, { runValidators: false })
+          .then(() => res.json('ok'))
+      })
+  }else{
+    let errors = { password: newUser.validateSync().errors.password.message }
+    res.json(errors)
+  }
 }
 
 usersController.list = (req, res) => {
