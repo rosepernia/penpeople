@@ -1,7 +1,7 @@
 <template>
   <div class="view-top">
     <h1>Prueba google chart</h1>
-<!--     <button @click="generateChart">Dibujar Esquema</button> -->
+    <button @click="generateChart">Dibujar Esquema</button>
     <div id="chart_div"></div>
   </div>
 </template>
@@ -39,7 +39,6 @@ export default({
         ]);    
         var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
         chart.draw(data, {'allowHtml':true});
-    
     } 
     return {
       generateChart

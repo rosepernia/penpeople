@@ -1,8 +1,11 @@
 <template>
-  <div class="black clickable" :class="{hide:!info}" @click="showInfo">
-    <div class="center box popup">
-      <p>¡Bienvenido a PenPeople!</p>
-      <p>Penpeople es una plataforma en la que las historias fluyen "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>  
+  <div class="blackbackground clickable" :class="{hide:!info}" @click="showInfo">
+    <div class="view-top box popup">
+      <p>¡Te damos la bienvenida a Penpeople!</p>
+      <p>En Penpeople puedes elegir qué leer, cómo avanza la historia e incluso proponer cómo continúa.</p>
+      <p>Para empezar, elige una historia y déjate llevar por ella eligiendo el itinerario que más te llame la atención.</p>
+      <p>«En todas las ficciones, cada vez que alguien se enfrenta con diversas alternativas, opta por una y elimina las otras (…). Crea, así, diversos  porvenires, diversos tiempos, que también proliferan y se bifurcan.» J.L. Borges,  «El jardín de los senderos que se bifurcan».</p>
+      <p>Dependiendo de tus elecciones, irás descubriendo nuevas posibilidades, y es muy posible que llegues a un punto en el que la historia sigue abierta. En este caso, puedes esperar a que alguien publique una continuación, o también … ‘Dicen que el buen lector, es aquel, que al terminar un libro es capaz de escribir una página más’. … puedes proponer tu propia continuación a la historia que has venido leyendo. Para ello, regístrate en Penpeople (si no lo estás) y envía tu propuesta. Intenta que se adapte</p>
     </div>
   </div>
   <div class="footer">
@@ -34,22 +37,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.popup{
-  position: fixed;
-  z-index: 30;
-  width: 90%;
-  max-width: 450px;
-}
-.black{
-  position: absolute;
-  top: 0;
-  z-index: 20;
-  background-color: rgba(0, 0, 0, 0.692);
-  width: 100%;
-  height: 100vh;
-}
-.hide{
-  display: none;
+.view-top{
+  margin-bottom: 40px;
 }
 .footer{
   position: fixed;
@@ -67,6 +56,12 @@ export default {
     position: absolute;
     bottom: 8px;
     left: 8px;
+  }
+}
+
+@media (max-width: 575px){
+  .view-top{
+    font-size: 1.3rem;
   }
 }
 </style>

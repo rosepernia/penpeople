@@ -1,7 +1,10 @@
 <template>
   <div class="view-top" v-if="story.value">
+    <div class="blackbackground clickable" :class="{hide:!info}" @click="closemap">
+      <div class="view-top box popup" id="chart_div"></div>
+    </div>
     <div class="head">
-      <h2 class="head-title">{{story.value.title}}<i class="bi bi-diagram-3-fill"></i></h2> 
+      <h2 class="head-title">{{story.value.title}}<i class="bi bi-diagram-3-fill clickable" @click="generateChart"></i></h2> 
     </div>
     <div class="box">
       <div class="box-title" v-if="block.value.blockid!=''">
@@ -54,6 +57,8 @@ export default {
     const likes = ref(false)
     const error = ref(false)
     const error2 = ref(false)
+    const blocksmap = reactive([])
+    const info = ref(false)
 
     const findStory = (noRecharge) => {
       error.value = false
@@ -137,7 +142,7 @@ export default {
     }
 
     const back = () => {
-      let previusBlock = block.value.blockid.substring(0, block.value.blockid.length - 1)
+      let previusBlock = block.value.blockid.slice(0,-1)
       if(previusBlock.length!=0) findBlock(previusBlock, true)
       else findStory(true)
     }
@@ -165,11 +170,43 @@ export default {
         .then(() => back())
     }
 
+    function generateChart(){
+      google.charts.load('current', {packages:["orgchart"]})
+      google.charts.setOnLoadCallback(drawChart)
+      info.value = true
+    }
+
+    function drawChart(){
+      blocksmap.splice(0)
+      blocks.forEach(block => {
+        if(block.blockid.length==1) blocksmap.push([{'v':block.blockid, 'f':`<div style="font-weight:bold; font-family:'Raleway'">${block.title}</div>`}, story.value.title])
+        else blocksmap.push([{'v':block.blockid, 'f':`<div style="font-weight:bold; font-family:'Raleway'">${block.title}</div>`}, block.blockid.slice(0,-1)])
+      })
+      blocksmap.push([{'v':story.value.title, 'f':`<div style="font-weight:bold; font-family:'Raleway'">${story.value.title.toUpperCase()}</div>`}, ''])
+      var data = new google.visualization.DataTable()
+      data.addColumn('string', 'Block')
+      data.addColumn('string', 'Previous')
+      data.addRows(blocksmap)
+      var chart = new google.visualization.OrgChart(document.getElementById('chart_div'))
+      chart.draw(data, {'allowHtml':true})
+    }
+
+    const closemap = () => {
+      info.value = !info.value
+    }
+
     watch(store.state, () => admin.value = store.state.user.admin)
 
-    onMounted(() => {
+    onMounted(async ()=>{
       admin.value = store.state.user.admin
       findStory(false)
+      const plugin = document.createElement("script")
+      plugin.setAttribute(
+        "src",
+        "https://www.gstatic.com/charts/loader.js"
+      );
+      plugin.async = true
+      document.head.appendChild(plugin)
     })
 
     return {
@@ -186,15 +223,25 @@ export default {
       error,
       error2,
       back,
-      deleteBlock
+      blocksmap,
+      info,
+      deleteBlock,
+      generateChart,
+      closemap
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.popup{
+  padding: 32px;
+  width: fit-content;
+  background-color: transparent;
+}
 .view-top{
   margin-top: 200px;
+  margin-bottom: 40px;
   width: 90%;
   max-width: 900px;
   min-height: 400px;

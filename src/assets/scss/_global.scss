@@ -77,6 +77,27 @@ input, textarea, button{
     margin: 120px auto 0 auto;
 }
 
+.popup{
+    z-index: 30;
+    width: 90%;
+    max-width: 900px;
+}
+
+.blackbackground{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
+}
+
+.hide{
+    display: none;
+}
+
 .size1 {
     font-size: $size1;
 }
