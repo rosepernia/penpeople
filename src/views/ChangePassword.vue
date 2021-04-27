@@ -8,13 +8,14 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router"
-import { ref, reactive } from "vue"
+import { useRoute, useRouter } from "vue-router"
+import { ref, reactive, onMounted } from "vue"
 
 export default {
   name: "ChangePassword",
   components: {},
   setup() {
+    const router = useRouter()
     const route = useRoute ()
     const password = ref("")
     const user = reactive({})
@@ -28,6 +29,7 @@ export default {
       })
         .then(resp=>resp.json())
         .then(data=>{
+          if(data==null) router.push('/')
           user.value=data
           })
     }
@@ -45,7 +47,9 @@ export default {
           })
     }
 
-    findUser()
+    onMounted(() => {
+      findUser()
+    })
 
     return {
       password,

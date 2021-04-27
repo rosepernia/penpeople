@@ -1,5 +1,5 @@
 <template> 
-  <div class="view-top profile" v-if="superadmin==true">
+  <div class="view-top profile">
     <div class="profile-form">
       <div class="title">Formulario de registro</div>
       <div class="box">
@@ -36,6 +36,7 @@
 
 <script>
 import UserCard from "@/components/UserCard"
+import { useRouter } from "vue-router"
 import { ref, reactive, onMounted } from "vue"
 import { useStore } from "vuex"
 
@@ -45,6 +46,7 @@ export default {
     UserCard
   },
   setup() {
+    const router = useRouter()
     const store = useStore()
     const form = reactive({
       nickname: "",
@@ -57,7 +59,6 @@ export default {
     const error = reactive({})
     const letters = ref("")
     const users = reactive([])
-    const superadmin = ref(false)
 
     const createAdmin = () => {
       fetch('http://localhost:8081/users/create',{
@@ -106,8 +107,8 @@ export default {
     const update = () => list("")
 
     onMounted(() => {
+      if(store.state.user.superadmin!=true) router.push(`/`)
       list(letters.value)
-      superadmin.value = store.state.user.superadmin
     })
 
     return {
@@ -118,7 +119,6 @@ export default {
       letters,
       users,
       createAdmin,
-      superadmin,
       update
     }
   },

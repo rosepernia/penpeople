@@ -1,4 +1,5 @@
 const Story = require('../models/Story')
+const path = require('path')
 
 const storiesController={}
 
@@ -6,12 +7,11 @@ storiesController.create = (req,res) => {
   let newStory = new Story(req.body)
   newStory.save()
     .then(story => {
-      Story.findByIdAndUpdate(story._id)
-        .then(data => {
-          req.files.image.mv(path.join(__dirname,'../..',`/src/assets/img/stories/${req.body._id}.jpg`), err => { if (err) console.log( err ) })
-          res.json(data)
-    })
-      res.json('ok')
+      Story.findByIdAndUpdate(story._id, {image: `${story._id}.jpg`})
+        .then(() => {
+          req.files.file.mv(path.join(__dirname,'../..',`/src/assets/img/stories/${story._id}.jpg`), err => { if (err) console.log( err ) })
+          res.json('ok')
+        })
     })
     .catch(error => {
       let errors = {}
@@ -19,7 +19,6 @@ storiesController.create = (req,res) => {
       if (error.errors.author) errors.author = error.errors.author.message
       if (error.errors.review) errors.review = error.errors.review.message
       if (error.errors.body) errors.body = error.errors.body.message
-      if (error.errors.image) errors.image = error.errors.image.message
       res.json(errors)
     })
 }

@@ -69,6 +69,7 @@ export default {
 
     const getBlock = () => {
       admin.value = store.state.user.admin
+      if(admin.value!=true) router.push(`/`)
       fetch('http://localhost:8081/blocks/findbyid',{
         method:'POST',
         body: JSON.stringify({_id: route.params.id}),

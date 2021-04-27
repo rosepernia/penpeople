@@ -90,6 +90,7 @@ export default {
     const oksignup = ref(false)
 
     const getStory = () => {
+      if(store.state.user.admin!=false) router.push(`/`)
       fetch('http://localhost:8081/stories/findbyid',{
         method:'POST',
         body: JSON.stringify({_id: route.params.story}),
@@ -118,8 +119,8 @@ export default {
         })
           .then(resp=>resp.json())
           .then(data=>{
-          if(data=="ok") oksignup.value = true
-          else error.value = data
+            if(data=="ok") oksignup.value = true
+            else error.value = data
           })
       }
     }

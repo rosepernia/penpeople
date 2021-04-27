@@ -116,7 +116,6 @@ export default {
                 else decission.active = false
                 closures.push(decission)
               }
-            /* window.scrollTo(0,0) */
             window.scrollTo({
               top: 0,
               left: 400,
