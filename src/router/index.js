@@ -97,7 +97,6 @@ const routes = [
     name: 'ChangePassword',
     component: ChangePassword
   },
-  
 ]
 
 const router = createRouter({

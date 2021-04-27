@@ -215,7 +215,7 @@ export default {
     }
 
     watch(store.state, () => findUser())
-    
+
     onMounted(() => {
       findUser()
     })
