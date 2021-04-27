@@ -85,7 +85,11 @@ export default {
                 closures.push(decission)
               }
               if(route.params.blockid && noRecharge==false) findBlock(route.params.blockid, true)
-              window.scrollTo(0,0)
+              window.scrollTo({
+              top: 0,
+              left: 400,
+              behavior: 'smooth'
+            })
             })
         }) 
     }
@@ -112,10 +116,20 @@ export default {
                 else decission.active = false
                 closures.push(decission)
               }
-            window.scrollTo(0,0)
+            window.scrollTo({
+              top: 0,
+              left: 400,
+              behavior: 'smooth'
+            })
+                
           })  
         } else if (store.state.user.admin==false && store.state.user.nickname!=block.value.author.nickname){
           router.push(`/nuevo-fragmento/${story.value._id}/${blockid}/${title}`)
+           window.scrollTo({
+              top: 0,
+              left: 400,
+              behavior: 'smooth'
+            })
         } else if (store.state.user.admin==false && store.state.user.nickname==block.value.author.nickname){
           error2.value=true
         }

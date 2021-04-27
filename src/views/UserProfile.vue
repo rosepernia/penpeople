@@ -49,6 +49,8 @@
         <div class="title">Contribuciones</div>
         <div class="box">
           <div class="blocks-box">
+            <p v-if="blocksPublished.length==0 && yourProfile==true">No tienes fragmentos publicados</p>
+            <p v-if="blocksPublished.length==0 && yourProfile==false">{{user.value.nickname}} no tiene fragmentos publicados</p>
             <BlockCard v-for="(block,i) in blocksPublished" :key="i"
               :user="user.value.nickname"
               :image="block.story.image"
@@ -67,6 +69,7 @@
         <div class="title">Pendientes de moderación</div>
         <div class="box">
           <div class="blocks-box">
+            <p v-if="blocksModeration.length==0">No tienes fragmentos pendientes para moderar</p>
             <BlockCard v-for="(block,i) in blocksModeration" :key="i"
               :user="user.value.nickname"
               :image="block.story.image"
@@ -397,6 +400,9 @@ textarea{
       div:first-child{
         margin-bottom: 10px;
       }
+      .blocks-box{
+      height: 160px;
+    }
     }
   }
   .info-one{
