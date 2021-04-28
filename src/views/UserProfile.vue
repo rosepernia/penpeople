@@ -197,11 +197,12 @@ export default {
         .then(resp=>resp.json())
         .then(data=>{
           if(data.email) {
-            okedit.value = true
             error.value = ""
             user.value = data
             store.commit("setUser",data)
             route.params.nickname = data.nickname
+            okedit.value = true
+            setTimeout(() => okedit.value = false, 2000)
           }
           else error.value = data
           })

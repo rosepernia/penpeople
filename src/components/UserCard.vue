@@ -7,7 +7,7 @@
         <i class="bi bi-heart"></i>
         <p v-text="likes"></p>
       </div>
-      <div class="email size1" v-if="user=='false'">
+      <div class="email" v-if="user=='false'">
         <p v-text="email"></p>
       </div>
       <div class="buttons">
@@ -96,6 +96,7 @@ export default {
     }
     .email{
       margin-bottom: 10px;
+      font-size: 1.4rem;
     }
     .buttons{
       display: inline-flex;

@@ -62,6 +62,7 @@ export default {
               if (data=="ok"){
                 error.value = "",
                 oksignup.value = true
+                setTimeout(() => oksignup.value = false, 5000)
               }else {
                 error.value=data
                 oksignup.value = false
