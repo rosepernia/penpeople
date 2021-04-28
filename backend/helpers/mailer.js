@@ -1,97 +1,45 @@
+require('dotenv').config()
 const nodemailer = require("nodemailer")
+const hbs = require('nodemailer-express-handlebars')
 
 const mailer = {}
 
 mailer.send = function send(user,subject) {
 
   const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    secure: false,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-      user: 'lenny.toy65@ethereal.email',
-      pass: 'gx5x5QtWknr6DTCfne'
+      user: process.env.NM_USER,
+      pass: process.env.NM_PASSWORD,
     }
   })
+
+  transporter.use('compile', hbs({
+    viewEngine: 'express-handlebars',
+    viewPath: 'views',
+  }))
 
   transporter.sendMail({
-    from: 'PenPeople',
+    from: 'info.penpeople@gmail.com',
     to: user.email,
     subject: subject,
-    html: template(user,subject)
+    template: changeTemplate (subject), 
+    context: {
+      id: user._id,
+      nickname: user.nickname,
+    }
   })
 }
 
-function template(user,subject){
+function changeTemplate (subject){
   if(subject=="Registro usuario nuevo")
-    return `<h1>¡Gracias por registarte ${user.nickname}!</h1>
-    <h2>Confirma tu cuenta pulsando en el botón</h2>
-    <a href="http://localhost:8080/validar/${user._id}" target="_blank">Confirmar cuenta</a>
-    <style>
-    body{
-      padding: 25px 0;
-      font-family: Arial;
-      text-align: center;
-      background-color: #f4f1f1;
-    }
-    a{
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 1.8em;
-      border: 1px solid #c4c1c1;
-      padding: 8px 16px;
-      color: black;
-    }
-    a:hover{
-      background-color: #d6d6d6;
-    }
-  </style>`
+    return ('welcome')
   if(subject=="Activar cuenta")
-    return `<h1>¡Gracias por volver a PenPeople ${user.nickname}!</h1>
-    <h2>Reactiva tu cuenta pulsando en el botón</h2>
-    <a href="http://localhost:8080/validar/${user._id}" target="_blank">Confirmar cuenta</a>
-    <style>
-    body{
-      padding: 25px 0;
-      font-family: Arial;
-      text-align: center;
-      background-color: #f4f1f1;
-    }
-    a{
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 1.8em;
-      border: 1px solid #c4c1c1;
-      padding: 8px 16px;
-      color: black;
-    }
-    a:hover{
-      background-color: #d6d6d6;
-    }
-  </style>`
+    return ('validate')
   if(subject=="Cambio de contraseña")
-    return `<h1>¡Sentimos que hayas olvidado tu contraseña ${user.nickname}!</h1>
-    <h2>Accede al cambio de contraseña a través de este enlace</h2>
-    <a href="http://localhost:8080/cambiarcontrasena/${user._id}" target="_blank">Cambiar contraseña</a>
-    <style>
-    body{
-      padding: 25px 0;
-      font-family: Arial;
-      text-align: center;
-      background-color: #f4f1f1;
-    }
-    a{
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 1.8em;
-      border: 1px solid #c4c1c1;
-      padding: 8px 16px;
-      color: black;
-    }
-    a:hover{
-      background-color: #d6d6d6;
-    }
-  </style>`
-}
-    
+    return ('changepassword')
+} 
+
 module.exports = mailer
