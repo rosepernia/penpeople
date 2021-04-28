@@ -31,13 +31,13 @@
           <div v-if="yourProfile" class="socials"><i class="bi bi-twitter"></i><input type="text" class="social" v-model="user.value.twitter" placeholder="Twitter"></div>
           <div v-if="yourProfile" class="socials"><i class="bi bi-share"></i><input type="text" class="social" v-model="user.value.other" placeholder="Página web"></div>
           <textarea v-model="user.value.bio" placeholder="Biografía" :readonly="!yourProfile"></textarea>
-          <div class="error" v-if="yourProfile"><p v-if="error.value">{{error.value.bio}}</p></div>
           <div class="social-media" v-if="!yourProfile">
             <a :href="`https://www.instagram.com/${user.value.instagram}`" target="blank" v-if="user.value.instagram!=''"><i class="bi bi-instagram"></i></a>  
             <a :href="`https://www.twitter.com/${user.value.twitter}`" target="blank" v-if="user.value.twitter!=''"><i class="bi bi-twitter"></i></a>  
             <a :href="`https://${user.value.other}`" target="blank" v-if="user.value.other!=''"><i class="bi bi-share"></i></a>  
           </div>
         </div>
+        <div class="error" v-if="yourProfile"><p v-if="error.value">{{error.value.bio}}</p><p class="ok" v-if="okedit">Cambios modificados correctamente</p></div>
         <div v-if="yourProfile" class="buttons">
           <button class="button"  @click="editUser">Modificar</button> 
           <button class="button button-warning"  @click="closeUser"><router-link to="/">Borrar cuenta</router-link></button>
@@ -107,6 +107,7 @@ export default {
     const error = reactive({})
     const role = ref("")
     const file = ref("")
+    const okedit = ref(false)
 
     const findUser = () => {
       fetch("http://localhost:8081/users/findbynickname",{
@@ -187,6 +188,7 @@ export default {
     }
 
     const editUser = () => {
+      okedit.value = false
       fetch("http://localhost:8081/users/edit",{
         method: "POST",
         body:JSON.stringify({ email: store.state.user.email, firstname: user.value.firstname, lastname: user.value.lastname, nickname: user.value.nickname, bio: user.value.bio, instagram: user.value.instagram, twitter: user.value.twitter, other: user.value.other }),
@@ -195,6 +197,7 @@ export default {
         .then(resp=>resp.json())
         .then(data=>{
           if(data.email) {
+            okedit.value = true
             error.value = ""
             user.value = data
             store.commit("setUser",data)
@@ -229,6 +232,7 @@ export default {
       admin,
       error,
       role,
+      okedit,
       file,
       fileSelected,
       editUser,
@@ -281,10 +285,10 @@ export default {
 }
 .profile3{
   margin-top: 200px;
-  height: 380px;
+  height: 400px;
   .profile-blocks{
     .blocks-box{
-      height: 290px;
+      height: 310px;
     }
   }
   .profile-info{
@@ -299,7 +303,6 @@ export default {
       margin-top: 6px;
     }
   }
-  
 }
 .avatar{
   width: 100px;
@@ -383,6 +386,9 @@ input{
 textarea{
   height: 100px;
   resize: none;
+}
+.ok{
+  color: $textColor;
 }
 
 @media (max-width: 990px){

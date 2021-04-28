@@ -326,6 +326,14 @@ p{
 .text{
   padding: 24px 32px;
 }
+.text:first-letter {
+  float: left;
+  font-weight: bold;
+  color: $secondaryColor;
+  font-size: 800%;
+  line-height: 80%;
+  margin: 0 1rem 0.4rem -0.6rem;
+}
 .likes{
   display: flex;
   justify-content: space-between;

@@ -76,6 +76,7 @@ export default {
             form.lastname = ""
             form.password = ""
             oksignup.value = true
+            update()
           }
           else {
             error.value = data
