@@ -4,7 +4,7 @@
       <div class="view-top box popup" id="chart_div"></div>
     </div>
     <div class="head">
-      <h2 class="head-title">{{story.value.title}}<i class="bi bi-diagram-3-fill clickable" @click="generateChart"></i></h2> 
+      <h2 class="head-title"><span class="clickable" @click="totalBack">{{story.value.title}}</span><i class="bi bi-diagram-3-fill clickable" @click="generateChart"></i></h2> 
     </div>
     <div class="box">
       <div class="box-title" v-if="block.value.blockid!=''">
@@ -15,8 +15,14 @@
         </div>
       </div> 
       <div class="box-data">
-        <router-link :to="`/perfil/${block.value.author.nickname}`"><p class="box-author">{{block.value.author.nickname}}</p>
-        <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
+        <router-link :to="`/perfil/${block.value.author.nickname}`" v-if="block.value.author">
+          <p class="box-author">{{block.value.author.nickname}}</p>
+          <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar">
+        </router-link>
+        <div v-if="!block.value.author">
+          <p class="box-author">Anónimo</p>
+          <img src="@/assets/img/users/default.jpg" alt="Foto autor" class="box-avatar">
+        </div>
       </div>
       <div class="text" v-html="block.value.body"></div>
       <div class="likes" v-if="block.value.blockid!=''">
@@ -43,7 +49,6 @@ import { useStore } from "vuex"
 export default {
   name: "ReadStory",
   components: {},
-
   setup() {
     const store = useStore()
     const router = useRouter()
@@ -147,6 +152,10 @@ export default {
       else findStory(true)
     }
 
+    const totalBack = () => {
+      findStory(false)
+    }
+
     const like = () => {
       likes.value = true
       fetch('http://localhost:8081/users/like', {
@@ -223,6 +232,7 @@ export default {
       error,
       error2,
       back,
+      totalBack,
       blocksmap,
       info,
       deleteBlock,
@@ -271,7 +281,6 @@ export default {
     right:24px;
     position: absolute;
     font-size: $size4;
-    color: #52b1b9;
   }
 }
 .box{

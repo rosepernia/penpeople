@@ -11,21 +11,20 @@
     </div> 
   </div>
   <div class="loginbox" v-else>
-    <router-link :to="`/perfil/${user.value.nickname}`" v-if="!user.value.superadmin">
-      <div class="user" @click="changeProfile">
-        <img :src="require(`../assets/img/users/${user.value.avatar}`)" :alt="`Avatar ${user.value.nickname}`" class="avatar">
-        <div>
-          <p>{{user.value.nickname}}</p>
-          <p v-if="user.value.admin==true" class="admin">Admin</p>
-        </div>
-      </div>  
-    </router-link>
+    <div class="user clickable" @click="changeProfile" v-if="!user.value.superadmin">
+      <img :src="require(`../assets/img/users/${user.value.avatar}`)" :alt="`Avatar ${user.value.nickname}`" class="avatar">
+      <div>
+        <p>{{user.value.nickname}}</p>
+        <p v-if="user.value.admin==true" class="admin">Admin</p>
+      </div>
+    </div>
     <p v-if="user.value.superadmin">PenPeople Admin</p>
     <router-link to="/"><p class="clickable" @click="logout"><i class="bi bi-box-arrow-right"></i>Salir</p></router-link>
   </div>
 </template>
 
 <script>
+import { useRouter } from "vue-router"
 import { ref, reactive, watch } from "vue";
 import { useStore } from "vuex"
 
@@ -33,6 +32,7 @@ export default {
   name: 'LoginBox',
   setup(){
     const store = useStore()
+    const router = useRouter()
     const email = ref("")
     const password = ref("")
     const registered = ref(false)
@@ -99,6 +99,7 @@ export default {
     }
 
     const changeProfile = () => {
+      router.push(`/perfil/${user.value.nickname}`)
       store.commit("setProfile")
     }
 

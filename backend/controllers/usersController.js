@@ -38,11 +38,13 @@ usersController.validate = (req, res) => {
 usersController.login = (req, res) => {
   User.findOne({ email: req.body.email})
     .then(async user => {
-      let response = await bcrypt.compare(req.body.password, user.password)
       if(user == null) res.json({error:'Usuario no registrado'})
       else if(user.active == false) res.json({error:'Usuario no validado'})
-      else if(response == false) res.json({error:'Contraseña incorrecta'})
-      else res.json(user)
+      else {
+        let response = await bcrypt.compare(req.body.password, user.password)
+        if(response == false) res.json({error:'Contraseña incorrecta'})
+        else res.json(user)
+      }
     })
 }
 

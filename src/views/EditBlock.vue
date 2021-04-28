@@ -143,7 +143,6 @@ export default {
     right:24px;
     position: absolute;
     font-size: $size3;
-    color: #52b1b9;
   }
 }
 .box{
