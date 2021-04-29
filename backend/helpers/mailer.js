@@ -46,6 +46,8 @@ function changeTemplate (subject){
     return ('blocksent')
   if(subject=="Fragmentos pendientes de moderación")
     return ('moderate')
+  if(subject=="¡Te han publicado!")
+    return ('blockpublished')
 } 
 
 module.exports = mailer

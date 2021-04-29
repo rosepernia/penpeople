@@ -16,7 +16,7 @@
           </div>
           <div class="likes" v-if="!admin">
             <p>{{role}}</p>
-            <i class="bi bi-heart"></i><p>{{user.value.likes}}</p>
+            <i class="bi bi-heart-fill"></i><p>{{user.value.likes}}</p>
           </div>
         </div>
         <input type="text" v-model="user.value.firstname" placeholder="Nombre" v-if="yourProfile">

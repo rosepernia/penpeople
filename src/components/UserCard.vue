@@ -4,7 +4,7 @@
     <div class="description">
       <p class="nickname size3" v-text="`@${nickname}`"></p>
       <div class="likes size3" v-if="user=='true'">
-        <i class="bi bi-heart"></i>
+        <i class="bi bi-heart-fill"></i>
         <p v-text="likes"></p>
       </div>
       <div class="email" v-if="user=='false'">

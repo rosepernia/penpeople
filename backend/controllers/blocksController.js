@@ -57,8 +57,12 @@ blocksController.deleteOne = (req, res) => {
 }
 
 blocksController.publish = (req, res) => {
-  Block.findByIdAndUpdate(req.body._id, { published: true })
-    .then(() => {
+  Block.findByIdAndUpdate(req.body._id, { published: true }).populate('story', 'title', Story)
+    .then(block => {
+      User.findOne({ nickname: req.body.author })
+        .then(author => {
+          mailer.send("¡Te han publicado!", author, block.story.title)
+        })
       Block.deleteMany({ blockid: req.body.blockid, story: req.body.story, published: false })
       .then(() => res.json('ok'))
     })   

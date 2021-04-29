@@ -153,7 +153,7 @@ export default {
     }
 
     const totalBack = () => {
-      findStory(false)
+      findStory(true)
     }
 
     const like = () => {

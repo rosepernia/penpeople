@@ -49,7 +49,7 @@ export default {
     const publish = () => {
        fetch("http://localhost:8081/blocks/publish",{
         method: "POST",
-        body: JSON.stringify({ _id: route.params.id, story: block.value.story._id, blockid: block.value.blockid }),
+        body: JSON.stringify({ _id: route.params.id, story: block.value.story._id, blockid: block.value.blockid, author: block.value.author.nickname }),
         headers: {"Content-type":"application/json"}
       }) 
     }
