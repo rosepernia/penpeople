@@ -94,7 +94,7 @@ blocksController.findModerateAdmin = (req, res) => {
       blocks.forEach (block => {
         let moderateDate = Date.parse(new Date(block.date)) + 604800000
         let actualDate = Date.parse(new Date())
-        if(actualDate > moderateDate) 
+        if(actualDate > moderateDate || block.blockid.length==1) 
           allModerateBlocks.push(block)
       })
       res.json(allModerateBlocks)

@@ -29,7 +29,7 @@ const schemaStory = new Schema({
       validator: function (body) { 
         let text = body.replace(/\r?\n/g," ").replace(/[ ]+/g," ").replace (/^ /,"").replace (/ $/,"")
         let words = text.split(" ")
-        return words.length>=100 && words.length<=250 ? true : false },
+        return words.length>=100 && words.length<=350 ? true : false },
       message: "El fragmento ha de tener entre 100 y 250 palabras"
     }
   },
