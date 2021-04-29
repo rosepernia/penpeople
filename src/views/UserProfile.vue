@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { ref, reactive, watch, onMounted } from "vue";
 import { useStore } from "vuex"
 import BlockCard from "@/components/BlockCard"
@@ -99,6 +99,7 @@ export default {
   setup() {
     const store = useStore()
     const route = useRoute()
+    const router = useRouter()
     const user = reactive({})
     const blocksPublished = reactive([])
     const blocksModeration = reactive([])
@@ -215,7 +216,10 @@ export default {
         headers: {"Content-type":"application/json"}
       })
         .then(resp => resp.json())
-        .then(() => store.commit("setUser", {}))
+        .then(() => {
+          store.commit("setUser", {})
+          router.push('/')
+          })
     }
 
     watch(store.state, () => findUser())

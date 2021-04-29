@@ -10,9 +10,9 @@
   </div>
   <div class="footer">
     <p>© Penpeople 2021 - 
-      <a href="http://bit.ly/penpeople" target="_blanl¡k">GitHub</a>
+      <a href="http://bit.ly/penpeople" target="_blank"><i class="bi bi-github clickable size2"></i></a>
     </p>
-    <i class="bi bi-info-circle clickable size3" @click="showInfo"></i>
+    <i class="bi bi-info-circle clickable size3 info" @click="showInfo"></i>
   </div>
 </template>
 
@@ -45,14 +45,13 @@ export default {
   z-index: 10;
   bottom: 0;
   width: 100%;
-  height: 40px;
+  height: 35px;
   background-color: #f4f1f1d7;
   p{
-    padding-top: 8px;
     text-align: center;
     margin: 0;
   }
-  i:before{
+  .info:before{
     position: absolute;
     bottom: 8px;
     left: 8px;
