@@ -1,11 +1,16 @@
 <template>
   <div class="blackbackground clickable" :class="{hide:!info}" @click="showInfo">
-    <div class="view-top box popup">
-      <p>¡Te damos la bienvenida a Penpeople!</p>
-      <p>En Penpeople puedes elegir qué leer, cómo avanza la historia e incluso proponer cómo continúa.</p>
-      <p>Para empezar, elige una historia y déjate llevar por ella eligiendo el itinerario que más te llame la atención.</p>
-      <p>«En todas las ficciones, cada vez que alguien se enfrenta con diversas alternativas, opta por una y elimina las otras (…). Crea, así, diversos  porvenires, diversos tiempos, que también proliferan y se bifurcan.» J.L. Borges,  «El jardín de los senderos que se bifurcan».</p>
-      <p>Dependiendo de tus elecciones, irás descubriendo nuevas posibilidades, y es muy posible que llegues a un punto en el que la historia sigue abierta. En este caso, puedes esperar a que alguien publique una continuación, o también … ‘Dicen que el buen lector, es aquel, que al terminar un libro es capaz de escribir una página más’. … puedes proponer tu propia continuación a la historia que has venido leyendo. Para ello, regístrate en Penpeople (si no lo estás) y envía tu propuesta. Intenta que se adapte</p>
+    <div class="view-top box popup ">
+<!--       <p class="quote">  <i> <b>‘Dicen que el buen lector, es aquel, que al terminar un libro es capaz de escribir una página más’.</b></i></p> -->      <p> <b>¡Te damos la bienvenida a Penpeople!</b></p>
+      <p>Penpeople es una plataforma colaborativa en la que puedes:</p>
+      <p><i class="bi bi-book"></i>  LEER: Elige una historia y empieza a leer. Al final de cada fragmento encontrarás varias opciones.</p>
+      <p><i class="bi bi-signpost-split"></i>  ELEGIR: Al hacer clic sobre tu opción elegida, pasarás al siguiente fragmento en el que puedes seguir leyendo y decidir por dónde continuar</p>
+      <p><i class="bi bi-vector-pen"></i>  ESCRIBIR: En los fragmentos que estén sin concluir, puedes proponer tu propia continuación. EL autor del fragmento anterior revisará las propuestas recibidas y elegirá cual se publica.</p>
+      <p><i class="bi bi-people-fill"></i>  CONOCER a otros aficionados a la escritura: Puedes seguir sus fragmentos por autor, y dar like a aquellos que más te hayan gustado.</p>
+      <p>Y recuerda, por muy ocupado que pienses que estás, las historias están divididas en fragmentos cortos, ¡siempre hay hueco para leer un fragmento más!</p>
+      <div class="quote"><i> <b>"En todas las ficciones, cada vez que alguien se enfrenta con diversas alternativas, opta por una y elimina las otras (…). Crea, así, diversos  porvenires, diversos tiempos, que también proliferan y se bifurcan."J.L. Borges.</b></i>
+    </div>
+    
     </div>
   </div>
   <div class="footer">
@@ -37,6 +42,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.quote{
+  padding:25px;
+  font-weight: 100;
+}
+
 .view-top{
   margin-bottom: 40px;
 }
