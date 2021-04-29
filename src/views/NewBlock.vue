@@ -114,7 +114,7 @@ export default {
         error.value = {}
         fetch('http://localhost:8081/blocks/create',{
           method: "POST",
-          body: JSON.stringify({ blockid: blockid, title: title, body:body.value, closure:closures, author: store.state.user._id, story: route.params.story }),
+          body: JSON.stringify({ blockid: blockid, title: title, body:body.value, closure:closures, author: store.state.user, father: route.params.father, story: route.params.story, storyname: story.value.title }),
           headers: {'Content-Type':'application/json'}
         })
           .then(resp=>resp.json())

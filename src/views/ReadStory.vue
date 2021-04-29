@@ -134,7 +134,7 @@ export default {
                 
           })  
         } else if (store.state.user.admin==false && store.state.user.nickname!=block.value.author.nickname){
-          router.push(`/nuevo-fragmento/${story.value._id}/${blockid}/${title}`)
+          router.push(`/nuevo-fragmento/${story.value._id}/${blockid}/${title}/${block.value.author.nickname}`)
            window.scrollTo({
               top: 0,
               left: 400,

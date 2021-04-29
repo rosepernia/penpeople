@@ -4,15 +4,15 @@ const hbs = require('nodemailer-express-handlebars')
 
 const mailer = {}
 
-mailer.send = function send(user,subject) {
+mailer.send = function send(subject,user,story,block) {
 
   const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    host: 'smtp.ethereal.email',
+    port: 587,
+    secure: false,
     auth: {
-      user: process.env.NM_USER,
-      pass: process.env.NM_PASSWORD,
+      user: 'lenny.toy65@ethereal.email',
+      pass: 'gx5x5QtWknr6DTCfne'
     }
   })
 
@@ -29,6 +29,8 @@ mailer.send = function send(user,subject) {
     context: {
       id: user._id,
       nickname: user.nickname,
+      story: story,
+      block: block
     }
   })
 }
@@ -40,6 +42,10 @@ function changeTemplate (subject){
     return ('validate')
   if(subject=="Cambio de contraseña")
     return ('changepassword')
+  if(subject=="Fragmento enviado")
+    return ('blocksent')
+  if(subject=="Fragmentos pendientes de moderación")
+    return ('moderate')
 } 
 
 module.exports = mailer

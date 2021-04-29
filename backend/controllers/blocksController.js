@@ -1,17 +1,28 @@
 const Block = require('../models/Block')
 const Story = require('../models/Story')
 const User = require('../models/User')
+const mailer = require("../helpers/mailer")
 
 const blocksController={}
 
 blocksController.create = (req,res) => {
-    let newBlock = new Block(req.body)
-    newBlock.save()
-      .then(() => res.json('ok'))
-      .catch(error => {
-        let errors = { body: error.errors.body.message }
-        res.json(errors)
-      })
+  console.log(req.body.father)
+  let newBlock = new Block({ blockid: req.body.blockid, title: req.body.title, body: req.body.body, closure: req.body.closure, author: req.body.author._id, story: req.body.story})
+  newBlock.save()
+    .then(block => {
+      mailer.send("Fragmento enviado", req.body.author, req.body.storyname, block.body)
+      if(req.body.father!='undefined'){
+        User.findOne({ nickname: req.body.father })
+          .then(father => {
+            mailer.send("Fragmentos pendientes de moderación", father, req.body.storyname)
+            res.json('ok')
+          })
+      }else res.json('ok')
+    })
+    .catch(error => {
+      let errors = { body: error.errors.body.message }
+      res.json(errors)
+    })
 }
 
 blocksController.edit = (req, res) => {
@@ -30,7 +41,7 @@ blocksController.findByBlockId = (req, res) => {
 }
 
 blocksController.findById = (req, res) => {
-  Block.findById( req.body ).populate('author', 'nickname avatar', User).populate('story', 'title', Story)
+  Block.findById(req.body).populate('author', 'nickname avatar', User).populate('story', 'title', Story)
     .then(block => res.json(block))
     .catch(() => res.json(null))
 }
