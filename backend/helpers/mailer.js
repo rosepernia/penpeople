@@ -22,7 +22,7 @@ mailer.send = function send(user,subject) {
   }))
 
   transporter.sendMail({
-    from: 'info.penpeople@gmail.com',
+    from: process.env.NM_USER,
     to: user.email,
     subject: subject,
     template: changeTemplate (subject), 
