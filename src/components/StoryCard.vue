@@ -75,15 +75,15 @@ export default {
   padding:32px;
   margin:0;
   width: 250px;
-  height: 270px;
-  background-color: #63d4df;
+  height: 290px;
+  background-color: #a6ebf1;
   p{
     text-align: left;
   }
 }
 .cover{
   width: 250px;
-  height: 270px;
+  height: 290px;
   object-fit: cover;
   object-position: center;
   box-shadow: 1px 1px 3px #cfcdcd;
