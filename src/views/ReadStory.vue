@@ -4,7 +4,7 @@
       <div class="view-top box popup" id="chart_div"></div>
     </div>
     <div class="head">
-      <h2 class="head-title"><span class="clickable" @click="totalBack">{{story.value.title}}</span><i class="bi bi-diagram-3-fill clickable" @click="generateChart"></i></h2> 
+      <h2 class="head-title"><span class="clickable" @click="totalBack">{{story.value.title}}</span><i class="bi bi-diagram-3-fill clickable" @click="generateChart"></i></h2>
     </div>
     <div class="box">
       <div class="box-title" v-if="block.value.blockid!=''">
@@ -265,6 +265,8 @@ export default {
   z-index: 10;
   &-title{
     position: relative;
+    display: flex;
+    justify-content: space-between;
     width: 95%;
     max-width: 1000px;
     margin-right: auto;
@@ -277,9 +279,6 @@ export default {
     border-bottom:1px solid #52b1b9;
   }
   i::before{
-    top:0;
-    right:24px;
-    position: absolute;
     font-size: $size4;
   }
 }

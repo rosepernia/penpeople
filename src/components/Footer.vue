@@ -68,6 +68,7 @@ export default {
 @media (max-width: 575px){
   .view-top{
     font-size: 1.3rem;
+    margin-top: 32px;
   }
 }
 </style>

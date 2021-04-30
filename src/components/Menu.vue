@@ -77,7 +77,7 @@ export default {
 }
 
 @media (max-width: 575px){
-  span{
+  .menu-item{
     display: none;
   }
 }
