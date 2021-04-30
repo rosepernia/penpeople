@@ -9,7 +9,7 @@ usersController.signup = (req, res) => {
   let newUser = new User(req.body)
   newUser.save()
     .then(user => {
-      mailer.send(user, "Registro usuario nuevo")
+      mailer.send("Registro usuario nuevo", user)
       res.json('ok')
     })
     .catch(error => {
@@ -51,7 +51,7 @@ usersController.login = (req, res) => {
 usersController.forgetPassword = (req,res) => {
   User.findOne({ email: req.body.email})
     .then(user => {
-      mailer.send(user, "Cambio de contraseña")
+      mailer.send("Cambio de contraseña", user)
       res.json('ok')
     })
 }
@@ -59,7 +59,7 @@ usersController.forgetPassword = (req,res) => {
 usersController.validateEmail = (req,res) => {
   User.findOne({ email: req.body.email})
     .then(user => {
-      mailer.send(user, "Activar cuenta")
+      mailer.send("Activar cuenta", user)
       res.json('ok')
     })
 }
