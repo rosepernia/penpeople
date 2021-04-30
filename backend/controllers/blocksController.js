@@ -6,7 +6,6 @@ const mailer = require("../helpers/mailer")
 const blocksController={}
 
 blocksController.create = (req,res) => {
-  console.log(req.body.father)
   let newBlock = new Block({ blockid: req.body.blockid, title: req.body.title, body: req.body.body, closure: req.body.closure, author: req.body.author._id, story: req.body.story})
   newBlock.save()
     .then(block => {
