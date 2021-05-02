@@ -1,5 +1,10 @@
 # penpeople
-
+<p align=center>
+ <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen1.jpg"/>
+ <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen2.jpg"/>
+ <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen3.jpg"/>
+ <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen4.jpg"/>
+</p>
 ## Project setup
 ```
 npm install
