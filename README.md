@@ -1,7 +1,7 @@
 # Penpeople
 
 Penpeople es una plataforma dirigida a escritores con el objetivo de escribir historias de manera colaborativa. 
-Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentales sobre una misma historia ofreciendo una experiencia de lectura y excritura múltiple.
+Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentales sobre una misma historia ofreciendo una experiencia de lectura y excritura interactiva.
 #
 <p align=center>
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen1.jpg"/>
