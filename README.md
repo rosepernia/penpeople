@@ -1,7 +1,7 @@
 # Penpeople
-
+```
 Penpeople es una plataforma dirigida a escritores con el objetivo de escribir historias de manera colaborativa. Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentales sobre una misma historia ofreciendo una experiencia de lectura y excritura múltiple.
-#
+```
 <p align=center>
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen1.jpg"/>
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen2.jpg"/>
@@ -27,22 +27,23 @@ Penpeople es una plataforma dirigida a escritores con el objetivo de escribir hi
 </a>
 
 ## Descripción
-
+```
 * Diseño responsive.
 * CRUD de usuarios.
 * Creación y edicción de contenido.
 * Editor de texto.
 * Carga de imágenes.
 * Árbol de decisiones.
-
+```
 
 ## Project setup
 ```
 npm install
 npm run serve
 ```
-## Stack
 
+## Stack
+```
 * SCSS
 * JS
 * NodeJS
@@ -50,4 +51,4 @@ npm run serve
 * VueJS Composition API
 * Adjunta imágenes.
 * Árbol de decisiones.
-
+```
