@@ -3,7 +3,6 @@
 Penpeople es una plataforma dirigida a escritores con el objetivo de escribir historias de manera colaborativa. 
 Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentales sobre una misma historia ofreciendo una experiencia de lectura y excritura múltiple.
 
-```
 <p align=center>
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen1.jpg"/>
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen2.jpg"/>
@@ -12,7 +11,7 @@ Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentale
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen3.jpg"/>
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen4.jpg"/>
 </p>
-```
+#
 ## Equipo
 
 <a href="https://github.com/charimat" target="_blank">
@@ -51,6 +50,4 @@ Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentale
 * NodeJS
 * MongoDB Atlas
 * VueJS Composition API
-* Adjunta imágenes.
-* Árbol de decisiones.
 
