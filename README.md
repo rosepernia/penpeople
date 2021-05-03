@@ -1,12 +1,14 @@
 # Penpeople
 
-Penpeople es una plataforma colaborativa destinada a escritores con el objetivo de escribir historias con diferentes posibilidades de continuación. Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentales sobre la misma historia.
-<br>
+Penpeople es una plataforma colaborativa destinada a escritores con el objetivo de escribir historias con diferentes posibilidades de     continuación. Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentales sobre la misma historia.
+#
 <p align=center>
- <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen1.jpg"/>
- <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen2.jpg"/>
- <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen3.jpg"/>
- <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen4.jpg"/>
+<img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen1.jpg"/>
+<img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen2.jpg"/>
+</p>
+<p align=center>
+<img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen3.jpg"/>
+<img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen4.jpg"/>
 </p>
 
 ## Descripción
