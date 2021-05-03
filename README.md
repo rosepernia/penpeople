@@ -1,6 +1,6 @@
 # Penpeople
 
-Penpeople es una plataforma colaborativa destinada a escritores con el objetivo de escribir historias con diferentes posibilidades de     continuación. Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentales sobre la misma historia.
+Penpeople es una plataforma dirigida a escritores con el objetivo de escribir historias de manera colaborativa. Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentales sobre una misma historia ofreciendo una experiencia de lectura y excritura múltiple.
 #
 <p align=center>
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen1.jpg"/>
@@ -11,31 +11,43 @@ Penpeople es una plataforma colaborativa destinada a escritores con el objetivo 
 <img align="center" width="350px" src="https://raw.githubusercontent.com/rosepernia/penpeople/master/public/pen4.jpg"/>
 </p>
 
+## Equipo
+
+<a href="https://github.com/charimat" target="_blank">
+<img width="50px" src="https://avatars.githubusercontent.com/u/72203168?v=4"/>
+</a>
+<a href="https://github.com/DvM94" target="_blank">
+<img width="50px" src="https://avatars.githubusercontent.com/u/72202793?v=4"/>
+</a>
+<a href="https://github.com/Martasanch" target="_blank">
+<img width="50px" src="https://avatars.githubusercontent.com/u/72202876?v=4"/>
+</a>
+<a href="https://github.com/rosepernia" target="_blank">
+<img width="50px" src="https://avatars.githubusercontent.com/u/73782767?s=400&amp;u=240acf14afeca63d9501424840b215ec76a69191&amp;v=4"/>
+</a>
+
 ## Descripción
 
-* Aplicación de diseño responsive.
-* Incluye árbol de decisiones
+* Diseño responsive.
+* CRUD de usuarios.
+* Creación y edicción de contenido.
+* Editor de texto.
+* Carga de imágenes.
+* Árbol de decisiones.
 
 
 ## Project setup
 ```
 npm install
-```
-
-### Compiles and hot-reloads for development
-```
 npm run serve
 ```
+## Stack
 
-### Compiles and minifies for production
-```
-npm run build
-```
+* SCSS
+* JS
+* NodeJS
+* MongoDB Atlas
+* VueJS Composition API
+* Adjunta imágenes.
+* Árbol de decisiones.
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
