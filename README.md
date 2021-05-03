@@ -15,16 +15,16 @@ Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentale
 ## Equipo
 
 <a href="https://github.com/charimat" target="_blank">
-<img width="50px" src="https://avatars.githubusercontent.com/u/72203168?v=4"/>
+<img width="50px" src="https://avatars.githubusercontent.com/u/72203168?v=4" alt="Rosario Matador"/>
 </a>
 <a href="https://github.com/DvM94" target="_blank">
-<img width="50px" src="https://avatars.githubusercontent.com/u/72202793?v=4"/>
+<img width="50px" src="https://avatars.githubusercontent.com/u/72202793?v=4" alt="Daniel Villar"/>
 </a>
 <a href="https://github.com/Martasanch" target="_blank">
-<img width="50px" src="https://avatars.githubusercontent.com/u/72202876?v=4"/>
+<img width="50px" src="https://avatars.githubusercontent.com/u/72202876?v=4" alt="Marta Sanchez"/>
 </a>
 <a href="https://github.com/rosepernia" target="_blank">
-<img width="50px" src="https://avatars.githubusercontent.com/u/73782767?s=400&amp;u=240acf14afeca63d9501424840b215ec76a69191&amp;v=4"/>
+<img width="50px" src="https://avatars.githubusercontent.com/u/73782767?s=400&amp;u=240acf14afeca63d9501424840b215ec76a69191&amp;v=4" alt="Rosa Pernía"/>
 </a>
 
 ## Descripción
