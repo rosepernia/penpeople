@@ -283,6 +283,7 @@ export default {
   background-color: #f4f1f1d7;
   z-index: 10;
   &-title{
+    margin-top: 0;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -298,11 +299,12 @@ export default {
     border-bottom:1px solid #52b1b9;
   }
   i::before{
-    font-size: $size4;
+    font-size: $size3;
   }
 }
 .box{
-  margin-top: 210px;
+  position: relative;
+  top: -20px;
   margin-bottom: 40px;
   &-title{
     display: flex;

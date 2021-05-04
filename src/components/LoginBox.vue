@@ -100,7 +100,7 @@ export default {
 
     const changeProfile = () => {
       router.push(`/perfil/${user.value.nickname}`)
-      store.commit("setProfile")
+      setTimeout(() => store.commit("setProfile"), 100) 
     }
 
     watch(store.state, ()=> {
