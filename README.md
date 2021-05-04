@@ -29,12 +29,13 @@ Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentale
 
 ## Descripción
 
-* Diseño responsive.
-* CRUD de usuarios.
-* Creación y edicción de contenido.
-* Editor de texto.
-* Carga de imágenes.
-* Árbol de decisiones.
+* Diseño responsive
+* CRUD de usuarios
+* Creación y edicción de contenido
+* Editor de texto (TinyMCE)
+* Carga de imágenes
+* Árbol de decisiones con Google Chart adaptado a Vue Composition API
+* Envío correos (Node Mailer + Handlebars)
 
 
 ## Project setup
@@ -53,8 +54,8 @@ Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentale
 
 ## Stack
 
-* SCSS
-* JS
+* Sass
+* JavaScript
 * NodeJS
 * MongoDB Atlas
 * VueJS Composition API
