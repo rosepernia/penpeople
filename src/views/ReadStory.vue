@@ -4,7 +4,7 @@
       <div class="view-top box popup" id="chart_div"></div>
     </div>
     <div class="head">
-      <h2 class="head-title"><span class="clickable" @click="totalBack">{{story.value.title}}</span><i class="bi bi-diagram-3-fill clickable" @click="generateChart"></i></h2> 
+      <h2 class="head-title"><span class="clickable" @click="totalBack">{{story.value.title}}</span><i class="bi bi-diagram-3-fill clickable" @click="generateChart"></i></h2>
     </div>
     <div class="box">
       <div class="box-title" v-if="block.value.blockid!=''">
@@ -36,6 +36,7 @@
       <div class="error">
         <p v-if="error==true">Este camino no ha sido continuado por nadie, <router-link to="/registro">regístrate</router-link> para continuarlo.</p>
         <p v-if="error2==true">No puedes continuar un fragmento escrito por ti.</p>
+        <p v-if="error3==true">Los administradores no pueden publicar fragmentos.</p>
       </div>
     </div>
   </div>
@@ -62,12 +63,14 @@ export default {
     const likes = ref(false)
     const error = ref(false)
     const error2 = ref(false)
+    const error3 = ref(false)
     const blocksmap = reactive([])
     const info = ref(false)
 
     const findStory = (noRecharge) => {
       error.value = false
       error2.value = false
+      error3.value = false
       fetch('http://localhost:8081/blocks/listpublish', {
         method:'POST',
         body: JSON.stringify({story: route.params.id}),
@@ -107,6 +110,7 @@ export default {
     const findBlock = (blockid, active, title) => {
       error.value = false
       error2.value = false
+      error3.value = false
       if(active==true){
         likes.value = false
         fetch('http://localhost:8081/blocks/findbyblockid', {
@@ -142,6 +146,8 @@ export default {
             })
         } else if (store.state.user.admin==false && store.state.user.nickname==block.value.author.nickname){
           error2.value=true
+        } else if (store.state.user.admin==true){
+          error3.value=true
         }
         else error.value=true
     }
@@ -176,7 +182,19 @@ export default {
           body: JSON.stringify({ story: route.params.id, blockid: block.value.blockid }),
           headers: {'Content-Type':'application/json'}
         })
-        .then(() => back())
+        .then(() => {
+          fetch('http://localhost:8081/blocks/listpublish', {
+            method:'POST',
+            body: JSON.stringify({story: route.params.id}),
+            headers: {'Content-Type':'application/json'}
+          }) 
+            .then(resp=>resp.json())
+            .then(data=>{
+              blocks.splice(0)
+              data.forEach(blockinfo => blocks.push(blockinfo))
+              back()
+              })
+          })
     }
 
     function generateChart(){
@@ -231,6 +249,7 @@ export default {
       likes,
       error,
       error2,
+      error3,
       back,
       totalBack,
       blocksmap,
@@ -264,7 +283,10 @@ export default {
   background-color: #f4f1f1d7;
   z-index: 10;
   &-title{
+    margin-top: 0;
     position: relative;
+    display: flex;
+    justify-content: space-between;
     width: 95%;
     max-width: 1000px;
     margin-right: auto;
@@ -277,14 +299,12 @@ export default {
     border-bottom:1px solid #52b1b9;
   }
   i::before{
-    top:0;
-    right:24px;
-    position: absolute;
-    font-size: $size4;
+    font-size: $size3;
   }
 }
 .box{
-  margin-top: 210px;
+  position: relative;
+  top: -20px;
   margin-bottom: 40px;
   &-title{
     display: flex;

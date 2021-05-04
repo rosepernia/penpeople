@@ -5,9 +5,9 @@
     <i class="bi bi-arrow-right-circle size2 clickable button-arrow" @click="login"></i>
     <div class="error">
       <p v-if="error!=''">{{error}}</p>
-      <p v-if="error=='Contraseña incorrecta'" class="clickable" @click="forgetPassword">Pulse para cambiarla</p>
-      <p v-if="error=='Usuario no validado'" class="clickable" @click="validate">Pulse para validarse</p>
-      <p v-if="sendMail">Revise su email</p>
+      <p v-if="error=='Contraseña incorrecta'" class="clickable" @click="forgetPassword">Pulsa para cambiarla</p>
+      <p v-if="error=='Usuario no validado'" class="clickable" @click="validate">Pulsa para validar</p>
+      <p v-if="sendMail">Revisa tu email</p>
     </div> 
   </div>
   <div class="loginbox" v-else>
@@ -100,7 +100,7 @@ export default {
 
     const changeProfile = () => {
       router.push(`/perfil/${user.value.nickname}`)
-      store.commit("setProfile")
+      setTimeout(() => store.commit("setProfile"), 100) 
     }
 
     watch(store.state, ()=> {

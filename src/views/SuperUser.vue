@@ -76,7 +76,7 @@ export default {
             form.lastname = ""
             form.password = ""
             oksignup.value = true
-            setTimeout(() => oksignup.value = false, 2000)
+            setTimeout(() => oksignup.value = false, 6000)
             update()
           }
           else {

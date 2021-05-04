@@ -65,7 +65,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.view-top{
+  margin-bottom: 50px;
+}
 .authors{
   padding-top: 30px;
   margin-right: auto;

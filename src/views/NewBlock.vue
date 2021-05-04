@@ -58,7 +58,7 @@
       <div class=error><p v-if="error.value">{{error.value.decisions}}</p></div>
       <div v-if="oksignup" class="ok">
         <p>¡Gracias por enviar tu propuesta! En un plazo máximo de 7 días sabrás si ha sido publicada.</p>
-        <p class="clickable" @click="comeBack">Retomar la lectura</p>
+        <p class="clickable bold" @click="comeBack">Retomar la lectura</p>
       </div> 
       <button v-if="!oksignup" @click="send" class="button">Enviar</button>
     </div>
@@ -165,7 +165,10 @@ export default {
   background-color: #f4f1f1d7;
   z-index: 10;
   &-title{
+    margin-top: 0;
     position: relative;
+    display: flex;
+    justify-content: space-between;
     width: 95%;
     max-width: 1000px;
     margin-right: auto;
@@ -178,13 +181,12 @@ export default {
     border-bottom:1px solid #52b1b9;
   }
   i::before{
-    top:0;
-    right:24px;
-    position: absolute;
     font-size: $size3;
   }
 }
 .box{
+  position: relative;
+  top: -20px;
   margin-bottom: 40px;
   &-title{
     margin-bottom: 16px;
@@ -254,6 +256,9 @@ export default {
   p{
     margin: 0;
   }
+}
+.bold{
+  font-weight: bolder;
 }
 @media (max-width: 575px){
   .checkbox{

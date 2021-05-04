@@ -203,7 +203,7 @@ export default {
             store.commit("setUser",data)
             route.params.nickname = data.nickname
             okedit.value = true
-            setTimeout(() => okedit.value = false, 2000)
+            setTimeout(() => okedit.value = false, 6000)
           }
           else error.value = data
           })

@@ -1,10 +1,15 @@
 <template>
-  <div class="center box form" v-if="user.value">
+<div class="center">
+  <div class="box form" v-if="user.value">
     <p>Desde PenPeople lamentamos que hayas olvidado tu contraseña {{user.value.firstname}}. Escribe una nueva y te la cambiaremos.</p>
     <input type="password" v-model="password" placeholder="Nueva contraseña">
     <div class="error"><p v-if="error">{{error}}</p></div>
     <button class="button" @click="changePassword">Cambiar contraseña</button>
   </div>
+  <div class="ok" v-if="oksignup">
+    <p>Contraseña cambiada con éxito</p>
+  </div> 
+</div>
 </template>
 
 <script>
@@ -20,6 +25,7 @@ export default {
     const password = ref("")
     const user = reactive({})
     const error = ref("")
+    const oksignup = ref(false)
 
     const findUser = () => {
       fetch("http://localhost:8081/users/findbyid",{
@@ -42,9 +48,15 @@ export default {
       })
         .then(resp=>resp.json())
         .then(data=>{
-          if(data=='ok') error.value = "Contraseña cambiada con éxito"
-          else error.value = data.password
-          })
+          if(data=='ok') {
+            error.value = ""
+            oksignup.value = true
+            setTimeout(() => oksignup.value = false, 6000)
+          }else {
+            error.value=data.password
+            oksignup.value = false
+          }
+        })
     }
 
     onMounted(() => {
@@ -55,7 +67,8 @@ export default {
       password,
       user,
       error,
-      changePassword
+      changePassword,
+      oksignup
     }
   }
 }
@@ -63,9 +76,14 @@ export default {
 
 <style lang="scss" scoped>
 .form{
+  margin-right: auto;
+  margin-left: auto;
   width: 80%;
   max-width: 400px;
   height: 260px;
+}
+.ok{
+  text-align: center;
 }
 input{
   margin: 8px 0;
