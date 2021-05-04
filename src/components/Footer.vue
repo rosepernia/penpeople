@@ -1,21 +1,31 @@
 <template>
   <div class="blackbackground clickable" :class="{hide:!info}" @click="showInfo">
-    <div class="view-top box popup ">
-      <p><b>¡Te damos la bienvenida a Penpeople!</b></p>
-      <p>Penpeople es una plataforma colaborativa en la que puedes:</p>
-      <p><i class="bi bi-book"></i>  LEER: Elige una historia y empieza a leer. Al final de cada fragmento encontrarás varias opciones.</p>
-      <p><i class="bi bi-signpost-split"></i>  ELEGIR: Al hacer clic sobre tu opción elegida, pasarás al siguiente fragmento en el que puedes seguir leyendo y decidir por dónde continuar</p>
-      <p><i class="bi bi-vector-pen"></i>  ESCRIBIR: En los fragmentos que estén sin concluir, puedes proponer tu propia continuación. EL autor del fragmento anterior revisará las propuestas recibidas y elegirá cual se publica.</p>
-      <p><i class="bi bi-people-fill"></i>  CONOCER a otros aficionados a la escritura: Puedes seguir sus fragmentos por autor, y dar like a aquellos que más te hayan gustado.</p>
-      <p>Y recuerda, por muy ocupado que pienses que estás, las historias están divididas en fragmentos cortos, ¡siempre hay hueco para leer un fragmento más!</p>
-      <div class="quote"><i><b>"En todas las ficciones, cada vez que alguien se enfrenta con diversas alternativas, opta por una y elimina las otras (…). Crea, así, diversos  porvenires, diversos tiempos, que también proliferan y se bifurcan."J.L. Borges.</b></i></div>
+    <div class="view-top box popup">
+      <p> Te damos la bienvenida a <b>Penpeople</b>, una plataforma colaborativa en la que puedes:</p>
+      <h3> 📖 LEER</h3>
+      <p> Elige una de nuestras historias y comienza tu aventura. Al final de cada fragmento encontrarás entre una y dos decisiones por donde continuar leyendo. </p>
+      <h3> ↔️ ELEGIR</h3>
+      <p>Al final de cada fragmento encontrarás dos tipos de decisiones:</p> <li>Azules (ya están escritas).</li> <li> Rojas (todavía nadie ha desarrollado la historia por ese camino).</li><p> Al hacer click sobre una decisión en azul pasarás a otro fragmento que de nuevo ofrece varios caminos para continuar (algunos fragmentos tendrán solo un camino o serán un final).</p> 
+      <p>De esta manera puedes comenzar una y otra vez la misma historia porque siempre será diferente. Para ver el árbol de decisiones de cada historia pulsa en el icono mapa: <i class="bi bi-diagram-3-fill"></i></p>
+      <h3> ✒️ ESCRIBIR</h3>
+      <p>En los fragmentos que al final tengan alguna decisión en rojo (sin desarrollar) puedes hacer click sobre ella y escribir tú la continuación. Estate pendiente de tu email, el autor de dicho fragmento revisará tu propuesta y si resulta elegida se publicará. </p>
+      <p>RECUERDA: Cuando escribas un fragmento antes de enviarlo tienes que incluir una decisión, dos decisiones o indicar que es un final.</p>
+      <h3> 🖤 COMPARTIR </h3>
+      <p>Puedes dar 'like' a aquellos fragmentos que más te hayan gustado, acceder al perfil de otros autores y mostrar en el tuyo propio información e intereses personales. Porque en Penpeople queremos que se crucen caminos, historias y personas.</p>
+      <div class="quote"> <b><i>"En todas las ficciones, cada vez que alguien se enfrenta con diversas alternativas, opta por una y elimina las otras (…). Crea, así, diversos  porvenires, diversos tiempos, que también proliferan y se bifurcan".</i></b>
+       <p>J.L. Borges</p>
+     </div>
     </div>
   </div>
   <div class="footer">
     <p>© Penpeople 2021 - 
       <a href="http://bit.ly/penpeople" target="_blank"><i class="bi bi-github clickable size2"></i></a>
     </p>
-    <i class="bi bi-info-circle clickable size3 info" @click="showInfo"></i>
+    <div class="clickable info"  @click="showInfo">
+      <span>Ayuda</span>
+      <i class="bi bi-question-circle size2"></i>
+    </div>
+    
   </div>
 </template>
 
@@ -40,10 +50,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+span{
+  margin-right: 10px;
+}
+
 .quote{
   padding:25px;
   font-weight: 100;
+  text-align: center;
+  border-color:#21d5e6;
 }
+
 .view-top{
   margin-bottom: 40px;
 }
@@ -58,17 +76,16 @@ export default {
     text-align: center;
     margin: 0;
   }
-  .info:before{
+  .info{
     position: absolute;
     bottom: 8px;
-    left: 8px;
+    left: 18px;
   }
 }
 
 @media (max-width: 575px){
   .view-top{
     font-size: 1.3rem;
-    margin-top: 32px;
   }
 }
 </style>
