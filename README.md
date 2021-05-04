@@ -39,8 +39,16 @@ Esto va formando un árbol de decisiones que ofrece múltiples ramas argumentale
 
 ## Project setup
 
+### Frontend:
+
 * npm install
 * npm run serve
+
+### Backend:
+
+* cd backend
+* npm install
+* npm start
 
 
 ## Stack
