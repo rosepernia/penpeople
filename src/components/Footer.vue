@@ -1,5 +1,5 @@
 <template>
-  <div class="blackbackground clickable" :class="{hide:!info}" @click="showInfo">
+  <div class="blackbackground" :class="{hide:!info}" @click="showInfo">
     <div class="view-top box popup">
       <p> Te damos la bienvenida a <b>Penpeople</b>, una plataforma colaborativa en la que puedes:</p>
       <h3> 📖 LEER</h3>
@@ -22,7 +22,7 @@
       <a href="http://bit.ly/penpeople" target="_blank"><i class="bi bi-github clickable size2"></i></a>
     </p>
     <div class="clickable info"  @click="showInfo">
-      <span>Ayuda</span>
+      <span class="menu-item">Ayuda</span>
       <i class="bi bi-question-circle size2"></i>
     </div>
     
@@ -63,6 +63,7 @@ span{
 }
 
 .view-top{
+  margin-top: 40px;
   margin-bottom: 40px;
 }
 .footer{
