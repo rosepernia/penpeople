@@ -51,11 +51,6 @@ export default {
 
 <style lang="scss" scoped>
 
-<<<<<<< HEAD
-.quote{
-  padding:25px;
-  font-weight: 100;
-=======
 span{
   margin-right: 10px;
 }
@@ -65,7 +60,6 @@ span{
   font-weight: 100;
   text-align: center;
   border-color:#21d5e6;
->>>>>>> bc53dc0b29262134cd1ab2b9d80667dc51f88002
 }
 
 .view-top{
