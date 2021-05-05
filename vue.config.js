@@ -5,5 +5,8 @@ module.exports = {
                 data: `@import "@/assets/scss/_global.scss";`
             },
         }
+    },
+    devServer: {
+        public: 'subdomain.domain.ext:port'
     }
 }
