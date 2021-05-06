@@ -1,13 +1,13 @@
 <template> 
   <div class="view-top" v-if="block.value">
     <div class="head">
-      <h2 class="head-title">{{block.value.story.title}}<i class="bi bi-diagram-3-fill head-tree"></i></h2> 
+      <h2 class="head-title">{{block.value.story.title}}<i class="bi bi-arrow-left-circle clickable" @click="comeBack"></i></h2> 
     </div>
     <div class="box">
       <div><p class="box-title">{{block.value.title}}</p></div> 
       <div class="box-data">
         <router-link :to="`/perfil/${block.value.author.nickname}`"><p class="box-author">{{block.value.author.nickname}}</p>
-        <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
+        <img :src="`${routeBack}/img/users/${block.value.author.avatar}`" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
       </div> 
       <div class="text" v-html="block.value.body"></div>
       <div class="closures">
@@ -23,19 +23,21 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { reactive, onMounted } from "vue";
 
 export default {
   name: "ChooseBlock",
   components: {},
   setup() {
+    const router = useRouter()
     const route = useRoute()
     const block = reactive({})
     const user = route.params.user
+    const routeBack = process.env.VUE_APP_API
 
     const findBlock = () => {
-      fetch("http://localhost:8081/blocks/findbyid",{
+      fetch(`${routeBack}/blocks/findbyid`,{
         method: "POST",
         body: JSON.stringify({ _id: route.params.id }),
         headers: {"Content-type":"application/json"}
@@ -47,7 +49,7 @@ export default {
     }
 
     const publish = () => {
-       fetch("http://localhost:8081/blocks/publish",{
+       fetch(`${routeBack}/blocks/publish`,{
         method: "POST",
         body: JSON.stringify({ _id: route.params.id, story: block.value.story._id, blockid: block.value.blockid, author: block.value.author.nickname }),
         headers: {"Content-type":"application/json"}
@@ -55,11 +57,15 @@ export default {
     }
 
     const noPublish = () => {
-      fetch("http://localhost:8081/blocks/deleteone",{
+      fetch(`${routeBack}/blocks/deleteone`,{
         method: "POST",
         body: JSON.stringify({ _id: route.params.id }),
         headers: {"Content-type":"application/json"}
       }) 
+    }
+
+    const comeBack = () => {
+      router.push(`/perfil/${user}`)
     }
 
     onMounted(() => findBlock())
@@ -68,7 +74,9 @@ export default {
       block,
       user,
       publish,
-      noPublish
+      noPublish,
+      comeBack,
+      routeBack
     }
   },
 }
@@ -89,7 +97,10 @@ export default {
   background-color: #f4f1f1d7;
   z-index: 10;
   &-title{
+    margin-top: 0;
     position: relative;
+    display: flex;
+    justify-content: space-between;
     width: 95%;
     max-width: 1000px;
     margin-right: auto;
@@ -102,14 +113,12 @@ export default {
     border-bottom:1px solid #52b1b9;
   }
   i::before{
-    top:0;
-    right:24px;
-    position: absolute;
-    font-size: $size4;
-    color: #52b1b9;
+    font-size: $size3;
   }
 }
 .box{
+  position: relative;
+  top: -20px;
   margin-bottom: 40px;
   &-title{
     margin-bottom: 16px;

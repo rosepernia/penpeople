@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <router-link :to="route"><img :src="require(`../assets/img/stories/${image}`)" alt="Imagen historia" class="image"></router-link>
+    <router-link :to="route"><img :src="`${routeBack}/img/stories/${image}`" alt="Imagen historia" class="image"></router-link>
     <p class="story-title">{{story}}</p>
     <p class="block-title">{{title}}</p>
     <p v-if="published"><i class="bi bi-heart-fill"></i> {{likes}}</p>
@@ -26,6 +26,7 @@ export default {
   setup(props){
     const published = ref(true)
     const route = ref('/')
+    const routeBack = process.env.VUE_APP_API
 
     if(props.active==false) route.value = ""
     else if(props.likes==null) {
@@ -35,7 +36,8 @@ export default {
 
     return{
       published,
-      route
+      route,
+      routeBack
     }
   }
 }

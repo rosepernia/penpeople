@@ -7,7 +7,7 @@
       <div><p class="box-title">{{block.value.title}}</p></div>
       <div class="box-data">
         <router-link :to="`/perfil/${block.value.author.nickname}`"><p class="box-author">{{block.value.author.nickname}}</p>
-        <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
+        <img :src="`${routeBack}/img/users/${block.value.author.avatar}`" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar"></router-link>
       </div>
       <Editor
         api-key="s22x77w289dsg6ifamwucbt0tzr97yextl5n38le6u8paoho"
@@ -50,7 +50,7 @@
 
 <script>
 import { useRoute, useRouter } from "vue-router"
-import { ref, reactive, onMounted, watch } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useStore } from "vuex"
 import Editor from '@tinymce/tinymce-vue'
 
@@ -66,11 +66,12 @@ export default {
     const block = reactive({})
     const error = ref("")
     const admin = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const getBlock = () => {
       admin.value = store.state.user.admin
       if(admin.value!=true) router.push(`/`)
-      fetch('http://localhost:8081/blocks/findbyid',{
+      fetch(`${routeBack}/blocks/findbyid`,{
         method:'POST',
         body: JSON.stringify({_id: route.params.id}),
         headers: {'Content-Type':'application/json'}
@@ -82,7 +83,7 @@ export default {
     }
 
     const send = () => {
-        fetch('http://localhost:8081/blocks/edit',{
+        fetch(`${routeBack}/blocks/edit`,{
           method: "POST",
           body: JSON.stringify({ _id: route.params.id, body: block.value.body }),
           headers: {'Content-Type':'application/json'}
@@ -105,7 +106,8 @@ export default {
       error,
       send,
       admin,
-      comeBack
+      comeBack,
+      routeBack
     }
   },
 }

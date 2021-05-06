@@ -84,6 +84,7 @@ export default {
     const error = reactive({})
     const file = ref("")
     const oksignup = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const  fileSelected = (event) => file.value = event.target.files[0]
 
@@ -100,7 +101,7 @@ export default {
         fd.append('body', form.body)
         fd.append('closure', closures[0])
         fd.append('closure', closures[1])
-        fetch('http://localhost:8081/stories/create',{
+        fetch(`${routeBack}/stories/create`,{
           method: "POST",
           body: fd
         })
@@ -165,6 +166,9 @@ input[type="text"],textarea{
   width: 100%;
   border: none;
   border-bottom: 1px solid $backgroundColor;
+}
+textarea{
+  resize: vertical;
 }
 .decisions{
   height: 36px;

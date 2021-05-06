@@ -25,9 +25,10 @@ export default {
     const store = useStore()
     const stories = reactive([])
     const admin = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const list = () => {
-      fetch('http://localhost:8081/stories/list',{
+      fetch(`${routeBack}/stories/list`,{
         method:'POST',
         body: JSON.stringify({}),
         headers: {'Content-Type':'application/json'}

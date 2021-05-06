@@ -12,7 +12,7 @@
   </div>
   <div class="loginbox" v-else>
     <div class="user clickable" @click="changeProfile" v-if="!user.value.superadmin">
-      <img :src="require(`../assets/img/users/${user.value.avatar}`)" :alt="`Avatar ${user.value.nickname}`" class="avatar">
+      <img :src="`${routeBack}/img/users/${user.value.avatar}`" :alt="`Avatar ${user.value.nickname}`" class="avatar">
       <div>
         <p>{{user.value.nickname}}</p>
         <p v-if="user.value.admin==true" class="admin">Admin</p>
@@ -39,9 +39,10 @@ export default {
     const error = ref("")
     const sendMail = ref(false)
     const user = reactive({})
+    const routeBack = process.env.VUE_APP_API
 
     const login = () => {
-      fetch("http://localhost:8081/users/login",{
+      fetch(`${routeBack}/users/login`,{
         method: "POST",
         body:JSON.stringify({email: email.value, password: password.value}),
         headers: {"Content-type":"application/json"}
@@ -59,7 +60,7 @@ export default {
     }
 
     const forgetPassword = () => {
-      fetch("http://localhost:8081/users/forgetpassword",{
+      fetch(`${routeBack}/users/forgetpassword`,{
         method: "POST",
         body:JSON.stringify({email: email.value}),
         headers: {"Content-type":"application/json"}
@@ -74,7 +75,7 @@ export default {
     }
 
     const validate = () => {
-      fetch("http://localhost:8081/users/validateemail",{
+      fetch(`${routeBack}/users/validateemail`,{
         method: "POST",
         body:JSON.stringify({email: email.value}),
         headers: {"Content-type":"application/json"}
@@ -127,7 +128,8 @@ export default {
       registered,
       error,
       sendMail,
-      user
+      user,
+      routeBack
     }
   }
 }

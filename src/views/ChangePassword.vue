@@ -26,9 +26,10 @@ export default {
     const user = reactive({})
     const error = ref("")
     const oksignup = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const findUser = () => {
-      fetch("http://localhost:8081/users/findbyid",{
+      fetch(`${routeBack}/users/findbyid`,{
         method: "POST",
         body:JSON.stringify({ _id: route.params.id }),
         headers: {"Content-type":"application/json"}
@@ -41,7 +42,7 @@ export default {
     }
 
     const changePassword = () => {
-      fetch("http://localhost:8081/users/newpassword",{
+      fetch(`${routeBack}/users/newpassword`,{
         method: "POST",
         body:JSON.stringify({ _id: route.params.id, password: password.value }),
         headers: {"Content-type":"application/json"}

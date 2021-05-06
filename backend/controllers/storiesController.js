@@ -1,5 +1,4 @@
 const Story = require('../models/Story')
-const path = require('path')
 
 const storiesController={}
 
@@ -9,7 +8,7 @@ storiesController.create = (req,res) => {
     .then(story => {
       Story.findByIdAndUpdate(story._id, {image: `${story._id}.jpg`})
         .then(() => {
-          req.files.file.mv(path.join(__dirname,'../..',`/src/assets/img/stories/${story._id}.jpg`), err => { if (err) console.log( err ) })
+          req.files.file.mv(`./assets/img/stories/${story._id}.jpg`, err => { if (err) console.log( err ) })
           res.json('ok')
         })
     })

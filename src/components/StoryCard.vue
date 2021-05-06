@@ -4,7 +4,7 @@
       <div class="efecto" v-if="active==true">
         <p class="text">{{review}}</p>
       </div>
-      <router-link :to="`/lectura/${id}`"><img :src="require(`../assets/img/stories/${image}`)" alt="Portada libro" :class="{cover:true, desvanecer:active==true, inactive:active==false}"></router-link>
+      <router-link :to="`/lectura/${id}`"><img :src="`${routeBack}/img/stories/${image}`" alt="Portada libro" :class="{cover:true, desvanecer:active==true, inactive:active==false}"></router-link>
     </div>
     <div class="author">
       <p class="text">Iniciado por: {{author}}</p><i class="bi bi-eye-fill clickable" v-if="admin==true && active==true" @click="hideStory"></i><i class="bi bi-eye-slash-fill clickable" v-if="admin==true && active==false" @click="hideStory"></i>
@@ -31,9 +31,10 @@ export default {
   setup(props, context) {
     const store = useStore()
     const admin = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const hideStory = () => {
-      fetch("http://localhost:8081/stories/state",{
+      fetch(`${routeBack}/stories/state`,{
         method: "POST",
         body:JSON.stringify({ _id: props.id }),
         headers: {"Content-type":"application/json"}
@@ -48,7 +49,8 @@ export default {
 
     return {
       admin,
-      hideStory
+      hideStory,
+      routeBack
     }
   },
 }
