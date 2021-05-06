@@ -7,12 +7,12 @@ const mailer = {}
 mailer.send = function send(subject,user,story,block) {
 
   const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    secure: false,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-      user: 'lenny.toy65@ethereal.email',
-      pass: 'gx5x5QtWknr6DTCfne'
+      user: process.env.NM_USER,
+      pass: process.env.NM_PASSWORD
     }
   })
 

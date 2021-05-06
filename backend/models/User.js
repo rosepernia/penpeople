@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const {Schema} = mongoose
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 mongoose.set('returnOriginal', false)
 mongoose.set('runValidators', true)
