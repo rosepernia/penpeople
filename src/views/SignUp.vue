@@ -46,13 +46,14 @@ export default {
     const oksignup = ref(false)
     const checked = ref(false)
     const message =  ref("")
+    const routeBack = process.env.VUE_APP_API
 
     const send=() => {
       if (!checked.value) message.value = "Recuerda que debes aceptar la política de privacidad"
       else message.value = ""
       error.value = ""
       if (checked.value){
-        fetch('http://localhost:8081/users/create',{
+        fetch(`${routeBack}/users/create`,{
           method: 'POST',
           body: JSON.stringify({nickname:form.nickname, email:form.email, firstname:form.firstname, lastname:form.lastname, password:form.password}),
           headers: {'Content-Type':'application/json'}

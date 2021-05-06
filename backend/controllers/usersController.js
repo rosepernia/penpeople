@@ -1,6 +1,5 @@
 const User = require('../models/User')
 const mailer = require("../helpers/mailer")
-const path = require('path')
 const bcrypt = require("bcrypt")
 
 const usersController = {}
@@ -122,7 +121,7 @@ usersController.edit = (req, res) => {
 usersController.editAvatar = (req, res) => {
   User.findOneAndUpdate({ email: req.body.email }, { avatar: req.body.avatar })
     .then(user => {
-      req.files.image.mv(path.join(__dirname,'../..',`/src/assets/img/users/${req.body._id}.jpg`), err => { if (err) console.log( err ) })
+      req.files.image.mv(`./assets/img/users/${req.body._id}.jpg`, err => { if (err) console.log( err ) })
       res.json(user)
     })
 }

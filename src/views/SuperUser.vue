@@ -59,9 +59,10 @@ export default {
     const error = reactive({})
     const letters = ref("")
     const users = reactive([])
+    const routeBack = process.env.VUE_APP_API
 
     const createAdmin = () => {
-      fetch('http://localhost:8081/users/create',{
+      fetch(`${routeBack}/users/create`,{
         method: 'POST',
         body: JSON.stringify({ nickname: form.nickname, email: form.email, firstname: form.firstname, lastname: form.lastname, password: form.password, admin: true, active: true }),
         headers: {'Content-Type':'application/json'}
@@ -90,7 +91,7 @@ export default {
     let inputLetter = () => list(letters.value)
 
     const list = (letters) => {
-      fetch('http://localhost:8081/users/list',{
+      fetch(`${routeBack}/users/list`,{
         method: 'POST',
         body: JSON.stringify({
           nickname: letters,

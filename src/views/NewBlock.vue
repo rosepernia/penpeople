@@ -88,10 +88,11 @@ export default {
     const closures = []
     const error = reactive({})
     const oksignup = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const getStory = () => {
       if(store.state.user.admin!=false) router.push(`/`)
-      fetch('http://localhost:8081/stories/findbyid',{
+      fetch(`${routeBack}/stories/findbyid`,{
         method:'POST',
         body: JSON.stringify({_id: route.params.story}),
         headers: {'Content-Type':'application/json'}
@@ -112,7 +113,7 @@ export default {
       else if(closures.length!=check.value || closures[0]=="" || closures[1]=="") error.value = { decisions: "Las decisiones no pueden estar vacías" }
       else{
         error.value = {}
-        fetch('http://localhost:8081/blocks/create',{
+        fetch(`${routeBack}/blocks/create`,{
           method: "POST",
           body: JSON.stringify({ blockid: blockid, title: title, body:body.value, closure:closures, author: store.state.user, father: route.params.father, story: route.params.story, storyname: story.value.title }),
           headers: {'Content-Type':'application/json'}

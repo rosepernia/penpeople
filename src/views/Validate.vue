@@ -14,9 +14,10 @@ export default {
   setup() {
     const route = useRoute ()
     const user = reactive({})
+    const routeBack = process.env.VUE_APP_API
 
     const validate = () => {
-      fetch("http://localhost:8081/users/validate",{
+      fetch(`${routeBack}/users/validate`,{
         method: "POST",
         body: JSON.stringify({_id: route.params.id}),
         headers: {"Content-type":"application/json"}

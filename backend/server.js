@@ -14,6 +14,7 @@ conexion.once('open',()=>console.log("Conexión mongo OK!!"))
 
 //middlewares
 app.use(express.json())
+app.use(express.static(__dirname + '/assets'))
 app.use(express.urlencoded({extended:true}))
 app.use(fileUpload())
 app.use((req, res, next) => {

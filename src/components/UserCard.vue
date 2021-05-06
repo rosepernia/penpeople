@@ -1,6 +1,6 @@
 <template>
   <div class="author box">
-    <img class="avatar" :src="require(`../assets/img/users/${avatar}`)">
+    <img class="avatar" :src="`${routeBack}/img/users/${avatar}`">
     <div class="description">
       <p class="nickname size3" v-text="`@${nickname}`"></p>
       <div class="likes size3" v-if="user=='true'">
@@ -36,9 +36,10 @@ export default {
   setup(props, context) {
     const store = useStore()
     const admin = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const closeAccount = () => {
-      fetch("http://localhost:8081/users/closeaccount",{
+      fetch(`${routeBack}/users/closeaccount`,{
         method: "POST",
         body:JSON.stringify({ email: props.email }),
         headers: {"Content-type":"application/json"}
@@ -53,7 +54,8 @@ export default {
 
     return{
       admin,
-      closeAccount
+      closeAccount,
+      routeBack
     }
   },
 }

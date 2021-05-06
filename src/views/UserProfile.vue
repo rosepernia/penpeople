@@ -3,7 +3,7 @@
     <div class="profile-info box" v-if="user.value">
       <div class="info-one">
         <div class="img">
-          <img :src="require(`../assets/img/users/${user.value.avatar}`)" :alt="`Avatar ${user.value.nickname}`" class="avatar">
+          <img :src="`${routeBack}/img/users/${user.value.avatar}`" :alt="`Avatar ${user.value.nickname}`" class="avatar">
           <div v-if="yourProfile">
             <label for="image" class="button">Subir imagen</label>
             <input type="file" id="image" accept=".jpg,.png,.jpeg*" @change="fileSelected">
@@ -109,9 +109,10 @@ export default {
     const role = ref("")
     const file = ref("")
     const okedit = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const findUser = () => {
-      fetch("http://localhost:8081/users/findbynickname",{
+      fetch(`${routeBack}/users/findbynickname`,{
         method: "POST",
         body: JSON.stringify({nickname: route.params.nickname}),
         headers: {"Content-type":"application/json"}
@@ -132,7 +133,7 @@ export default {
     }
 
     const findBlocks = () => {
-      fetch("http://localhost:8081/blocks/findbyauthor",{
+      fetch(`${routeBack}/blocks/findbyauthor`,{
         method: "POST",
         body: JSON.stringify({author: user.value._id}),
         headers: {"Content-type":"application/json"}
@@ -145,7 +146,7 @@ export default {
     }
 
     const findBlocksModerate = () => {
-      fetch("http://localhost:8081/blocks/findmoderateuser",{
+      fetch(`${routeBack}/blocks/findmoderateuser`,{
         method: "POST",
         body: JSON.stringify({author: user.value._id}),
         headers: {"Content-type":"application/json"}
@@ -158,7 +159,7 @@ export default {
     }
     
     const findBlocksModerateAdmin = () => {
-      fetch("http://localhost:8081/blocks/findmoderateadmin",{
+      fetch(`${routeBack}/blocks/findmoderateadmin`,{
         method: "POST",
         headers: {"Content-type":"application/json"}
       })
@@ -176,7 +177,7 @@ export default {
       fd.append('avatar', `${store.state.user._id}.jpg`)
       fd.append('email', store.state.user.email)
       fd.append('_id', store.state.user._id)
-      fetch("http://localhost:8081/users/editavatar",{
+      fetch(`${routeBack}/users/editavatar`,{
         method: "POST",
         body: fd
       })
@@ -190,7 +191,7 @@ export default {
 
     const editUser = () => {
       okedit.value = false
-      fetch("http://localhost:8081/users/edit",{
+      fetch(`${routeBack}/users/edit`,{
         method: "POST",
         body:JSON.stringify({ email: store.state.user.email, firstname: user.value.firstname, lastname: user.value.lastname, nickname: user.value.nickname, bio: user.value.bio, instagram: user.value.instagram, twitter: user.value.twitter, other: user.value.other }),
         headers: {"Content-type":"application/json"}
@@ -210,7 +211,7 @@ export default {
     }
 
     const closeUser = () => {
-      fetch("http://localhost:8081/users/closeaccount",{
+      fetch(`${routeBack}/users/closeaccount`,{
         method: "POST",
         body:JSON.stringify({ email: store.state.user.email }),
         headers: {"Content-type":"application/json"}
@@ -241,7 +242,8 @@ export default {
       file,
       fileSelected,
       editUser,
-      closeUser
+      closeUser,
+      routeBack
     }
   },
 }

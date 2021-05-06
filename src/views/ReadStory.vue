@@ -17,11 +17,11 @@
       <div class="box-data">
         <router-link :to="`/perfil/${block.value.author.nickname}`" v-if="block.value.author">
           <p class="box-author">{{block.value.author.nickname}}</p>
-          <img :src="require(`../assets/img/users/${block.value.author.avatar}`)" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar">
+          <img :src="`${routeBack}/img/users/${block.value.author.avatar}`" v-if="block.value.author.avatar" alt="Foto autor" class="box-avatar">
         </router-link>
         <div v-if="!block.value.author">
           <p class="box-author">Anónimo</p>
-          <img src="@/assets/img/users/default.jpg" alt="Foto autor" class="box-avatar">
+          <img :src="`${routeBack}/img/users/default.jpg`" alt="Foto autor" class="box-avatar">
         </div>
       </div>
       <div class="text" v-html="block.value.body"></div>
@@ -66,12 +66,13 @@ export default {
     const error3 = ref(false)
     const blocksmap = reactive([])
     const info = ref(false)
+    const routeBack = process.env.VUE_APP_API
 
     const findStory = (noRecharge) => {
       error.value = false
       error2.value = false
       error3.value = false
-      fetch('http://localhost:8081/blocks/listpublish', {
+      fetch(`${routeBack}/blocks/listpublish`, {
         method:'POST',
         body: JSON.stringify({story: route.params.id}),
         headers: {'Content-Type':'application/json'}
@@ -80,7 +81,7 @@ export default {
         .then(data=>{
           blocks.splice(0)
           data.forEach(blockinfo => blocks.push(blockinfo))
-          fetch('http://localhost:8081/stories/findbyid',{
+          fetch(`${routeBack}/stories/findbyid`,{
             method:'POST',
             body: JSON.stringify({_id: route.params.id}),
             headers: {'Content-Type':'application/json'}
@@ -113,7 +114,7 @@ export default {
       error3.value = false
       if(active==true){
         likes.value = false
-        fetch('http://localhost:8081/blocks/findbyblockid', {
+        fetch(`${routeBack}/blocks/findbyblockid`, {
           method:'POST',
           body: JSON.stringify({story: route.params.id, blockid: blockid}),
           headers: {'Content-Type':'application/json'}
@@ -164,12 +165,12 @@ export default {
 
     const like = () => {
       likes.value = true
-      fetch('http://localhost:8081/users/like', {
+      fetch(`${routeBack}/users/like`, {
           method:'POST',
           body: JSON.stringify({ nickname: block.value.author.nickname }),
           headers: {'Content-Type':'application/json'}
         }) 
-      fetch('http://localhost:8081/blocks/like', {
+      fetch(`${routeBack}/blocks/like`, {
           method:'POST',
           body: JSON.stringify({ _id: block.value._id }),
           headers: {'Content-Type':'application/json'}
@@ -177,13 +178,13 @@ export default {
     }
 
     const deleteBlock = () => {
-      fetch('http://localhost:8081/blocks/delete', {
+      fetch(`${routeBack}/blocks/delete`, {
           method:'POST',
           body: JSON.stringify({ story: route.params.id, blockid: block.value.blockid }),
           headers: {'Content-Type':'application/json'}
         })
         .then(() => {
-          fetch('http://localhost:8081/blocks/listpublish', {
+          fetch(`${routeBack}/blocks/listpublish`, {
             method:'POST',
             body: JSON.stringify({story: route.params.id}),
             headers: {'Content-Type':'application/json'}
@@ -256,7 +257,8 @@ export default {
       info,
       deleteBlock,
       generateChart,
-      closemap
+      closemap,
+      routeBack
     }
   },
 }

@@ -27,11 +27,12 @@ export default {
   setup() {
     const users = reactive([])
     const letters = ref("")
+    const routeBack = process.env.VUE_APP_API
 
     const inputLetter = () => list(letters.value)
 
     const list = (letters) => {
-      fetch('http://localhost:8081/users/list',{
+      fetch(`${routeBack}/users/list`,{
         method: 'POST',
         body: JSON.stringify({ nickname: letters, admin: "false" }),
         headers: {'Content-Type':'application/json'}
