@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+@font-face {
+    font-family: "Casual-Regular";
+    src: url("/fonts/Casual-Regular.ttf");
+}
+@font-face {
+    font-family: "Alaska Font";
+    src: url("/fonts/Alaska Font.ttf");
+}
+
+
+//Variables globales:
+    $size1: 1.6rem;
+    $size2: 2rem;
+    $size3: 2.4rem;
+    $size4: 3.2rem;
+    $size5: 4rem;
+    $backgroundColor: #f4f1f1;
+    $textColor: black;
+    $primaryColor: #d37469;
+    $secondaryColor: #bef0f4; 
+    $font: 'Raleway', sans-serif;
+    $font2: 'Casual-Regular';
+    $font3: 'Alaska Font';
+
+//Globales:
+*, *::after, *::before { 
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    & {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+}
+
+body {
+    margin: 0;
+    background-color: $backgroundColor;
+    line-height: 1.5;
+    font-family: $font;
+    font-size: 16px;
+    color: $textColor;
+}
+
+a {
+    text-decoration: none;
+    color: $textColor;
+}
+
+img {
+    width: 100%;
+}
+
+input, textarea, button{
+    font-family: $font;
+    &:focus{
+        outline:none;
+    }
+}
+
+.center{
+    transform: translate(-50%,-50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+}
+
+.view-top{
+    margin: 120px auto 0 auto;
+}
+
+.popup{
+    z-index: 30;
+    width: 90%;
+    max-width: 900px;
+}
+
+.blackbackground{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
+}
+
+.hide{
+    display: none;
+}
+
+.size1 {
+    font-size: $size1;
+}
+
+.size2 {
+    font-size: $size2;
+}
+
+.size3 {
+    font-size: $size3;
+}
+
+.size4 {
+    font-size: $size4;
+}
+
+.size5 {
+    font-size: $size5;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.clickable:hover{
+    color: #666;
+}
+
+.button{
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    font-size: $size1;
+    border: 1px solid #c4c1c1;
+    padding: 8px 16px;
+    background-color: $backgroundColor;
+    &:hover{
+        background-color: #d6d6d6;
+    }
+}
+
+.button-warning{
+    background-color: #d39792;
+    &:hover{
+        background-color: $primaryColor;
+    }
+}
+
+.button-ok{
+    background-color: #c2e4e5;
+    &:hover{
+        background-color: $secondaryColor;
+    }
+}
+
+.box{
+    padding: 20px;
+    background-color:white;
+}
+
+.title{
+    margin-bottom: 10px;
+    background-color: #444;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    text-align: center;
+    font-size: $size2;
+}
+
+.error{
+    color: $primaryColor;
+    height: 20px;
+    p{
+        width: fit-content;
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0;
+    }
+}
+
+  @media (max-width: 990px){
+    .button{
+        font-size: 1.2rem;
+        padding: 5px 10px;
+    }
+  }
