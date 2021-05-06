@@ -1,6 +1,7 @@
 <template>
   <div class="blackbackground" :class="{hide:!info}" @click="showInfo">
     <div class="view-top box popup">
+      <i class="bi bi-x-circle close clickable"></i>
       <p> Te damos la bienvenida a <b>Penpeople</b>, una plataforma colaborativa en la que puedes:</p>
       <h3> 📖 LEER</h3>
       <p> Elige una de nuestras historias y comienza tu aventura. Al final de cada fragmento encontrarás entre una y dos decisiones por donde continuar leyendo. </p>
@@ -53,6 +54,15 @@ export default {
 
 span{
   margin-right: 10px;
+}
+
+.box{
+  position: relative;
+  .close{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
 }
 
 .quote{

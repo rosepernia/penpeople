@@ -293,7 +293,7 @@ export default {
     max-width: 1000px;
     margin-right: auto;
     margin-left: auto;
-    font-family: $font3;
+    font-family: $font;
     color: #52b1b9;
     padding: 3px;
     font-weight: bold;
@@ -425,7 +425,7 @@ p{
 }
 @media (max-width: 575px){
   .text{
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     padding: 8px 8px;
   }
   .box{
