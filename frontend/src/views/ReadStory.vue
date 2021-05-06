@@ -293,7 +293,7 @@ export default {
     max-width: 1000px;
     margin-right: auto;
     margin-left: auto;
-    font-family: $font3;
+    font-family: $font;
     color: #52b1b9;
     padding: 3px;
     font-weight: bold;
