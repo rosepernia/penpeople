@@ -26,7 +26,6 @@
       <span class="menu-item">Ayuda</span>
       <i class="bi bi-question-circle size2"></i>
     </div>
-    
   </div>
 </template>
 
